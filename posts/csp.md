@@ -1,8 +1,9 @@
 ---
-title: "Common Spatial Pattern (CSP): A Correctness Proof"
+title: 'Common Spatial Pattern (CSP): A Correctness Proof'
 published: false
-tags: machinelearning, math, eeg, tutorial
-series: "Feature Engineering: Electroencephalogram"
+tags: 'machinelearning, math, eeg, tutorial'
+series: 'Feature Engineering: Electroencephalogram'
+id: 4116323
 ---
 
 > *Adapted from an appendix of my MS thesis. Equations render via Dev.to's KaTeX support.*
