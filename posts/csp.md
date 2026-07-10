@@ -5,7 +5,7 @@ tags: machinelearning, datascience, computerscience, tutorial
 series: "Feature Engineering: Electroencephalogram"
 ---
 
-> *Adapted from an appendix of my MS thesis. Equations render via Dev.to's KaTeX support.*
+> *Adapted from an appendix of my MS thesis.*
 
 # Common Spatial Pattern
 

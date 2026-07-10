@@ -71,7 +71,9 @@ Both are `published: false` (drafts) until flipped to `true`.
 
 - dev.to has **no equation numbering or `\ref`** — cross-references are removed. If a
   proof needs to point back to a result, use prose ("the whitening step above").
-- Multi-line aligned environments (`align`, `cases`) render, but each `{% katex %}`
-  block is standalone; skim alignment-heavy appendices by eye.
+- dev.to runs Markdown *before* KaTeX, which quietly breaks math: it eats `_`/`^`
+  (mangling subscripts) and collapses `\\` row breaks (flattening `aligned` onto one
+  line). The converter guards against both (space after `_`/`^`, and doubling `\\` to
+  `\\\\`), so inline subscripts and multi-line `aligned` render correctly.
 - Relative image links only resolve once pushed to GitHub, since the Action rewrites
   them to `raw.githubusercontent.com` URLs and verifies each is reachable.

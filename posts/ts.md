@@ -5,7 +5,7 @@ tags: machinelearning, datascience, computerscience, tutorial
 series: "Feature Engineering: Electroencephalogram"
 ---
 
-> *Adapted from an appendix of my MS thesis. Equations render via Dev.to's KaTeX support.*
+> *Adapted from an appendix of my MS thesis.*
 
 # Tangent Space
 
@@ -26,10 +26,10 @@ For each {% katex inline %}x,y{% endkatex %} in a Lie group {% katex inline %}G{
 
 {% katex %}
 \begin{aligned}
-(L_ y)_ \ast\tilde{u}(x) &= (L_ y)_ \ast(L_ x)_ \ast u \\
-&= (L_ {yx})_ \ast u \\
-&= \tilde{u}(yx) \\
-& = \tilde{u}(L_ yx) \\
+(L_ y)_ \ast\tilde{u}(x) &= (L_ y)_ \ast(L_ x)_ \ast u \\\\
+&= (L_ {yx})_ \ast u \\\\
+&= \tilde{u}(yx) \\\\
+& = \tilde{u}(L_ yx) \\\\
 &= (\tilde{u} \circ L_ y)x.
 
 \end{aligned}
@@ -43,10 +43,10 @@ The left-translation maps give a useful way of defining Riemannian metrics on Li
 
 {% katex %}
 \begin{aligned}
-\langle (L_ h)_ \ast u, (L_ h)_ \ast v \rangle_ {hg} &= \langle (L_ {(hg)^ {-1}})_ \ast(L_ h)_ \ast u, (L_ {(hg)^ {-1}})_ \ast(L_ h)_ \ast v \rangle_ \mathfrak{g} \\
-&= \langle (L_ {(hg)^ {-1}h})_ \ast u, (L_ {(hg)^ {-1}h})_ \ast v \rangle_ \mathfrak{g} \\
-&= \langle (L_ {g^ {-1}h^ {-1}h})_ \ast u, (L_ {g^ {-1}h^ {-1}h})_ \ast v \rangle_ \mathfrak{g} \\
-&= \langle (L_ {g^ {-1}})_ \ast u, (L_ {g^ {-1}})_ \ast v \rangle_ \mathfrak{g} \\
+\langle (L_ h)_ \ast u, (L_ h)_ \ast v \rangle_ {hg} &= \langle (L_ {(hg)^ {-1}})_ \ast(L_ h)_ \ast u, (L_ {(hg)^ {-1}})_ \ast(L_ h)_ \ast v \rangle_ \mathfrak{g} \\\\
+&= \langle (L_ {(hg)^ {-1}h})_ \ast u, (L_ {(hg)^ {-1}h})_ \ast v \rangle_ \mathfrak{g} \\\\
+&= \langle (L_ {g^ {-1}h^ {-1}h})_ \ast u, (L_ {g^ {-1}h^ {-1}h})_ \ast v \rangle_ \mathfrak{g} \\\\
+&= \langle (L_ {g^ {-1}})_ \ast u, (L_ {g^ {-1}})_ \ast v \rangle_ \mathfrak{g} \\\\
 &= \langle u,v \rangle_ g.
 \end{aligned}
 {% endkatex %}

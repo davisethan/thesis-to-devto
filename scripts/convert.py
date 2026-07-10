@@ -135,6 +135,17 @@ def to_katex(md):
                 md)
     return md
 
+def guard_math_linebreaks(md):
+    """Dev.to runs Markdown before KaTeX, and CommonMark collapses `\\\\` (the row
+    break in aligned/matrix) into a single `\\` — so KaTeX sees no line break and
+    multi-line equations render on one row. Doubling to `\\\\\\\\` on disk means
+    CommonMark hands KaTeX a real `\\\\`. Applied inside every katex block."""
+    bs = "\\"
+    def fix(m):
+        return m.group(1) + m.group(2).replace(bs * 2, bs * 4) + m.group(3)
+    return re.sub(r"(\{% katex(?: inline)? %\})(.*?)(\{% endkatex %\})",
+                  fix, md, flags=re.S)
+
 def guard_math_underscores(md):
     """Dev.to runs Markdown before KaTeX, so `_`/`^` inside inline math get eaten
     as emphasis (e.g. `}_i` opens <em>), corrupting subscripts. A space AFTER the
@@ -181,8 +192,7 @@ def front_matter(title, tags, series=""):
     if series:
         fm.append(f"series: {yaml_quote(series)}")
     return ("---\n" + "\n".join(fm) + "\n---\n\n"
-            f"> *Adapted from an appendix of my MS thesis. "
-            f"Equations render via Dev.to's KaTeX support.*\n\n")
+            "> *Adapted from an appendix of my MS thesis.*\n\n")
 
 # ---------------------------------------------------------------- main
 def main():
@@ -208,6 +218,7 @@ def main():
 
     md = run_pandoc(body)
     md = to_katex(md)
+    md = guard_math_linebreaks(md)
     md = guard_math_underscores(md)
     md = fix_images(md, args.image_base)
     md = resolve_citations(md, order, entries)
