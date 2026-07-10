@@ -135,6 +135,18 @@ def to_katex(md):
                 md)
     return md
 
+def guard_math_underscores(md):
+    """Dev.to runs Markdown before KaTeX, so `_`/`^` inside inline math get eaten
+    as emphasis (e.g. `}_i` opens <em>), corrupting subscripts. A space AFTER the
+    operator stops CommonMark from treating it as an emphasis opener, while KaTeX
+    ignores math-mode spaces so sub/superscripts still bind. Applied inside every
+    katex span."""
+    def fix(m):
+        body = re.sub(r"([_^])", r"\1 ", m.group(2))
+        return m.group(1) + body + m.group(3)
+    return re.sub(r"(\{% katex(?: inline)? %\})(.*?)(\{% endkatex %\})",
+                  fix, md, flags=re.S)
+
 def fix_images(md, image_base="./assets"):
     # rewrite any image path to <image_base>/<basename>
     base = image_base.rstrip("/")
@@ -178,7 +190,7 @@ def main():
     ap.add_argument("input")
     ap.add_argument("output_dir")
     ap.add_argument("--title", required=True)
-    ap.add_argument("--tags", default="machinelearning, math, tutorial")
+    ap.add_argument("--tags", default="machinelearning, datascience, computerscience, tutorial")
     ap.add_argument("--bib", default="")
     ap.add_argument("--slug", default="")
     ap.add_argument("--image-base", default="./assets",
@@ -196,6 +208,7 @@ def main():
 
     md = run_pandoc(body)
     md = to_katex(md)
+    md = guard_math_underscores(md)
     md = fix_images(md, args.image_base)
     md = resolve_citations(md, order, entries)
     md = front_matter(args.title, args.tags, args.series) + md
