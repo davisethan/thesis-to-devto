@@ -4,6 +4,7 @@ published: true
 tags: 'machinelearning, datascience, computerscience, tutorial'
 series: 'Feature Engineering: Electroencephalogram'
 id: 4116413
+date: '2026-07-10T22:58:44Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
