@@ -100,10 +100,21 @@ def expand_macros(body):
     body = re.sub(r"\\argmax(?![a-zA-Z])", r"\\operatorname*{arg\\,max}", body)
     body = re.sub(r"\\cov(?![a-zA-Z])", r"\\operatorname{cov}", body)
     body = re.sub(r"\\var(?![a-zA-Z])", r"\\operatorname{var}", body)
-    # drop \label / \autoref cross-refs that don't apply outside the thesis
+    # drop \label; turn \autoref into label-aware prose ("the figure/table/equation")
     body = re.sub(r"\\label\{[^}]*\}", "", body)
-    body = re.sub(r"\\autoref\{[^}]*\}", "the figure", body)
+    def autoref(m):
+        prefix = m.group(1).split(":")[0].lower()
+        noun = {"figure": "figure", "table": "table", "equation": "equation",
+                "appendix": "appendix"}.get(prefix, "section")
+        return f"the {noun}"
+    body = re.sub(r"\\autoref\{([^}]*)\}", autoref, body)
     return body
+
+def fix_ref_caps(md):
+    """Capitalize 'the figure/table/equation/...' when it starts a sentence
+    (a \\autoref that opened a sentence would otherwise be lowercase)."""
+    return re.sub(r"(^|[.!?]\s+)the (figure|table|equation|section|appendix)",
+                  lambda m: m.group(1) + "The " + m.group(2), md, flags=re.M)
 
 # ---------------------------------------------------------------- pandoc
 def run_pandoc(tex_body):
@@ -246,6 +257,7 @@ def main():
     md = to_katex(md)
     md = guard_math_linebreaks(md)
     md = guard_math_underscores(md)
+    md = fix_ref_caps(md)
     md = fix_images(md, args.image_base)
     md = resolve_citations(md, order, entries)
     md = front_matter(args.title, args.tags, args.series,
