@@ -1,5 +1,5 @@
 ---
-title: The Tangent Space of the SPD Manifold for EEG Classification
+title: "The Tangent Space of the SPD Manifold for EEG Classification"
 published: false
 tags: machinelearning, math, eeg, tutorial
 series: "Feature Engineering: Electroencephalogram"

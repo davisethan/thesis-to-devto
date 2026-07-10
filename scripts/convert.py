@@ -159,11 +159,15 @@ def resolve_citations(md, order, entries):
         lines.append(f"{n}. {ref}")
     return md + "\n" + "\n".join(lines) + "\n"
 
+def yaml_quote(s):
+    """Double-quote a YAML scalar so colons, #, etc. are safe."""
+    return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
 def front_matter(title, tags, series=""):
     taglist = ", ".join(t.strip() for t in tags.split(",") if t.strip())
-    fm = [f"title: {title}", "published: false", f"tags: {taglist}"]
+    fm = [f"title: {yaml_quote(title)}", "published: false", f"tags: {taglist}"]
     if series:
-        fm.append(f'series: "{series}"')
+        fm.append(f"series: {yaml_quote(series)}")
     return ("---\n" + "\n".join(fm) + "\n---\n\n"
             f"> *Adapted from an appendix of my MS thesis. "
             f"Equations render via Dev.to's KaTeX support.*\n\n")

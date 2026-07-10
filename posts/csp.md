@@ -1,5 +1,5 @@
 ---
-title: Common Spatial Pattern (CSP): A Correctness Proof
+title: "Common Spatial Pattern (CSP): A Correctness Proof"
 published: false
 tags: machinelearning, math, eeg, tutorial
 series: "Feature Engineering: Electroencephalogram"
