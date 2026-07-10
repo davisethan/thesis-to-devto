@@ -1,6 +1,6 @@
 ---
 title: 'Cleaning EEG: Artifacts, Preprocessing, and Source Reconstruction'
-published: false
+published: true
 tags: 'neuroscience, machinelearning, datascience, tutorial'
 series: Electroencephalogram (EEG) Fundamentals
 id: 4116533
