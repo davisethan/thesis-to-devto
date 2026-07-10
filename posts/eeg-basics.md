@@ -1,6 +1,6 @@
 ---
 title: 'EEG Basics: How Brain Activity Becomes a Signal'
-published: false
+published: true
 tags: 'neuroscience, machinelearning, datascience, tutorial'
 series: Electroencephalogram (EEG) Fundamentals
 id: 4116498
