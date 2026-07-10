@@ -1,17 +1,15 @@
-# devto-posts
+# Publishing to dev.to
 
-Markdown articles that publish to [dev.to](https://dev.to) automatically on every
+The `posts/` articles publish to [dev.to](https://dev.to) automatically on every
 push, via the [`publish-devto`](https://github.com/sinedied/publish-devto) GitHub
-Action. Images are hosted from this repo (relative links are rewritten to GitHub
-raw URLs at publish time).
+Action (`.github/workflows/publish.yml`). Images are hosted from this repo (relative
+links are rewritten to GitHub raw URLs at publish time).
 
 ## One-time setup
 
-1. **Create the GitHub repo.** Make a new repo (e.g. `devto-posts`) and push this
-   folder to its `main` branch.
-2. **Get a dev.to API key.** dev.to → Settings → Extensions → "DEV Community API Keys"
+1. **Get a dev.to API key.** dev.to → Settings → Extensions → "DEV Community API Keys"
    (or https://developers.forem.com/api/#section/Authentication/api_key). Generate one.
-3. **Add it as a secret.** Repo → Settings → Secrets and variables → Actions →
+2. **Add it as a secret.** Repo → Settings → Secrets and variables → Actions →
    **New repository secret**, named `DEVTO_TOKEN`, value = your API key.
 
 That's it. The workflow in `.github/workflows/publish.yml` runs on every push that
@@ -49,11 +47,11 @@ To go live: change `published: false` to `published: true` in a post, commit, pu
 
 ## Adding the rest of the appendices
 
-Generate each new post with the converter in `../scripts/convert.py`, pointing
+Generate each new post with the converter in `scripts/convert.py`, pointing
 `--image-base` at the repo-relative asset path:
 
 ```bash
-python3 ../scripts/convert.py <appendix>.tex /tmp/stage \
+python3 scripts/convert.py <appendix>.tex /tmp/stage \
   --title "..." --tags "machinelearning, math, eeg, tutorial" \
   --bib <bibliography.bib> --slug mcmc --image-base "posts/assets/mcmc"
 cp /tmp/stage/mcmc.md posts/mcmc.md

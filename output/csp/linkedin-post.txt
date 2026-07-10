@@ -1,7 +1,0 @@
-New post: Common Spatial Pattern (CSP): A Correctness Proof
-
-A short, self-contained derivation adapted from my MS thesis on Bayesian vs. frequentist ML for motor-imagery EEG classification.
-
-Read it here (full math renders on Dev.to): <DEVTO_URL>
-
-#MachineLearning #EEG #BCI #Bayesian
