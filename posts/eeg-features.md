@@ -1,8 +1,9 @@
 ---
-title: "EEG Feature Engineering and Selection"
+title: EEG Feature Engineering and Selection
 published: false
-tags: neuroscience, machinelearning, datascience, tutorial
-series: "Electroencephalogram (EEG) Fundamentals"
+tags: 'neuroscience, machinelearning, datascience, tutorial'
+series: Electroencephalogram (EEG) Fundamentals
+id: 4116539
 ---
 
 > *Adapted from an appendix of my MS thesis.*
