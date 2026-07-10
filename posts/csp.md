@@ -1,8 +1,9 @@
 ---
-title: "Common Spatial Pattern (CSP): A Correctness Proof"
+title: 'Common Spatial Pattern (CSP): A Correctness Proof'
 published: false
-tags: machinelearning, datascience, computerscience, tutorial
-series: "Feature Engineering: Electroencephalogram"
+tags: 'machinelearning, datascience, computerscience, tutorial'
+series: 'Feature Engineering: Electroencephalogram'
+id: 4116412
 ---
 
 > *Adapted from an appendix of my MS thesis.*
