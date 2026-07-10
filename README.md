@@ -56,4 +56,3 @@ cp src/mcmc/assets/*.png output/mcmc/assets/
 - Multi-line aligned environments (`align`, `cases`) render but each line is its own
   `{% katex %}` block; check alignment-heavy appendices by eye.
 - Images must be uploaded to Dev.to manually; the local `assets/` copies are for that.
-# thesis-to-devto
