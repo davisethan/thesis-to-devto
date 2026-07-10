@@ -46,7 +46,7 @@ python3 scripts/convert.py src/mcmc/mcmc.tex /tmp/stage \
   --tags "machinelearning, math, eeg, tutorial" \
   --series "Feature Engineering: Electroencephalogram" \
   --bib <thesis>/bibliography.bib \
-  --slug mcmc --image-base "posts/assets/mcmc"
+  --slug mcmc --image-base "assets/mcmc"   # relative to the post file in posts/
 cp /tmp/stage/mcmc.md posts/mcmc.md
 mkdir -p posts/assets/mcmc && cp src/mcmc/assets/*.png posts/assets/mcmc/
 

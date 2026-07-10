@@ -18,8 +18,9 @@ touches `posts/`.
 ## Publishing a post
 
 1. Add/edit a markdown file under `posts/` (must have a `title` in its front matter).
-2. Put its images under `posts/assets/<slug>/` and link them **relative from repo root**,
-   e.g. `![caption](posts/assets/csp/scms.png)` — the action swaps these for raw GitHub URLs.
+2. Put its images under `posts/assets/<slug>/` and link them **relative to the post
+   file** (which lives in `posts/`), e.g. `![caption](assets/csp/scms.png)` — the action
+   resolves these against the file's folder and swaps them for raw GitHub URLs.
 3. Commit and push to `main`.
 
 The action then:
@@ -53,7 +54,7 @@ Generate each new post with the converter in `scripts/convert.py`, pointing
 ```bash
 python3 scripts/convert.py <appendix>.tex /tmp/stage \
   --title "..." --tags "machinelearning, math, eeg, tutorial" \
-  --bib <bibliography.bib> --slug mcmc --image-base "posts/assets/mcmc"
+  --bib <bibliography.bib> --slug mcmc --image-base "assets/mcmc"
 cp /tmp/stage/mcmc.md posts/mcmc.md
 mkdir -p posts/assets/mcmc && cp <appendix-assets>/*.png posts/assets/mcmc/
 git add posts && git commit -m "feat: add mcmc post" && git push
