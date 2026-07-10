@@ -28,6 +28,22 @@ The action then:
 - writes the new dev.to `id` back into the file's front matter via an auto-commit,
 - so future edits **update** that same article instead of duplicating it.
 
+### Avoiding duplicate drafts (important)
+
+dev.to has no notion of "the same file" — it only matches on the `id` in front
+matter. Two rules keep you from creating duplicates:
+
+1. **`git pull` after every push.** The action auto-commits the `id` back to the
+   repo. If you don't pull, your local file still has no `id`, and your next push
+   creates a *new* article.
+2. **Regenerate with `--prev`.** The converter rewrites front matter from scratch,
+   which would drop the `id`. Passing `--prev posts/<slug>.md` carries the existing
+   `id`/`date` forward so the push updates instead of duplicating.
+
+If you already have duplicates: delete the extra drafts on dev.to (Dashboard →
+each article → Delete), keep one per post, then `git pull` so the surviving `id`
+is in your local file before the next regenerate.
+
 ### Draft vs. live
 
 - `published: false` → created as a private draft you can preview on dev.to first.
@@ -53,8 +69,9 @@ Generate each new post with the converter in `scripts/convert.py`, pointing
 
 ```bash
 python3 scripts/convert.py <appendix>.tex /tmp/stage \
-  --title "..." --tags "machinelearning, math, eeg, tutorial" \
-  --bib <bibliography.bib> --slug mcmc --image-base "assets/mcmc"
+  --title "..." --tags "machinelearning, datascience, computerscience, tutorial" \
+  --bib <bibliography.bib> --slug mcmc --image-base "assets/mcmc" \
+  --prev posts/mcmc.md          # keeps dev.to id on re-runs; no-op for a new post
 cp /tmp/stage/mcmc.md posts/mcmc.md
 mkdir -p posts/assets/mcmc && cp <appendix-assets>/*.png posts/assets/mcmc/
 git add posts && git commit -m "feat: add mcmc post" && git push

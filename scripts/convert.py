@@ -186,11 +186,34 @@ def yaml_quote(s):
     """Double-quote a YAML scalar so colons, #, etc. are safe."""
     return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
-def front_matter(title, tags, series=""):
+def carry_over_fields(prev_path):
+    """Read `id`/`date` (and published state) from an already-published post so
+    regenerating updates that dev.to article instead of creating a duplicate.
+    devto-cli writes `id` back into the file on first publish."""
+    keep = {}
+    if prev_path and os.path.exists(prev_path):
+        txt = open(prev_path, encoding="utf-8").read()
+        m = re.match(r"---\n(.*?)\n---", txt, re.S)
+        if m:
+            for key in ("id", "date", "published"):
+                km = re.search(rf"^{key}:\s*(.+)$", m.group(1), re.M)
+                if km:
+                    keep[key] = km.group(1).strip()
+    return keep
+
+def front_matter(title, tags, series="", keep=None):
+    keep = keep or {}
     taglist = ", ".join(t.strip() for t in tags.split(",") if t.strip())
-    fm = [f"title: {yaml_quote(title)}", "published: false", f"tags: {taglist}"]
+    fm = []
+    if keep.get("id"):
+        fm.append(f"id: {keep['id']}")           # preserving this prevents duplicates
+    fm.append(f"title: {yaml_quote(title)}")
+    fm.append(f"published: {keep.get('published', 'false')}")
+    fm.append(f"tags: {taglist}")
     if series:
         fm.append(f"series: {yaml_quote(series)}")
+    if keep.get("date"):
+        fm.append(f"date: {keep['date']}")
     return ("---\n" + "\n".join(fm) + "\n---\n\n"
             "> *Adapted from an appendix of my MS thesis.*\n\n")
 
@@ -207,6 +230,9 @@ def main():
                     help="Prefix for image links. For GitHub sync use the repo-root-relative "
                          "path, e.g. 'posts/assets/csp'.")
     ap.add_argument("--series", default="", help="dev.to series name to group posts.")
+    ap.add_argument("--prev", default="",
+                    help="Path to the already-published post (e.g. posts/<slug>.md) to "
+                         "carry its dev.to `id`/`date` forward and avoid duplicates.")
     args = ap.parse_args()
 
     tex = open(args.input, encoding="utf-8").read()
@@ -222,7 +248,8 @@ def main():
     md = guard_math_underscores(md)
     md = fix_images(md, args.image_base)
     md = resolve_citations(md, order, entries)
-    md = front_matter(args.title, args.tags, args.series) + md
+    md = front_matter(args.title, args.tags, args.series,
+                      carry_over_fields(args.prev)) + md
 
     os.makedirs(args.output_dir, exist_ok=True)
     os.makedirs(os.path.join(args.output_dir, "assets"), exist_ok=True)
