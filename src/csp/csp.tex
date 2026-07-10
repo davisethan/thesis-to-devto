@@ -1,0 +1,55 @@
+\documentclass[../../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Common Spatial Pattern}\label{Appendix:CSP}
+
+\subsection{Correctness Proof}
+
+The common spatial pattern (CSP) allows one to maximize the variance of signals from one condition and at the same time minimize the variance of signals from another condition \autocite{Blankertz2018}. For example, consider two three-dimensional tensors ($\text{trials} \times \text{channels} \times \text{time}$) of electroencephalogram (EEG) from separate classes $\bm{X}_1,\bm{X}_2\in\mathbb{R}^{p \times q \times r}$. For each trial let us assume zero mean and compute between channel across time sample covariance matrices (SCMs) $\bm{\Sigma}_i^{(k)}=\frac{1}{r-1}\bm{X}_i^{(k)}\bm{X}_i^{(k)\top}\in\mathbb{R}^{q \times q}$ for $i=1,2$ and $k=1,\ldots,p$. Furthermore, let us take $\bar{\bm{\Sigma}}_i\in\mathbb{R}^{q \times q}$ as the arithmetic mean SCM for each class across all trials $k$.
+
+% Sample covariance matrices
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/pipelines/assets/csp/scms.png}
+\caption[Sample covariance matrices]{Example of averaged sample covariance matrices (SCMs).}
+\end{figure}
+
+Our example is a standard data and preprocessing pipeline for CSP used by software libraries like PyRiemann \autocite{Barachant2025}. We assume the SCMs are conditioned so that they are symmetric positive definite (SPD). By definition, for a matrix $\bm{A}\in\mathbb{R}^{n \times n}$ and any non-zero vector $\bm{x}\in\mathbb{R}^n$, if $\bm{A}=\bm{A}^\top$ and $\bm{x}^\top\bm{A}\bm{x}>0$, then $\bm{A}$ is SPD. As a result, all eigenvalues are positive $\lambda_i > 0$ from the eigendecomposition $\bm{A}=\bm{Q}\bm{D}\bm{Q}^\top$ where $\bm{D} = \text{diag}(\lambda_1,\ldots,\lambda_n)$ \autocite{Murphy2022}. Furthermore, the sum of two SPD matrices $\bm{A},\bm{B}\in\mathbb{R}^{n \times n}$ is also SPD since $\bm{x}^\top(\bm{A}+\bm{B})\bm{x}=\bm{x}^\top\bm{A}\bm{x} + \bm{x}^\top\bm{B}\bm{x} > 0$. Let us diagonalize the mean SCMs from our example.
+
+% Diagonalization of summed SCMs
+\begin{equation}
+\bar{\bm{\Sigma}}_1+\bar{\bm{\Sigma}}_2 = \bm{V}\bm{\Lambda}\bm{V}^\top.
+\end{equation}
+
+% Summed SCMs
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/pipelines/assets/csp/scms-summed.png}
+\caption[Sample covariance matrices summed]{The averaged SCMs summed.}
+\end{figure}
+
+The whitening transformation of an SCM results in zero mean, unit variance, and zero covariance \autocite{Blankertz2018}. In other words, the whitening transformation maps an SCM to the identity matrix $\bm{\Sigma}\mapsto\bm{I}$. We define the whitening matrix as $\bm{W} = \bm{V}\bm{\Lambda}^{-1/2}\bm{V}^\top \in \mathbb{R}^{n \times n}$. The result is no longer an ellipse when plotted but rather the unit circle.
+
+% Whitening transformation
+\begin{equation}
+\bm{W}(\bar{\bm{\Sigma}}_1+\bar{\bm{\Sigma}}_2)\bm{W}^\top = \bm{V}\bm{\Lambda}^{-1/2}\bm{V}^\top(\bm{V}\bm{\Lambda}\bm{V}^\top)\bm{V}\bm{\Lambda}^{-1/2}\bm{V}^\top = \bm{I}.
+\end{equation}
+
+We can rewrite our whitening transformation to show that the variance of the signals in our first class $\bar{\bm{\Sigma}}_1$ is maximized, while the variance of the signals in our second class $\bar{\bm{\Sigma}}_2$ is also minimized. We do this by distributing the whitening matrix throughout the sum of our SCMs. The result is two transformed SCMs we denote by $\bar{\bm{\Sigma}}_1',\bar{\bm{\Sigma}}_2'\in\mathbb{R}^{n \times n}$ whose sum is the identity matrix.
+
+% Transformed SCMs
+\begin{equation}
+\bm{W}(\bar{\bm{\Sigma}}_1+\bar{\bm{\Sigma}}_2)\bm{W}^\top = \bm{W}\bar{\bm{\Sigma}}_1\bm{W}^\top + \bm{W}\bar{\bm{\Sigma}}_2\bm{W}^\top = \bar{\bm{\Sigma}}_1' + \bar{\bm{\Sigma}}_2' = \bm{I}.
+\end{equation}
+
+% Whitened and transformed SCMs
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/pipelines/assets/csp/scms-transformed.png}
+\caption[Sample covariance matrices transformed]{Both the whitened sum of the SCMs and the sum of each SCM transformed by the whitening matrix equals the identity matrix.}
+\end{figure}
+
+Let us use $\bm{V}_i'\bm{\Lambda}_i'\bm{V}_i'^\top$ where $i=1,2$ to denote the diagonalization of our transformed SCMs. Since $\bar{\bm{\Sigma}}_1' + \bar{\bm{\Sigma}}_2' = \bm{I}$ the sum of the diagonals $d_{ij} = \text{diag}(\bm{\Lambda}_i')_j$ is $d_{1j}+d_{2j}=1$. Furthermore, $d_{ij}>0$ since $\bar{\bm{\Sigma}}_i'$ is SPD. Therefore, the diagonals are bounded between 0 and 1. When the variance $d_{aj} \gg d_{bj}$ for $a \neq b$, the classification problem is more or less solved for unseen EEG trials. However, when $d_{aj}$ is close to $d_{bj}$ the discrimination between classes is more ambiguous \autocite{Blankertz2018}.
+
+\end{document}

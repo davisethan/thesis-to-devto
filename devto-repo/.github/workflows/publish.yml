@@ -1,0 +1,25 @@
+name: Publish to dev.to
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'posts/**'
+  workflow_dispatch:   # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write       # needed so the action can commit the article `id` back
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish articles on dev.to
+        uses: sinedied/publish-devto@v2
+        with:
+          devto_key: ${{ secrets.DEVTO_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          files: 'posts/**/*.md'
+          branch: main
+          conventional_commits: true

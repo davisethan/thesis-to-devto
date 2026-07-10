@@ -12,7 +12,6 @@ thesis-to-devto/
   output/<name>/
     <name>.md            # paste this into the Dev.to editor
     assets/*.png         # upload these; the editor gives you a URL per image
-    linkedin-post.txt    # promo-post stub to share the Dev.to link
 ```
 
 ## What the pipeline does
@@ -42,17 +41,9 @@ python3 scripts/convert.py src/mcmc/mcmc.tex output/mcmc \
 cp src/mcmc/assets/*.png output/mcmc/assets/
 ```
 
-## Posting checklist (Dev.to)
-
-- Paste `<name>.md` into a new Dev.to post (front matter fills title/tags).
-- Upload each image in `assets/`; replace `./assets/<file>.png` with the URL Dev.to returns.
-- Preview — equations render via KaTeX. Set `published: true` when ready.
-- Share with the `linkedin-post.txt` stub; paste the live Dev.to URL over `<DEVTO_URL>`.
-
 ## Notes / limits
 
 - Dev.to has **no equation numbering or `\ref`** — cross-references were removed. If a
   proof needs to point back to an equation, add prose ("the whitening step above").
 - Multi-line aligned environments (`align`, `cases`) render but each line is its own
   `{% katex %}` block; check alignment-heavy appendices by eye.
-- Images must be uploaded to Dev.to manually; the local `assets/` copies are for that.
