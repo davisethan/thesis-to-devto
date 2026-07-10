@@ -1,8 +1,9 @@
 ---
-title: "Recording EEG: Electrodes, Montages, and Protocol"
+title: 'Recording EEG: Electrodes, Montages, and Protocol'
 published: false
-tags: neuroscience, machinelearning, datascience, tutorial
-series: "Electroencephalogram (EEG) Fundamentals"
+tags: 'neuroscience, machinelearning, datascience, tutorial'
+series: Electroencephalogram (EEG) Fundamentals
+id: 4116531
 ---
 
 > *Adapted from an appendix of my MS thesis.*
