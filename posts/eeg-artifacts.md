@@ -4,6 +4,7 @@ published: true
 tags: 'neuroscience, machinelearning, datascience, tutorial'
 series: Electroencephalogram (EEG) Fundamentals
 id: 4116533
+date: '2026-07-10T23:48:28Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
