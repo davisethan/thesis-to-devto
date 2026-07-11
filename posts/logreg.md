@@ -3,6 +3,7 @@ title: 'Logistic Regression: Formulation'
 published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 id: 4117300
+date: '2026-07-11T15:57:00Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
