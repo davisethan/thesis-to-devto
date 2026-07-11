@@ -1,0 +1,25 @@
+name: Spell check
+
+on:
+  push:
+    paths:
+      - 'posts/**/*.md'
+      - 'cspell.json'
+      - '.cspell/**'
+  pull_request:
+    paths:
+      - 'posts/**/*.md'
+      - 'cspell.json'
+      - '.cspell/**'
+  workflow_dispatch:
+
+jobs:
+  cspell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run cspell on posts
+        run: npx --yes cspell --no-progress --show-context "posts/**/*.md"

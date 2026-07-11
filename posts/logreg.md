@@ -43,7 +43,7 @@ To emphasize the dependence on the entire parameter set {% katex inline %}\theta
 {% endkatex %}
 
 
-It is convenient to code the two-class {% katex inline %}g_ i{% endkatex %} via a 0/1 response {% katex inline %}y_ i{% endkatex %}, where {% katex inline %}y_ i=1{% endkatex %} when {% katex inline %}g_ i=1{% endkatex %}, and {% katex inline %}y_ i=0{% endkatex %} when {% katex inline %}g_ i=2{% endkatex %}. Let {% katex inline %}p_ 1(x;\theta)=p(x;\theta){% endkatex %}, and {% katex inline %}p_ 2(x;\theta)=1-p(x;\theta){% endkatex %}. The log-likelihoo can be written as the following where {% katex inline %}\beta={\beta_ {10},\beta_ 1}{% endkatex %}, and we assume that the vector of inputs {% katex inline %}x_ i{% endkatex %} includes the constant term 1 to accommodate the intercept [1].
+It is convenient to code the two-class {% katex inline %}g_ i{% endkatex %} via a 0/1 response {% katex inline %}y_ i{% endkatex %}, where {% katex inline %}y_ i=1{% endkatex %} when {% katex inline %}g_ i=1{% endkatex %}, and {% katex inline %}y_ i=0{% endkatex %} when {% katex inline %}g_ i=2{% endkatex %}. Let {% katex inline %}p_ 1(x;\theta)=p(x;\theta){% endkatex %}, and {% katex inline %}p_ 2(x;\theta)=1-p(x;\theta){% endkatex %}. The log-likelihood can be written as the following where {% katex inline %}\beta={\beta_ {10},\beta_ 1}{% endkatex %}, and we assume that the vector of inputs {% katex inline %}x_ i{% endkatex %} includes the constant term 1 to accommodate the intercept [1].
 
 
 {% katex %}

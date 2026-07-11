@@ -11,7 +11,7 @@ date: '2026-07-10T23:43:59Z'
 
 ## Basic Principles
 
-The origin of electroencephalogram (EEG) signals comes from neurons creating electrical signals that are transmitted to other cells through synapses. An action potential (AP) arrives at a synaptic cleft (step 1 in the figure) where it transmits chemical information through neurotransmitters (step 2) that generate postsynaptic potentials (PSPs) and local current (step 3). A PSP will create a current sink and will propogate to the cell body to generate a current source (step 4) [1].
+The origin of electroencephalogram (EEG) signals comes from neurons creating electrical signals that are transmitted to other cells through synapses. An action potential (AP) arrives at a synaptic cleft (step 1 in the figure) where it transmits chemical information through neurotransmitters (step 2) that generate postsynaptic potentials (PSPs) and local current (step 3). A PSP will create a current sink and will propagate to the cell body to generate a current source (step 4) [1].
 
 As a result, the postsynaptic potential creates an electrical dipole consisting of a negative pole (the sink) and a positive pole (the source). The dipole generates primary (intracellular) currents and secondary (extracellular) currents. EEG signals result from postsynaptic potentials. More specifically, EEG signals result from the spatial and temporal summation of activity from a large population of synchronous neurons [1].
 

@@ -1,9 +1,9 @@
 ---
-title: The Tangent Space of the SPD Manifold for EEG Classification
-published: true
-tags: 'machinelearning, datascience, statistics, tutorial'
-series: 'Feature Engineering: Electroencephalogram'
 id: 4116413
+title: "The Tangent Space of the SPD Manifold for EEG Classification"
+published: true
+tags: machinelearning, datascience, statistics, tutorial
+series: "Feature Engineering: Electroencephalogram"
 date: '2026-07-10T22:58:44Z'
 ---
 
@@ -15,7 +15,7 @@ Current state-of-the-art (SOTA) machine learning (ML) for electroencephalogram (
 
 ## Definitions
 
-A manifold is a collection of points that locally, but not globally, resembles Euclidean space. A Riemannian metric is defined by a smoothly varying collection of scalar products {% katex inline %}\langle \cdot,\cdot \rangle_ x{% endkatex %} in each tangent space {% katex inline %}T_ x\mathcal{M}{% endkatex %} at points {% katex inline %}x{% endkatex %} on a manifold {% katex inline %}\mathcal{M}{% endkatex %}. For example, the inner product gives a norm {% katex inline %}\|\cdot\|_ x\colon T_ x\mathcal{M}\to\mathbb{R}{% endkatex %} by {% katex inline %}\|v\|^ 2_ x=\langle v,v \rangle_ x{% endkatex %}. The shortest distance between two points on a manifold is a geodesic {% katex inline %}\gamma(t){% endkatex %}, and it is computed by integrating the norm along its curve [3].
+A manifold is a collection of points that locally, but not globally, resembles Euclidean space. A Riemannian metric is defined by a smoothly varying collection of scalar products {% katex inline %}\langle \cdot,\cdot \rangle_ x{% endkatex %} in each tangent space {% katex inline %}T_ x\mathcal{M}{% endkatex %} at points {% katex inline %}x{% endkatex %} on a manifold {% katex inline %}\mathcal{M}{% endkatex %}. For example, the inner product gives a norm {% katex inline %}\\|\cdot\\|_ x\colon T_ x\mathcal{M}\to\mathbb{R}{% endkatex %} by {% katex inline %}\\|v\\|^ 2_ x=\langle v,v \rangle_ x{% endkatex %}. The shortest distance between two points on a manifold is a geodesic {% katex inline %}\gamma(t){% endkatex %}, and it is computed by integrating the norm along its curve [3].
 
 ![Example of a tangent space, manifold, and geodesic. (Left) The tangent space {% katex inline %}T_ x\mathcal{M}{% endkatex %} that is a vector space at some point {% katex inline %}x{% endkatex %} on a manifold {% katex inline %}\mathcal{M}{% endkatex %}. (Right) The curved manifold {% katex inline %}\mathcal{M}{% endkatex %} with geodesic {% katex inline %}\gamma(t){% endkatex %} from the point {% katex inline %}x{% endkatex %} to some other point {% katex inline %}y{% endkatex %} on the manifold.](assets/ts/geodesic.png)
 
@@ -70,15 +70,15 @@ By left-invariance at the identity of a Lie group we have the vector field {% ka
 
 ![The exponential map {% katex inline %}\text{Exp}_ x(v)=\gamma(1)=y{% endkatex %} produces the point on the manifold {% katex inline %}\mathcal{M}{% endkatex %} reached after a unit time {% katex inline %}t=1{% endkatex %} along the geodesic {% katex inline %}\gamma(t){% endkatex %} starting at point {% katex inline %}x{% endkatex %} with initial velocity {% katex inline %}\gamma'(0)=v{% endkatex %}. The logarithmic map {% katex inline %}\text{Log}_ x(y)=v{% endkatex %} is its inverse and produces the initial velocity needed to reach {% katex inline %}y{% endkatex %} from {% katex inline %}x{% endkatex %} after the unit time {% katex inline %}t=1{% endkatex %}. On {% katex inline %}\text{Sym}_ n^ +{% endkatex %} the exponential map is the matrix exponential and the logarithmic map is the matrix logarithm.](assets/ts/ode.png)
 
-From the figure take {% katex inline %}R=P^ {-1/2}QP^ {-1/2}{% endkatex %}. The matrix logarithm {% katex inline %}\log(R){% endkatex %} produces the vector for the norm {% katex inline %}N(R){% endkatex %}. This norm is given by the Frobenius norm {% katex inline %}\|\cdot\|_ F{% endkatex %}. Furthermore, since {% katex inline %}R{% endkatex %} is SPD, it has eigendecomposition {% katex inline %}R=V \Lambda V^ \top{% endkatex %} where {% katex inline %}\Lambda=\text{diag}(\lambda_ 1,\ldots,\lambda_ n){% endkatex %} and {% katex inline %}\lambda_ i>0{% endkatex %}. By the matrix logarithm {% katex inline %}\log(R)= V\text{diag}(\log\lambda_ 1,\ldots,\log\lambda_ n)V^ \top{% endkatex %}. Therefore, by the orthogonal invariance of the Frobenius norm, the norm {% katex inline %}N(R){% endkatex %} can be written as the square root of the sum of squared eigenvalue logarithms [4].
+From the equation take {% katex inline %}R=P^ {-1/2}QP^ {-1/2}{% endkatex %}. The matrix logarithm {% katex inline %}\log(R){% endkatex %} produces the vector for the norm {% katex inline %}N(R){% endkatex %}. This norm is given by the Frobenius norm {% katex inline %}\\|\cdot\\|_ F{% endkatex %}. Furthermore, since {% katex inline %}R{% endkatex %} is SPD, it has eigendecomposition {% katex inline %}R=V \Lambda V^ \top{% endkatex %} where {% katex inline %}\Lambda=\text{diag}(\lambda_ 1,\ldots,\lambda_ n){% endkatex %} and {% katex inline %}\lambda_ i>0{% endkatex %}. By the matrix logarithm {% katex inline %}\log(R)= V\text{diag}(\log\lambda_ 1,\ldots,\log\lambda_ n)V^ \top{% endkatex %}. Therefore, by the orthogonal invariance of the Frobenius norm, the norm {% katex inline %}N(R){% endkatex %} can be written as the square root of the sum of squared eigenvalue logarithms [4].
 
 
 {% katex %}
-\text{dist}(P,Q) = N(P^ {-1/2}QP^ {-1/2}) = \| \log(R) \|_ F = \left( \sum_ {i=1}^ n \log^ 2\lambda_ i\right)^ {1/2}.
+\text{dist}(P,Q) = N(P^ {-1/2}QP^ {-1/2}) = \\| \log(R) \\|_ F = \left( \sum_ {i=1}^ n \log^ 2\lambda_ i\right)^ {1/2}.
 {% endkatex %}
 
 
-the figure gives a closed form solution for the distance between two SPD matrices on {% katex inline %}\text{Sym}_ n^ +{% endkatex %}. Not only is it exact and so does not require optimization, but it can be computed in the vector space of the tangent space and so does not require integration on the curve. Furthermore, by the nature of logarithms we see that matrices with zero or negative eigenvalue are in fact infinite distance from SPD matrices on {% katex inline %}\text{Sym}_ n^ +{% endkatex %}, contrary to Euclidean space and metrics [4].
+The equation gives a closed form solution for the distance between two SPD matrices on {% katex inline %}\text{Sym}_ n^ +{% endkatex %}. Not only is it exact and so does not require optimization, but it can be computed in the vector space of the tangent space and so does not require integration on the curve. Furthermore, by the nature of logarithms we see that matrices with zero or negative eigenvalue are in fact infinite distance from SPD matrices on {% katex inline %}\text{Sym}_ n^ +{% endkatex %}, contrary to Euclidean space and metrics [4].
 
 We can also find closed form solutions for the logarithmic and exponential maps on {% katex inline %}\text{Sym}_ n^ +{% endkatex %}. Rather than solve for the norm of the logarithmic map, we can solve for the vector itself. This is done by pushing forward to {% katex inline %}P{% endkatex %} after we pulled back to the identity from {% katex inline %}P{% endkatex %}. Furthermore, as the inverse of the logarithmic map, the closed form solution for the exponential map takes a vector as input and outputs the point on {% katex inline %}\text{Sym}_ n^ +{% endkatex %} reached after unit time elapsed along the geodesic.
 
@@ -112,7 +112,7 @@ Consider two three-dimensional tensors of EEG recordings {% katex inline %}X_ 1,
 
 With the geometric mean of each class {% katex inline %}\bar{\Sigma}_ 1,\bar{\Sigma}_ 2\in\text{Sym}_ n^ +{% endkatex %} we define {% katex inline %}\bar{\Sigma}\in\text{Sym}_ n^ +{% endkatex %} as the geometric mean of these means. Then, using the logarithmic map we find the vectors between all points in all clusters to {% katex inline %}\bar{\Sigma}{% endkatex %}. We represent these vectors in the tangent space {% katex inline %}T_ {\bar{\Sigma}}\text{Sym}_ n^ +{% endkatex %} of the mean point {% katex inline %}\bar{\Sigma}{% endkatex %}. This linearization of SPD matrices is done in a way that respects the metric space of {% katex inline %}\text{Sym}_ n^ +{% endkatex %}. Once in the tangent space {% katex inline %}T_ {\bar{\Sigma}}\text{Sym}_ n^ +{% endkatex %} we can train standard ML algorithms that are optimized for vector space.
 
-![Example of our data preprocessing and classification pipeline. (Left) All SPD matrices are vectorized by the logarithmic map. (Center) The vectorized SPD matrices in tangent space. (Right) A learned decision boundary from a standard ML alorithm.](assets/ts/tangent_space.png)
+![Example of our data preprocessing and classification pipeline. (Left) All SPD matrices are vectorized by the logarithmic map. (Center) The vectorized SPD matrices in tangent space. (Right) A learned decision boundary from a standard ML algorithm.](assets/ts/tangent_space.png)
 
 Once in the tangent space {% katex inline %}T_ {\bar{\Sigma}}\text{Sym}_ n^ +{% endkatex %} we can train standard ML algorithms that are optimized for vector space. This method of linearization from the space of SPD matrices to vector space is the standard used by software libraries like PyRiemann [7]. As of now, SOTA EEG classifiers are those that learn and predict in the tangent space of the SPD manifold rather than on the manifold itself [1, 2]. An explanation for this is that machine learning is traditionally optimized for vector space.
 

@@ -22,7 +22,7 @@ A stochastic process is stationary if for every positive integer $k$ the distrib
 
 A transition probability distribution is reversible with respect to an initial distribution if for its Markov chain $X_1,X_2,\ldots$, the distribution of pairs $(X_i,X_{i+1})$ is exchangeable. Reversibility implies stationarity, but not vice versa. A reversible Markov chain has the same laws running forward and backward. That is, for any $i$ and $k$, the distributions $(X_{i+1},\ldots,X_{i+k})$ and $(X_{i+k},\ldots,X_{i+1})$ are the same. All known methods for constructing transition probabilities that preserve a specified equilibrium are special cases of the MHG algorithm, and all elementary updates from the MHG algorithm are reversible \autocite{Brooks2011}.
 
-A bit of compute code that makes a pseudorandom change to its state is an update mechanism. An update mechanism is elementary if it is not made up of parts that are themselves update mechanisms preserving the specified distribution. Suppose the specified distribution (the desired stationary distribution of the MCMC sampler) has unnormalied density $h$. The Metropolis-Hastings update does the following \autocite{Brooks2011}:
+A bit of compute code that makes a pseudorandom change to its state is an update mechanism. An update mechanism is elementary if it is not made up of parts that are themselves update mechanisms preserving the specified distribution. Suppose the specified distribution (the desired stationary distribution of the MCMC sampler) has unnormalized density $h$. The Metropolis-Hastings update does the following \autocite{Brooks2011}:
 
 \begin{itemize}
 \item When the current state is $x$, propose a move to $y$, having conditional probability density given $x$ denoted $q(x, y)$.
