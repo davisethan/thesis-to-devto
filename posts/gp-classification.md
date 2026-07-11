@@ -1,6 +1,6 @@
 ---
 title: Gaussian Process Classification
-published: false
+published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Gaussian Processes (GP)
 id: 4121260
