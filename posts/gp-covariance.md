@@ -1,6 +1,6 @@
 ---
 title: 'Gaussian Processes: Covariance Functions (Kernels)'
-published: false
+published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Gaussian Processes (GP)
 id: 4121238
