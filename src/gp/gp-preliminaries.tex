@@ -1,0 +1,193 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\section{Gaussian Process}\label{Appendix:GP}
+
+The problem of machine learning (ML) is induction: We need to move from a finite training data $\mathcal{D}$ to a function $f$ that makes predictions for all possible input values. A common method is to restrict the class of functions considered, for example only considering linear functions of the input. Another common method is to give a prior probability to all possible functions, where higher probabilities are given to functions that we consider to be more likely, for example because they are smoother than other functions. The Gaussian process (GP) belongs to the latter approach \autocite{Rasmussen2005}.
+
+A Gaussian process is a generalization of the Gaussian probability distribution. Whereas a probability distribution describes random variables which are scalars or vectors, a stochastic process governs the properties of functions. A function can be loosely thought of as a very long vector, each entry in the vector specifying the function value $f(x)$ at a particular input $x$. It turns out that if we only ask for the properties of the function at a finite number of points, then inference in the Gaussian process will give us the same answer as if we had considered all points \autocite{Rasmussen2005}.
+
+% Gaussian process
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{appendix/methods/pipelines/assets/gp/gp.png}
+\caption[Gaussian process]{Example of a Gaussian process. Data points (red) are used to fit estimator functions (cyan). We see a distribution of functions \autocite{Fonnesbeck2022}.}
+\end{figure}
+
+\subsection{Preliminaries}
+
+There are two equivalent ways to interpret Gaussian processes for models. One can think of a Gaussian process as defining a distribution over functions, and inference taking place in function space: the function space view. Alternatively, the weight space view considers distributions over the weights of models. Let us consider standard linear regression as an example \autocite{Rasmussen2005}.
+
+\subsubsection{Weight Space View}
+
+Say we have a training set $\mathcal{D}$ of $n$ observations, $\mathcal{D} = \{ (\bm{x}_i,y_i) \mid i=1,\ldots,n\}$, where $\bm{x}$ denotes an input vector of dimension $D$ and $y$ denotes a scalar output or target. The column vector inputs for all $n$ cases are aggregated in the $D \times n$ design matrix $\bm{X}$, and the target are collected in the vector $\bm{y}$, so we can write $\mathcal{D}=(\bm{X},\bm{y})$. The standard linear regression model with Gaussian noise is written as follows where $\bm{x}$ is the input vector, $\bm{w}$ is a vector of weights (parameters) of the linear model, $f$ is the function value, and $y$ is the observed target value \autocite{Rasmussen2005}.
+
+\begin{equation}
+f(\bm{x}) = \bm{x}^\top\bm{w}, \quad y = f(\bm{x}) + \epsilon.
+\end{equation}
+
+Often a bias weight or offset is included, but this can be implemented by augmenting the input vector $\bm{x}$ and weight vector $\bm{w}$, and so is not explicitly included in this notation. We have assumed that the observed values $y$  differ from the function values $f(\bm{x})$ by additive noise, and further assumed that this noise follows and independent and identically distributed (IID) Gaussian distribution with zero mean and variance $\sigma_n^2$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+\epsilon \sim \mathcal{N}(0, \sigma_n^2).
+\end{equation}
+
+This gives rise to the likelihood, the probability density of the observations given the parameters, which is factored as follows by the independence assumption \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{split}
+p(\bm{y}|\bm{X},\bm{w}) &= \prod_{i=1}^{n}p(y_i|\bm{x}_i,\bm{w}) \\
+&= \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}\sigma_n} \exp\left(-\frac{(y_i-\bm{x}_i^\top\bm{w})^2}{2\sigma_n^2}\right) \\
+&= \frac{1}{(2\pi\sigma_n^2)^{n/2}} \exp\left(-\frac{1}{2\sigma_n^2}\left|\bm{y}-\bm{X}^\top\bm{w}\right|^2\right) \\
+&= \mathcal{N}(\bm{X}^\top\bm{w},\sigma_n^2\bm{I}).
+\end{split}
+\end{equation}
+
+For Bayesian formalism we specify a prior over the parameters using a zero mean Gaussian with covariance matrix $\bm{\Sigma}_p$ on the weights \autocite{Rasmussen2005}.
+
+\begin{equation}
+\bm{w} \sim \mathcal{N}(\bm{0},\bm{\Sigma}_p).
+\end{equation}
+
+Inference in the Bayesian linear model is based on the posterior distribution over the weights computed by Bayes' rule \autocite{Rasmussen2005}.
+
+\[
+\text{posterior} = \frac{\text{likelihood}\times\text{prior}}{\text{marginal likelihood}}, \quad p(\bm{w}|\bm{y},\bm{X}) = \frac{p(\bm{y}|\bm{X},\bm{w})p(\bm{w})}{p(\bm{y}|\bm{X})}.
+\]
+
+The normalizing constant known as the marginal likelihood or evidence is independent of the weights and given by the following \autocite{Rasmussen2005}.
+
+\begin{equation}
+p(\bm{y}|\bm{X}) = \int p(\bm{y}|\bm{X},\bm{w})p(\bm{p})\mathrm{d}\bm{w}.
+\end{equation}
+
+The posterior combines the likelihood and the prior capturing everything we know about the parameters, and writing only the terms from the likelihood and prior which depend on the weights we obtain the following where $\bm{\bar{w}}=\sigma_n^{-2}(\sigma_n^{-2}\bm{X}\bm{X}^\top+\bm{\Sigma}_p^{-1})^{-1}\bm{X}\bm{y}$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{split}
+p(\bm{w}|\bm{X},\bm{y}) &\propto \exp\left(-\frac{1}{2\sigma_n^2}(\bm{y}-\bm{X}^\top\bm{w})^\top(\bm{y}-\bm{X}^\top\bm{w})\right) \exp\left(-\frac{1}{2}\bm{w}^\top\bm{\Sigma}_p^{-1}\bm{w}\right) \\
+&\propto \exp\left(-\frac{1}{2}(\bm{w}-\bm{\bar{w}})^\top(\frac{1}{\sigma_n^2}\bm{X}\bm{X}^\top+\bm{\Sigma}_p^{-1})(\bm{w}-\bm{\bar{w}})\right).
+\end{split}
+\end{equation}
+
+The form of the posterior distribution is also Gaussian with mean $\bm{\bar{w}}$ and covariance matrix $\bm{A}^{-1}$ where $\bm{A}=\sigma_n^{-2}\bm{X}\bm{X}^\top+\bm{\Sigma}_p^{-1}$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+p(\bm{w}|\bm{X},\bm{y}) \sim \mathcal{N}\left(\frac{1}{\sigma_n^2}\bm{A}^{-1}\bm{X}\bm{y},\bm{A}^{-1}\right).
+\end{equation}
+
+To make predictions for a test case we average over all possible parameter values weighted by their posterior probability. This is in contrast to non-Bayesian schemes where a single parameter is typically chosen by some optimization criterion. Thus the predictive distribution for $f_\ast=f(\bm{x}_\ast)$ at $\bm{x}_\ast$ is given by averaging the output of all output linear models with respect to the Gaussian posterior. The predictive distribution is again Gaussian \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{split}
+p(f_\ast|\bm{x}_\ast,\bm{X},\bm{y}) &= \int p(f_\ast|\bm{x}_\ast,\bm{w})p(\bm{w}|\bm{X},\bm{y})\mathrm{d}\bm{w} \\
+&= \int \bm{x}_\ast^\top\bm{w}p(\bm{w}|\bm{X},\bm{y})\mathrm{d}\bm{w} \\
+&= \mathcal{N}\left(\frac{1}{\sigma_n^2}\bm{x}_\ast^\top\bm{A}^{-1}\bm{X}\bm{y},\bm{x}_\ast^\top\bm{A}^{-1}\bm{x}_\ast\right).
+\end{split}
+\end{equation}
+
+The Bayesian linear model suffers from limited expressiveness. A simple idea to overcome this problem is to first project the inputs into some high dimensional space using a set of basis functions and then apply the linear model in this space instead of directly on the inputs themselves. For example, a scalar input $x$ could be projected into the space of powers of $x$: $\phi(x)=(1,x,x^2,x^3,\ldots)^\top$ to implement polynomial regression. This idea is also used in classification where a dataset which is not linearly separable in the original data space may become linearly separable in a high dimensional feature space \autocite{Rasmussen2005}.
+
+We assume a given basis function $\phi(\bm{x})$ which maps a $D$ dimensional input vector $\bm{x}$ into an $N$ dimensional feature space. Further let the matrix $\Phi(\bm{X})$ be the aggregation of columns $\phi(\bm{x})$ for all cases in the training set. Now the model is as follows where the vector of parameters now has length $N$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+f(\bm{x}) = \phi(\bm{x})^\top\bm{w}.
+\end{equation}
+
+The predictive distribution becomes the following with $\Phi=\Phi(\bm{X})$ and $\bm{A}=\sigma_n^{-2}\Phi\Phi^\top+\bm{\Sigma}_p^{-1}$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+f_\ast|\bm{x}_\ast,\bm{X},\bm{y} \sim \mathcal{N}\left(\frac{1}{\sigma_n^2}\phi(\bm{x}_\ast)^\top\bm{A}^{-1}\Phi\bm{y},\phi(\bm{x}_\ast)^\top\bm{A}^{-1}\phi(\bm{x}_\ast)\right).
+\label{Equation:FeatureSpace}
+\end{equation}
+
+\autoref{Equation:FeatureSpace} can be rewritten in the following way where $\phi(\bm{x}_\ast)=\phi_\ast$ and $\bm{K}=\Phi^\top\bm{\Sigma}_p\Phi$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{split}
+f_\ast|\bm{x}_\ast,\bm{X},\bm{y} \sim \mathcal{N}(&\phi_\ast^\top\bm{\Sigma}_p\Phi(\bm{K}+\sigma_n^2\bm{I})^{-1}\bm{y},\\
+&\phi_\ast^\top\bm{\Sigma}_p\phi_\ast-\phi_\ast^\top\bm{\Sigma}_p\Phi(\bm{K}+\sigma_n^2\bm{I})^{-1}\Phi^\top\bm{\Sigma}_p\phi_\ast).
+\end{split}
+\label{Equation:AltFeatureSpace}
+\end{equation}
+
+To make predictions using \autoref{Equation:FeatureSpace} we need to invert the $\bm{A}$ matrix of size $N \times N$ which may not be convenient if the dimension of the feature space $N$ is large. In \autoref{Equation:AltFeatureSpace} we need to invert matrices of size $n \times n$ which is more convenient when $n < N$. The feature space in \autoref{Equation:AltFeatureSpace} only appears in the form of $\Phi^\top\bm{\Sigma}_p\Phi$, $\phi_\ast^\top\bm{\Sigma}_p\Phi$, or $\phi_\ast^\top\bm{\Sigma}_p\phi_\ast$. Thus the entries of these matrices are invariably of the form $\phi(\bm{x})^\top\bm{\Sigma}_p\phi(\bm{x}')$ where $\bm{x}$ and $\bm{x}'$ are in either the training of the test sets \autocite{Rasmussen2005}.
+
+Let us define $k(\bm{x},\bm{x}') = \phi(\bm{x})^\top\bm{\Sigma}_p\phi(\bm{x}')$. We call $k(\bm{x},\bm{x}')$ a covariance function or kernel. Notice that $\phi(\bm{x})^\top\bm{\Sigma}_p\phi(\bm{x}')$ is an inner product with respect to $\bm{\Sigma}_p$. As $\bm{\Sigma}_p$ is positive definite we can define $\bm{\Sigma}_p^{1/2}$. Then defining $\psi(\bm{x})=\bm{\Sigma}_p^{1/2}\phi(\bm{x})$ we obtain a simple dot product representation $k(\bm{x},\bm{x}')=\psi(\bm{x})\psi(\bm{x}')$ \autocite{Rasmussen2005}.
+
+If an algorithm is defined solely in terms of inner products in input space then it can be lifted into feature space by replacing occurrences of those inner products by $k(\bm{x},\bm{x}')$. This is called the kernel trick. This technique is particularly valuable in situations where it is more convenient to compute the kernel than the feature vectors themselves. This often leads to considering the kernel as the object of primary interest, and its corresponding feature space as having secondary practical importance \autocite{Rasmussen2005}.
+
+\subsubsection{Function Space View}
+
+An alternative and equivalent way of reaching identical results to the weight space view is possible by considering inference directly in function space, and we can use a Gaussian process to describe a distribution over functions \autocite{Rasmussen2005}.
+
+\begin{definition}
+A Gaussian process is a collection of random variables, any finite number of which have a joint Gaussian distribution \autocite{Rasmussen2005}.
+\end{definition}
+
+A Gaussian process is completely specified by its mean function and covariance function, which we define as $m(\bm{x})$ and $k(\bm{x},\bm{x}')$ respectively for a real process $f(\bm{x})$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{split}
+m(\bm{x}) &= \mathbb{E}[f(\bm{x})] \\
+k(\bm{x},\bm{x}') &= \mathbb{E}[(f(\bm{x})-m(\bm{x}))(f(\bm{x}')-m(\bm{x}'))].
+\end{split}
+\end{equation}
+
+We write a Gaussian process as follows \autocite{Rasmussen2005}.
+
+\begin{equation}
+f(\bm{x}) \sim \mathcal{GP}(m(\bm{x}),k(\bm{x},\bm{x}')).
+\end{equation}
+
+A simple example of a Gaussian process can be obtained from our Bayesian linear regression model $f(\bm{x})=\phi(\bm{x})^\top\bm{w}$ with prior $\bm{w}\sim\mathcal{N}(\bm{0},\bm{\Sigma}_p)$ \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{split}
+\mathbb{E}[f(\bm{x})] &= \phi(\bm{x})^\top\mathbb{E}[\bm{w}] = 0 \\
+\mathbb{E}[f(\bm{x})f(\bm{x}')] &= \phi(\bm{x})^\top\mathbb{E}[\bm{w}\bm{w}^\top]\phi(\bm{x}') = \phi(\bm{x})^\top\bm{\Sigma}_p\phi(\bm{x}').
+\end{split}
+\end{equation}
+
+Thus $f(\bm{x})$ and $f(\bm{x}')$ are jointly Gaussian with zero mean and covariance given by $\phi(\bm{x})^\top\bm{\Sigma}_p\phi(\bm{x}')$. Our running example of a covariance function will be the squared exponential (SE) covariance function. For this particular covariance function, we see that the covariance is almost unity between variables whose corresponding inputs are close, and decreases as their distance in the input space increases \autocite{Rasmussen2005}.
+
+\begin{equation}
+\cov(f(\bm{x}_p),f(\bm{x}_1)) = k(\bm{x}_p,\bm{x}_q) = \exp\left(-\frac{1}{2}\left|\bm{x}_p-\bm{x}_q\right|^2\right).
+\label{Equation:ExpQuad}
+\end{equation}
+
+The specification of the covariance function implies a distribution over functions. We can draw samples from the distribution of functions evaluated at any number of points. We choose a number of input points $\bm{X}_\ast$ and write the corresponding covariance matrix elementwise using \autoref{Equation:ExpQuad}. Then we generate a random Gaussian vector with this covariance matrix and further can plot the generated values as a function of the inputs \autocite{Rasmussen2005}.
+
+\begin{equation}
+\bm{f}_\ast \sim \mathcal{N}(\bm{0}, K(\bm{X}_\ast,\bm{X}_\ast)).
+\end{equation}
+
+\subsubsection{Prediction with Noise Free Observations}
+
+We are not primarily interested in drawing random functions from the prior, but want to incorporate the knowledge that the training data provides about the function. Let us consider the simple special case where the observations are noise free. That is, we know $\{(\bm{x}_i,f_i)|i=1,\ldots,n\}$. The joint distribution of the training outputs $\bm{f}$ and the test outputs $\bm{f}_\ast$ according to the prior are as follows \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{bmatrix}
+\bm{f} \\
+\bm{f}_\ast
+\end{bmatrix}
+\sim\mathcal{N}\left(\bm{0},
+\begin{bmatrix}
+K(\bm{X},\bm{X}) & K(\bm{X},\bm{X}_\ast) \\
+K(\bm{X}_\ast,\bm{X}) & K(\bm{X}_\ast,\bm{X}_\ast)
+\end{bmatrix}
+\right).
+\end{equation}
+
+If there are $n$ training points and $n_\ast$ test points then $K(\bm{X},\bm{X}_\ast)$ denotes the $n \times n_\ast$ matrix of covariances evaluated at all pairs of training and test points, and similarly for the other entries $K(\bm{X},\bm{X})$, $K(\bm{X}_\ast,\bm{X}_\ast)$, and $K(\bm{X}_\ast,\bm{X})$. To get the posterior distribution over functions we need to restrict this joint prior distribution to contain only those functions which agree with the observed data points \autocite{Rasmussen2005}.
+
+Graphically we may think of generating functions from the prior, and rejecting the ones that disagree with the observations, although this strategy is computationally inefficient. Though in probabilistic terms this operation is simple, corresponding to conditioning the joint Gaussian prior distribution on the observations. In the following, function values $\bm{f}_\ast$ corresponding to test inputs $\bm{X}_\ast$ can be sampled from the joint posterior distribution by evaluating the mean and covariance matrix \autocite{Rasmussen2005}.
+
+\begin{equation}
+\begin{split}
+\bm{f}_\ast|\bm{X}_\ast,\bm{X},\bm{f}
+\sim\mathcal{N}(&K(\bm{X}_\ast,\bm{X})K(\bm{X},\bm{X})^{-1}\bm{f},\\
+&K(\bm{X}_\ast,\bm{X}_\ast)-K(\bm{X}_\ast,\bm{X})K(\bm{X},\bm{X})^{-1}K(\bm{X},\bm{X}_\ast)).
+\end{split}
+\end{equation}
+\end{document}

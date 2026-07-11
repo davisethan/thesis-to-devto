@@ -171,3 +171,16 @@ Scikit
 Thirion
 Vanderplas
 Varoquaux
+
+# --- GP posts: names + terms ---
+Abril
+coreset
+elementwise
+FITC
+Fonnesbeck
+Matérn
+Meneses
+numpy
+Orduz
+Oriol
+pseudoinputs

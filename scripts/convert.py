@@ -113,6 +113,9 @@ def expand_macros(body):
     body = re.sub(r"\\argmax(?![a-zA-Z])", r"\\operatorname*{arg\\,max}", body)
     body = re.sub(r"\\cov(?![a-zA-Z])", r"\\operatorname{cov}", body)
     body = re.sub(r"\\var(?![a-zA-Z])", r"\\operatorname{var}", body)
+    # dev.to has no theorem/definition environments; render as bold-led prose
+    body = re.sub(r"\\begin\{definition\}", r"\\textbf{Definition.} ", body)
+    body = re.sub(r"\\end\{definition\}", "", body)
     # drop \label; turn \autoref into label-aware prose ("the figure/table/equation")
     body = re.sub(r"\\label\{[^}]*\}", "", body)
     def autoref(m):

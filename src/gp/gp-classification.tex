@@ -1,0 +1,38 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Classification}
+
+We have considered regression problems where the targets are real valued. Classification problems aim to assign an input $\bm{x}$ to one of $C$ classes $\mathcal{C}_1,\ldots,\mathcal{C}_C$. These problems can either be binary ($C=2$) or multiclass ($C>2$). Let us focus on probabilistic classification where test predictions take the form of class probabilities. Since generalization to test cases inherently involves some level of uncertainty, it is natural to attempt to make predictions in a way that reflects these uncertainties \autocite{Rasmussen2005}.
+
+Both classification and regression can be viewed as function approximation problems. Unfortunately, the solution of classification problems using Gaussian processes is more demanding than for regression problems. This is because regression problems can assume that the likelihood function is Gaussian. A Gaussian process prior combined with a Gaussian likelihood gives rise to a posterior Gaussian process over functions and everything remains analytically tractable. For classification models where the targets are discrete class labels, the Gaussian likelihood is inappropriate, and we must use methods of approximate inference since exact inference is not feasible \autocite{Rasmussen2005}.
+
+We have seen how Gaussian process regression (GPR) can be obtained by generalizing linear regression. Logistic regression describes an analog of linear regression in the classification case. It is generalized to yield Gaussian process classification (GPC) using again the ideas behind the generalization of linear regression for GPR \autocite{Rasmussen2005}.
+
+For binary discriminative classification the output of a regression model can turn into a class probability using a response function (the inverse of a link function). This squashes its arguments which can lie in the domain $(-\infty,\infty)$ into the domain $[0,1]$ guaranteeing a valid probabilistic interpretation. An example is the linear logistic regression model (\autoref{Appendix:LogReg} for more information) which combines the linear model with the logistic response function \autocite{Rasmussen2005}.
+
+\begin{equation}
+p(\mathcal{C}_1|\bm{x})=\lambda(\bm{x}^\top\bm{w}) \quad \text{where} \quad \lambda(z)=\frac{1}{1+\exp(-z)}.
+\label{Equation:ResponseFunction}
+\end{equation}
+
+Let us consider linear models for binary classification which form the foundation of Gaussian process classification models. We use the labels $y=1$ and $y=-1$ to distinguish the two classes. The likelihood is given by $p(y=1|\bm{x},\bm{w}) = \sigma(\bm{x}^\top\bm{w})$ where $\bm{w}$ is the weights vector and $\sigma(z)$ can be any sigmoid function. When using the logistic $\sigma(z)=\lambda(z)$ from \autoref{Equation:ResponseFunction} the model is simply called logistic regression. A the probability of the two classes must sum to 1, we have $p(y=-1|\bm{x},\bm{w})=1-p(y=1|\bm{x},\bm{w})$. Thus for a data points $(\bm{x}_i,y_i)$ the likelihood is given by $\sigma(\bm{x}_i^\top\bm{w})$ if $y_i=1$, and $1-\sigma(\bm{x}_i^\top\bm{w})$ if $y_i=-1$ \autocite{Rasmussen2005}.
+
+For binary classification the basic idea behind Gaussian process prediction is that we place a GP prior over the latent function $f(\bm{x})$ and then squash this through the logistic function to obtain a prior on $\pi(\bm{x})=p(y=1|\bm{x})=\sigma(f(\bm{x}))$. Note that $\pi$ is a deterministic function of $f$, and since $f$ is stochastic, so if $\pi$. The latent function $f$ is a nuisance function that we do not observe values of itself, and instead only observe the inputs $\bm{X}$ and the class labels $\bm{y}$. We are not particularly interested in the values of $f$, but rather in $\pi$, in particular for test cases $\pi(\bm{x}_\ast)$. The purpose of $f$ is solely to allow a convenient formulation of the model, and the computational goal is to integrate out $f$ \autocite{Rasmussen2005}.
+
+Inference is naturally divided into two steps: First we compute the distribution of the latent variable corresponding to a test case in the following where $p(\bm{f}|\bm{X},\bm{y})=p(\bm{y}|\bm{f})p(\bm{f}|\bm{X})/p(\bm{y}|\bm{X})$ is the posterior over the latent variables \autocite{Rasmussen2005}.
+
+\begin{equation}
+p(f_\ast|\bm{X},\bm{y},\bm{x}_\ast) = \int p(f_\ast|\bm{X},\bm{x}_\ast,\bm{f})p(\bm{f}|\bm{X},\bm{y})\mathrm{d}\bm{f}.
+\label{Equation:GPClassificationStep1}
+\end{equation}
+
+Second we use this distribution over the latent $f_\ast$ to produce a probabilistic prediction \autocite{Rasmussen2005}.
+
+\begin{equation}
+\bar{\pi}_\ast = p(y_\ast=1|\bm{X},\bm{y},\bm{x}_\ast) = \int \sigma(f_\ast)p(f_\ast|\bm{X},\bm{y},\bm{x}_\ast)\mathrm{d}f_\ast.
+\label{Equation:GPClassificationStep2}
+\end{equation}
+
+In the regression case with Gaussian likelihood, computation of predictions was straightforward as the relevant integrals were Gaussian and could be computed analytically. In classification the non-Gaussian likelihood in \autoref{Equation:GPClassificationStep1} makes the integral analytically intractable. Similarly, \autoref{Equation:GPClassificationStep2} can be analytically intractable for certain sigmoid functions. Thus we need to use approximations such as Markov chain Monte Carlo (MCMC) \autocite{Rasmussen2005}.
+\end{document}

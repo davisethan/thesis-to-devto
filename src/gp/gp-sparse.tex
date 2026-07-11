@@ -1,0 +1,78 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Sparse Approximation}
+
+The best way to perform GP inference and training is to compute a Cholesky decomposition of the $N \times N$ Gram matrix. Unfortunately, this take $\mathcal{O}(N^3)$ time. Instead, we can use an approximation method based on inducing points, also called pseudoinputs, which are like a learned summary of the training data that we can condition on, rather than conditioning on all of it \autocite{Murphy2023}.
+
+Let $\bm{X}$ be the observed inputs, and $\bm{f}_X=f(\bm{X})$ be the unknown vector of function values for which we have observations $\bm{y}$. Let $\bm{f}_\ast$ be the unknown function values at one or more test points $\bm{X}_\ast$. Finally, let us assume we have $M$ additional inputs $\bm{Z}$ with unknown function values $\bm{f}_Z$ also denoted by $\bm{u}$. The exact joint prior has the following form \autocite{Murphy2023}.
+
+\begin{equation}
+p(\bm{f}_X,\bm{f}_\ast)
+= \int p(\bm{f}_\ast,\bm{f}_X,\bm{f}_Z)\mathrm{d}\bm{f}_Z
+= \int p(\bm{f}_\ast,\bm{f}_X|\bm{f}_Z)p(\bm{f}_Z)\mathrm{d}\bm{f}_Z
+= \mathcal{N}\left(\bm{0},
+\begin{pmatrix}
+\bm{K}_{X,X} & \bm{K}_{X,\ast} \\
+\bm{K}_{\ast,X} & \bm{K}_{\ast,\ast} \\
+\end{pmatrix}
+\right).
+\end{equation}
+
+We can choose $\bm{f}_Z$ in such a way that it acts as a sufficient statistic for the data, so that we can predict $\bm{f}_\ast$ just using $\bm{f}_Z$ instead of $\bm{f}_X$, and thus we approximate the prior as follows \autocite{Murphy2023}.
+
+\begin{equation}
+p(\bm{f}_\ast,\bm{f}_X,\bm{f}_Z)
+= p(\bm{f}_\ast|\bm{f}_X,\bm{f}_Z)p(\bm{f}_X|\bm{f}_Z)p(\bm{f}_Z)
+\approx p(\bm{f}_\ast|\bm{f}_Z)p(\bm{f}_X|\bm{f}_Z)p(\bm{f}_Z).
+\end{equation}
+
+From this we derive the following train and test conditionals \autocite{Murphy2023}.
+
+\begin{align}
+p(\bm{f}_X|\bm{f}_Z) &= \mathcal{N}(\bm{f}_X|\bm{K}_{X,Z}\bm{K}_{Z,Z}^{-1}\bm{f}_Z,\bm{K}_{X,X}-\bm{Q}_{X,X}) \\
+p(\bm{f}_\ast|\bm{f}_Z) &= \mathcal{N}(\bm{f}_\ast|\bm{K}_{\ast,Z}\bm{K}_{Z,Z}^{-1}\bm{f}_Z,\bm{K}_{\ast,\ast}-\bm{Q}_{\ast,\ast}).
+\end{align}
+
+The above equations can be seen as exact inference on noise-free observations $\bm{f}_Z$. To gain computational speedups, we can make further approximations to the terms $\tilde{\bm{Q}}_{X,X}=\bm{K}_{X,X}-\bm{Q}_{X,X}$ and $\tilde{\bm{Q}}_{\ast,\ast}=\bm{K}_{\ast,\ast}-\bm{Q}_{\ast,\ast}$. We can then derive the approximate prior $q(\bm{f}_X,\bm{f}_\ast)=\int q(\bm{f}_X|\bm{f}_Z)q(\bm{f}_\ast|\bm{f}_Z)p(\bm{f}_Z)\mathrm{d}\bm{f}_Z$, which we then condition on the observations in the usual way. All of these approximations result in a training cost of $\mathcal{O}(M^3+NM^2)$, and then take $\mathcal{O}(M)$ time for the predictive mean for each test case, and $\mathcal{O}(M^2)$ time for the predictive variance. Compare this to $\mathcal{O}(N^3)$ training time and $\mathcal{O}(N)$ and $\mathcal{O}(N^2)$ testing time for exact inference \autocite{Murphy2023}.
+
+The deterministic inducing conditional (DIC) approximation, or the subset of regressors (SOR) approximation, results from assuming $\tilde{\bm{Q}}_{X,X}=\bm{0}$ and $\tilde{\bm{Q}}_{\ast,\ast}=\bm{0}$, so the conditionals are deterministic. This can result in an underestimate of the predictive variance. One way to overcome the overconfidence of DIC is to only assume $\tilde{\bm{Q}}_{X,X}=\bm{0}$ but let $\tilde{\bm{Q}}_{\ast,\ast}=\bm{K}_{\ast,\ast}-\bm{Q}_{\ast,\ast}$ be exact. This is called the deterministic training conditional (DTC). Lastly, the fully independent training conditional (FITC) approximation assumes $q(\bm{f}_X|\bm{f}_Z)$ is fully factorized. This throws away less uncertainty than the SOR and DTC methods, since it does not make any deterministic assumptions about the relationship between $\bm{f}_X$ and $\bm{f}_Z$ \autocite{Murphy2023}.
+
+\begin{align}
+q_{\mathrm{SOR}}(\bm{f}_X,\bm{f}_\ast) &= \mathcal{N}\left(\bm{0},
+\begin{pmatrix}
+\bm{Q}_{X,X} & \bm{Q}_{X,\ast} \\
+\bm{Q}_{\ast,X} & \bm{Q}_{\ast,\ast} \\
+\end{pmatrix}
+\right) \\
+q_{\mathrm{DTC}}(\bm{f}_X,\bm{f}_\ast) &=
+\mathcal{N}\left(\bm{0},
+\begin{pmatrix}
+\bm{Q}_{X,X} & \bm{Q}_{X,\ast} \\
+\bm{Q}_{\ast,X} & \bm{K}_{\ast,\ast} \\
+\end{pmatrix}
+\right) \\
+q_{\mathrm{FITC}}(\bm{f}_X,\bm{f}_\ast) &=
+\mathcal{N}\left(\bm{0},
+\begin{pmatrix}
+\bm{Q}_{X,X}-\operatorname{diag}(\bm{Q}_{X,X}-\bm{K}_{X,X}) & \bm{Q}_{X,\ast} \\
+\bm{Q}_{\ast,X} & \bm{K}_{\ast,\ast} \\
+\end{pmatrix}
+\right).
+\end{align}
+
+% Sparse GP comparison
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.47\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/gp/full-gp.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.47\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/gp/sparse-dtc.png}
+\end{subfigure}
+\caption[Sparse Gaussian process]{Sparse GP comparison.}
+\end{figure}
+
+The simplest approach to selecting the inducing points from the training set is to throw away some of the data. In this case, we could pick random examples. However, intuitively it makes more sense to try to pick a subset that in some sense covers the original data, so it contains approximately the same information without redundancy. Clustering algorithms such as $k$-means are a popular heuristic approach. We can also use coreset methods which can provably find such an information preserving subset. Furthermore, we can approach learning the inducing points by treating them like kernel hyperparameters, and choosing them so as to maximize the log marginal likelihood \autocite{Murphy2023}.
+\end{document}
