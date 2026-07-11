@@ -1,0 +1,27 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Further Reading}
+
+The traditional derivation of the margin is known as the hard margin SVM. The reason for the expression ``hard'' is because the formulation does not all for any violations of the margin condition. In the case where data is not linearly separable, we may wish to allow some examples to fall within the margin region, or even to be on the wrong side of the hyperplane. The model that allows for some classification errors is called the soft margin SVM \autocite{Deisenroth2020}.
+
+The key geometric idea of the soft margin SVM is the to introduce a slack variable $\xi_n$ corresponding to each example-label pair $(\bm{x}_n,y_n)$. We subtract the value of $\xi_n$ from the margin, constraining $\xi_n$ to be non-negative. To encourage correct classification of samples, $\xi_n$ is added to the optimization objective \autocite{Deisenroth2020}.
+
+A different approach to deriving the SVM follows the principle of empirical risk minimization. This requires minimization of a chosen loss function for our binary classification task. The ideal loss function between binary labels is the count the number of mismatches between the prediction and the label. This is denoted by $\mathbf{1}(f(\bm{x}_n) \neq y_n)$ and is called the zero-one loss. Unfortunately, the zero-one loss results in a combinatorial optimization problem for finding the best parameters $\bm{w},b$, and in general these are more challenging to solve than continuous optimization problems. An equivalent reformulation of our objective allows us to use hinge loss \autocite{Deisenroth2020}.
+
+Yet another equivalent optimization problem of the SVM is the dual view which is independent of the number of features. Instead, the number of parameters increases with the number of examples in the training set. This is useful for problems where we have more features than the number of examples in the training dataset \autocite{Deisenroth2020}.
+
+The formulation of the dual SVM can be written such that the inner product in its objective occurs only between examples $\bm{x}_i$ and $\bm{x}_j$. In other words, there are no inner products between the examples and the parameters. Therefore, if we consider a set of features $\phi(\bm{x}_i)$ to represent $\bm{x}_i$, the only change in the dual SVM will be to replace the inner product. This modularity, where the choice of the SVM classification method and the choice of the feature representation $\phi(\bm{x})$ can be considered separately, provides flexibility for us to explore the two problems independently \autocite{Deisenroth2020}.
+
+Since $\phi(\bm{x}_i)$ could be a non-linear function, we can use the SVM (which assumes a linear classifier) to construct classifiers that are nonlinear in the examples $\bm{x}_n$. This provides a second avenue, in addition to the soft margin, for users to deal with a dataset that is not linearly separable. Instead of explicitly defining a non-linear feature map $\phi(\cdot)$ and computing the results inner product between examples $\bm{x}_i$ and $\bm{x}_j$, we can define a similarity function $k(\bm{x}_i,\bm{x}_j)$ between $\bm{x}_i$ and $\bm{x}_j$ \autocite{Deisenroth2020}.
+
+% Sepal SVMs
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/svm/sepals.png}
+\caption[SVM kernels]{Example of different support vector classification (SVC) kernels applied to the classic Iris flower dataset \autocite{Pedregosa2011}.}
+\end{figure}
+
+For a certain class of similarity functions, called kernels, the similarity function implicitly defines a non-linear feature map $\phi(\cdot)$. Kernels are by definition functions $k:\mathcal{X}\times\mathcal{X}\to\mathbb{R}$ for which there exists a Hilbert space $\mathcal{H}$ and a feature map $\phi:\mathcal{X}\to\mathcal{H}$ such that 
+$k(\bm{x}_i,\bm{x}_j)=\langle\phi(\bm{x}_i),\phi(\bm{x}_j)\rangle_\mathcal{H}$. There is a unique reproducing kernel Hilbert space (RKHS) associated with every kernel $k$. The generalization from an inner product to a kernel function is known as the kernel trick \autocite{Deisenroth2020}.
+\end{document}

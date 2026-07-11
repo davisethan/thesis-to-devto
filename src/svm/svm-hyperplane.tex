@@ -1,0 +1,103 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\section{Support Vector Machine}\label{Appendix:SVM}
+
+The support vector machine (SVM) solves the binary classification task. It is a supervised learning task where we have a set of examples $\bm{x}_n\in\mathbb{R}^D$ along with their corresponding binary labels $y_n\in\{1,-1\}$. Given a training set $\{(\bm{x}_1,y_1),\ldots,(\bm{x}_N,y_N)\}$ we would like to estimate parameters of the model that will give the smallest classification error. In the case of binary classification, we divide the vector space $\mathbb{R}^D$ into two parts corresponding to the positive and negative classes. In the following we consider a particularly convenient partition, which is to linear split the space using a hyperplane \autocite{Deisenroth2020}.
+
+% Example SVM
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{appendix/methods/pipelines/assets/svm/svm.png}
+\caption[Linear SVM]{Example of an SVM linearly separating two classes of data points by a margin \autocite{Pedregosa2011}.}
+\end{figure}
+
+\subsection{Separating Hyperplane}
+
+Let example $\bm{x}\in\mathbb{R}^D$ be an element of the data space, and consider a function parameterized by $\bm{w}\in\mathbb{R}^D$ and $b\in\mathbb{R}$ \autocite{Deisenroth2020}.
+
+\begin{align}
+f &: \mathbb{R}^D\to\mathbb{R} \\
+\bm{x} &\mapsto f(\bm{x}) = \langle\bm{w},\bm{x}\rangle + b.
+\end{align}
+
+We define the hyperplane that separates the two classes in our binary classification problem as follows where the vector $\bm{w}$ is normal to the hyperplane and $b$ is the intercept \autocite{Deisenroth2020}.
+
+\begin{equation}
+\{\bm{x}\in\mathbb{R}^D : f(\bm{x})=0\}.
+\label{Equation:SVMHyperplane}
+\end{equation}
+
+% SVM hyperplane
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.4\linewidth]{appendix/methods/pipelines/assets/svm/hyperplane.png}
+\caption[SVM affine subspace]{The SVM affine subspace hyperplane characterized by \autoref{Equation:SVMHyperplane}.}
+\end{figure}
+
+We can derive that $\bm{w}$ is a normal vector to the hyperplane by choosing any two examples $\bm{x}_p$ and $\bm{x}_q$ on the hyperplane and showing that the vector between them is orthogonal to $\bm{w}$. Since we have chosen $\bm{x}_p$ and $\bm{x}_q$ to be on the hyperplane, this implies that $f(\bm{x}_p)=0$ and $f(\bm{x}_q)=0$ and hence $\langle\bm{w},\bm{x}_p-\bm{x}_q\rangle=0$. Therefore, we obtain that $\bm{w}$ is orthogonal to any vector on the hyperplane \autocite{Deisenroth2020}.
+
+\begin{equation}
+f(\bm{x}_p) - f(\bm{x}_q)
+= (\langle\bm{w},\bm{x}_p\rangle + b) - (\langle\bm{w},\bm{x}_q\rangle + b) \\
+= \langle\bm{w},\bm{x}_p-\bm{x}_q\rangle
+= 0.
+\end{equation}
+
+When presented with a test example, we classify the example as positive or negative depending on the side of the hyperplane on which it occurs. Note that \autoref{Equation:SVMHyperplane} not only defines a hyperplane, it additionally defines a direction. In other words, it defines the positive and negative side of the hyperplane. Geometrically, the positive examples lie above the hyperplane and the negative examples below the hyperplane. When training the classifier, we want to ensure that the examples with positive labels are on the positive side, and the examples with negative labels are on the negative side \autocite{Deisenroth2020}.
+
+\begin{align}
+\langle\bm{w},\bm{x}_n\rangle+b &\geq 0 \quad \text{when} \quad y_n=1 \\
+\langle\bm{w},\bm{x}_n\rangle+b &< 0 \quad \text{when} \quad y_n=-1.
+\end{align}
+
+Equivalently, these two conditions can be expressed in a single equation \autocite{Deisenroth2020}.
+
+\begin{equation}
+y_n(\langle\bm{w},\bm{x_n}\rangle+b)\geq0.
+\end{equation}
+
+For a dataset $\{(\bm{x}_1,y_1),\ldots,(\bm{x}_N,y_N)\}$ that is linearly separable, we have infinitely many candidate hyperplanes, and therefore classifiers, that solve our classification problem without any training error. To find a unique solution, we can choose the separating hyperplane that maximizes margin between the positive and negative examples. In other words, we want the positive and negative examples to be separated by a large margin. For this purpose, we can make use of the fact that the closest point on the hyperplane to a given point $\bm{x}_n$ is obtained by the orthogonal projection \autocite{Deisenroth2020}.
+
+Consider a hyperplane $\langle\bm{w},\bm{x}\rangle+b$ and an example $\bm{x}_p$ that is on the positive side of the hyperplane so that $\langle\bm{w},\bm{x}\rangle+b>0$. We want to compute the distance $r>0$ of $\bm{x}_p$ from the hyperplane. We do so by considering the orthogonal projection of $\bm{x}_p$ onto the hyperplane, which we denote by $\bm{x}_p'$. Since $\bm{w}$ is orthogonal to the hyperplane we know that the distance $r$ is just a scaling of the length of this vector $\bm{w}$. If the length of $\bm{w}$ is known, then we can use this scaling factor $r$ to work out the absolute distance between $\bm{x}_p$ and $\bm{x}_p'$. For convenience, we use a vector of unit length $\nicefrac{\bm{w}}{\|\bm{w}\|}$ \autocite{Deisenroth2020}.
+
+\begin{equation}
+\bm{x}_p = \bm{x}_p'+r\frac{\bm{w}}{\|\bm{w}\|}.
+\label{Equation:SVMMargin}
+\end{equation}
+
+% SVM margin
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.4\linewidth]{appendix/methods/pipelines/assets/svm/margin.png}
+\caption[SVM margin]{The margin defined in \autoref{Equation:SVMMargin}.}
+\end{figure}
+
+Say that we would like the positive examples to be further than $r$ from the hyperplane, and the negative examples to be further than distance $r$ in the negative direction from the hyperplane. In other words, we combine the requirements that examples are at least $r$ distance away from the hyperplane in the positive and negative directions into one single inequality. Since we are interested only the direction, we add an assumption to our model that the parameter vector $\bm{w}$ is of unit length $\|\bm{w}\|$, where we use the Euclidean norm $\|\bm{w}\|=\sqrt{\bm{w}^\top\bm{w}}$. This assumption allows a more intuitive interpretation of the distance $r$ \autocite{Deisenroth2020}.
+
+Collecting these three requirements into a single constrained optimization problem, we obtain the following objective \autocite{Deisenroth2020}.
+
+\begin{equation}
+\begin{split}
+\max_{\bm{w},b,r} \quad &r \\
+\text{subject to} \quad &y_n(\langle\bm{w},\bm{x}_n\rangle+b)\geq r, \\
+&\|\bm{w}\|=1, \; r>0.
+\end{split}
+\label{Equation:SVMObjective}
+\end{equation}
+
+% SVM objective
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.4\linewidth]{appendix/methods/pipelines/assets/svm/objective.png}
+\caption[SVM objective]{The SVM objective defined by \autoref{Equation:SVMObjective}.}
+\end{figure}
+
+\subsection{Probability Calibration}
+
+The SVM is a binary classifier that does not naturally lend itself to a probabilistic interpretation. Platt scaling is one approach to converting the raw output of the linear function into a calibrated class probability estimate that involves an additional calibration step \autocite{Deisenroth2020}. The idea is to compute $q=\sigma(az+b)$, where $z$ is the log-odds, or logit, of the SVM scores, $a$ and $b$ are estimated via maximum likelihood on a validation set, and $q=\sigma(\cdot)$ comes from logistic regression \autocite{Murphy2023}.
+
+In other words, for the binary classification case, Platt scaling uses logistic regression on the SVM scores, fit by an additional cross-validation on the training data. The cross-validation involved in Platt scaling is an expensive operation for large datasets \autocite{Pedregosa2011}. Platt's method is also known to have theoretical issues. This method can easily overfit resulting in overconfident calibrated probabilities \autocite{Murphy2023}.
+
+Naturally, one could take a more Bayesian view of the classifier output by estimating a posterior distribution using Bayesian logistic regression. The Bayesian view also includes the specification of the prior, which includes design choices such as conjugacy with the likelihood. Additionally, one could consider latent functions as priors, which results in Gaussian process classification (see \autoref{Appendix:GP}) \autocite{Deisenroth2020}.
+\end{document}

@@ -153,3 +153,21 @@ Rémi
 SSVEP
 Stéphane
 Xiao
+
+# --- SVM post: scikit-learn authors + terms ---
+Brucher
+Cournapeau
+Deisenroth
+Dubourg
+Duchesnay
+Grisel
+overfit
+Passos
+Pedregosa
+Perrot
+Prettenhofer
+RKHS
+Scikit
+Thirion
+Vanderplas
+Varoquaux
