@@ -1,8 +1,9 @@
 ---
-title: "Bayesian Neural Networks"
+title: Bayesian Neural Networks
 published: false
-tags: machinelearning, deeplearning, datascience, tutorial
-series: "Deep Neural Networks (DNN)"
+tags: 'machinelearning, deeplearning, datascience, tutorial'
+series: Deep Neural Networks (DNN)
+id: 4121664
 ---
 
 > *Adapted from an appendix of my MS thesis.*
