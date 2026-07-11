@@ -3,7 +3,7 @@ title: 'Diagnosing MCMC: ESS, R-hat, MCSE, and Plots'
 published: false
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Markov Chain Monte Carlo (MCMC)
-id: 4117090
+id: 4117113
 ---
 
 > *Adapted from an appendix of my MS thesis.*

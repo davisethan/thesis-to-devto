@@ -3,6 +3,7 @@ title: "Hamiltonian Monte Carlo (HMC)"
 published: false
 tags: machinelearning, datascience, statistics, tutorial
 series: "Markov Chain Monte Carlo (MCMC)"
+id: 4117135
 ---
 
 > *Adapted from an appendix of my MS thesis.*

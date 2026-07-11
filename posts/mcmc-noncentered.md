@@ -3,7 +3,7 @@ title: Non-centered Parameterization for MCMC
 published: false
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Markov Chain Monte Carlo (MCMC)
-id: 4117091
+id: 4117134
 ---
 
 > *Adapted from an appendix of my MS thesis.*

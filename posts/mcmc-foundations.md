@@ -3,7 +3,7 @@ title: 'Markov Chain Monte Carlo: Theoretical Foundations'
 published: false
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Markov Chain Monte Carlo (MCMC)
-id: 4117092
+id: 4117117
 ---
 
 > *Adapted from an appendix of my MS thesis.*
