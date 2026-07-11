@@ -1,6 +1,6 @@
 ---
 title: Sparse Gaussian Process Approximations
-published: false
+published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Gaussian Processes (GP)
 id: 4121239
