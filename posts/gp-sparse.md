@@ -1,8 +1,8 @@
 ---
-title: "Sparse Gaussian Process Approximations"
+title: Sparse Gaussian Process Approximations
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Gaussian Processes (GP)"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Gaussian Processes (GP)
 id: 4121239
 ---
 
