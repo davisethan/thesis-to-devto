@@ -1,8 +1,9 @@
 ---
-title: "Support Vector Machines: Soft Margins, Duality, and Kernels"
+title: 'Support Vector Machines: Soft Margins, Duality, and Kernels'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Support Vector Machines (SVM)"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Support Vector Machines (SVM)
+id: 4120995
 ---
 
 > *Adapted from an appendix of my MS thesis.*

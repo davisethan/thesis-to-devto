@@ -1,8 +1,9 @@
 ---
-title: "Support Vector Machines: Maximum-Margin Classification"
+title: 'Support Vector Machines: Maximum-Margin Classification'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Support Vector Machines (SVM)"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Support Vector Machines (SVM)
+id: 4120994
 ---
 
 > *Adapted from an appendix of my MS thesis.*
