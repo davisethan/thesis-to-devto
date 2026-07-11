@@ -1,5 +1,5 @@
 ---
-title: 'Logistic Regression: Formulation and Its Link to LDA'
+title: 'Logistic Regression: Formulation'
 published: false
 tags: 'machinelearning, datascience, statistics, tutorial'
 id: 4117300
