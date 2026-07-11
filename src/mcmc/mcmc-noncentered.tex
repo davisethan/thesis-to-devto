@@ -1,0 +1,73 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Non-centered Parameterization}
+
+For relatively simple models, samplers mostly just work, providing us with an accurate estimate of the posterior. However, certain posterior geometries are challenging for samplers. A common example is Neal's funnel. The shape at the top of the funnel is quite wide before narrowing into a small neck. Samplers function by taking steps from one set of parameter values to another, and a key setting is how large of a step to take when exploring the posterior surface. In complex geometries, such as with Neal's funnel, a step size that works well in one area fails in another \autocite{Martin2021}.
+
+% Neal's funnel
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{appendix/methods/pipelines/assets/mcmc/neals-funnel.png}
+\caption[Neal's funnel]{An example of Neal's Funnel created from correlated samples. At the top of the funnel, where $y$ is between 6 to 8, a step size of say 1 unit is likely to stay in a dense region of the posterior. However, when sampling at the bottom of the posterior, around $y$ between -6 to -8, a step size of 1 unit in almost any direction will likely step into a low-density region. For HMC samplers, the occurrence of divergences can diagnose these sampling issues \autocite{Martin2021}.}
+\end{figure}
+
+In hierarchical models the posterior geometry is largely defined by the correlation of hyperpriors to other parameters, which can result in funnel geometry that are difficult to sample. These inconvenient posteriors can create inefficient MCMC caused by steep curvature in the negative log-likelihood and lead to divergent transitions. Transforming the prior to be smoother helps. There is a relatively simple tweak to models, referred to as a non-centered parameterization, that helps alleviate the issue \autocite{Martin2021}.
+
+\subsubsection{Example: Devil's Funnel prior}
+
+\begin{align*}
+v &\sim \mathrm{Normal}(0,\sigma_v) \\
+x &\sim \mathrm{Normal}(0, \exp(v)).
+\end{align*}
+
+As $\sigma_v$ increases, a trough forms in the prior probability surface known as centered parameterization that is difficult for Hamiltonian dynamics to sample \autocite{McElreath2020, Stansbury2024}.
+
+% Centered parameterization
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/mcmc/centered/centered-sigma-05.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/mcmc/centered/centered-sigma-1.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/mcmc/centered/centered-sigma-3.png}
+\end{subfigure}
+\caption[Centered parameterization]{Centered parameterization \autocite{McElreath2020, Stansbury2024}.}
+\end{figure}
+
+To handle this, we could configure a smaller steps size to manage the steepness better, but then sampling would take longer to explore the posterior. Alternatively, we can re-parameterize (transform) to make the surface smoother known non-centered parameterization. For this purpose, we add an auxiliary variable $z$ that has a smooth probability surface. We then sample that auxiliary variable, and transform it to obtain the target variable distribution. For the case of the devil's funnel prior we do the following \autocite{McElreath2020, Stansbury2024}.
+
+\begin{align*}
+v &\sim \mathrm{Normal}(0, \sigma_v) \\
+z &\sim \mathrm{Normal}(0, 1) \\
+x &= z\exp(v).
+\end{align*}
+
+% Non-centered parameterization
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/mcmc/non-centered/non-centered-sigma-05.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/mcmc/non-centered/non-centered-sigma-1.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/mcmc/non-centered/non-centered-sigma-3.png}
+\end{subfigure}
+\caption[Non-centered parameterization]{Non-centered parameterization \autocite{McElreath2020, Stansbury2024}.}
+\end{figure}
+
+We can also transform sampling using Cholesky factors. The Cholesky factor $\bm{L}$ provides an efficient means for encoding a correlation matrix $\bm{\Omega}$ since it requires fewer floating point numbers than the full correlation matrix. It is defined by $\bm{\Omega}=\bm{L}\bm{L}^\top$ where $\bm{L}$ is a lower-triangular matrix. We can sample data with correlation $\bm{\Omega}$, and standard deviation $\sigma_i$, using the Cholesky factorization $\bm{L}$ of $\bm{\Omega}$ as follows where $\bm{Z}$ is a matrix of $z$-scores sampled from a standard normal distribution \autocite{McElreath2020, Stansbury2024}.
+
+\begin{align*}
+\bm{X_\Omega} \sim \operatorname{diag}(\sigma_i)\bm{L}\bm{Z}.
+\end{align*}
+\end{document}

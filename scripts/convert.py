@@ -95,6 +95,10 @@ def collect_citations(body):
 def expand_macros(body):
     # KaTeX has no \bm; use \boldsymbol
     body = re.sub(r"\\bm(?![a-zA-Z])", r"\\boldsymbol", body)
+    # KaTeX has no \nicefrac; \frac takes the same two brace args
+    body = re.sub(r"\\nicefrac(?![a-zA-Z])", r"\\frac", body)
+    # \allowbreak is a spacing hint KaTeX doesn't know; drop it
+    body = re.sub(r"\\allowbreak(?![a-zA-Z])", " ", body)
     # thesis-local operators (KaTeX-safe replacements)
     body = re.sub(r"\\argmin(?![a-zA-Z])", r"\\operatorname*{arg\\,min}", body)
     body = re.sub(r"\\argmax(?![a-zA-Z])", r"\\operatorname*{arg\\,max}", body)

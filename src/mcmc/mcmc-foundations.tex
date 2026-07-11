@@ -1,0 +1,63 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\section{Markov Chain Monte Carlo}\label{Appendix:MCMC}
+
+Almost as soon as computers were invented, they were used for simulation. Markov chain Monte Carlo (MCMC) was invested as Los Alamos, Metropolis et al (1953) simulated a liquid in equilibrium with its gas phase. Their tour de force was the realization that they did not need to simulate the exact dynamics, they only needed to simulate some Markov chain with the same equilibrium distribution. The Metropolis algorithm was widely used by chemists and physicists, but was not widely known among statisticians until after 1990. Hastings (1970) generalized the Metropolis algorithm, and simulations following his scheme are said to use the Metropolis-Hastings (MH) algorithm \autocite{Brooks2011}.
+
+A special case of the MH algorithm was introduced by Geman et al (1984) discussing optimization to find the posterior mode rather than simulation. Algorithms following their scheme are said to use the Gibbs sampler. It took some time for the spatial statistics community to understand  that the Gibbs sampler simulated the posterior distribution, thus enabling full Bayesian inference of all kinds. Gelfand et al (1990) made the wider Bayesian community aware of the Gibbs sampler, and then it was rapidly realized that most Bayesian inference could be done using MCMC, whereas very little could be done without MCMC. Green (1995) generalized the MH algorithm as much as it could be generalized \autocite{Brooks2011}.
+
+\subsection{Theoretical Foundations}
+
+A sequence $X_1, X_2, \ldots$ of random elements of some set is a Markov chain if the conditional distribution of $X_{n+1}$ given $X_1,\ldots,X_n$ depends on $X_n$ only. The set in which the $X_i$ take values is called the state space of the Markov chain. A Markov chain has stationary transition probabilities if the conditional distribution of $X_{n+1}$ given $X_n$ does not depend on $n$. This is the main kind of Markov chain of interest in MCMC. The joint distribution of a Markov chain is determined by the following \autocite{Brooks2011}.
+
+\begin{itemize}
+\item The marginal distribution of $X_1$ called the initial distribution, and
+\item The conditional distribution of $X_{n+1}$ given $X_n$ called the transition probability distribution.
+\end{itemize}
+
+If the state space is finite or countable, written $\{x_1,\ldots,x_n\}$, then the initial distribution can be associated with a vector $\lambda=(\lambda_1,\ldots,\lambda_n)$ defined by $\mathrm{P}(X_1=x_i)=\lambda_i$ for $i=1,\ldots,n$, and the transition probabilities can be associated with a matrix $P$ having elements $p_{ij}$ defined by $\mathrm{P}(X_{n+1}=x_j \mid X_n=x_i)$ where $i=1,\ldots,n$ and $j=1,\ldots,n$. When the state space is uncountable, we must think of the initial distribution and transition probability distribution as unconditional and conditional probability distributions \autocite{Brooks2011}.
+
+A stochastic process is stationary if for every positive integer $k$ the distribution of the $k$-tuple $(X_{n+1},\allowbreak \ldots,\allowbreak X_{n+k})$ does not depend on $n$. An initial distribution is said to be stationary, invariant, or equilibrium for some transition probability distribution if the Markov chain specified by this initial distribution and transition probability distribution is stationary. Stationarity implies stationary transition probabilities, but not vice versa. The Metropolis-Hastings-Green (MHG) algorithm constructs a transition probability distribution that preserves a specified equilibrium distribution \autocite{Brooks2011}.
+
+A transition probability distribution is reversible with respect to an initial distribution if for its Markov chain $X_1,X_2,\ldots$, the distribution of pairs $(X_i,X_{i+1})$ is exchangeable. Reversibility implies stationarity, but not vice versa. A reversible Markov chain has the same laws running forward and backward. That is, for any $i$ and $k$, the distributions $(X_{i+1},\ldots,X_{i+k})$ and $(X_{i+k},\ldots,X_{i+1})$ are the same. All known methods for constructing transition probabilities that preserve a specified equilibrium are special cases of the MHG algorithm, and all elementary updates from the MHG algorithm are reversible \autocite{Brooks2011}.
+
+A bit of compute code that makes a pseudorandom change to its state is an update mechanism. An update mechanism is elementary if it is not made up of parts that are themselves update mechanisms preserving the specified distribution. Suppose the specified distribution (the desired stationary distribution of the MCMC sampler) has unnormalied density $h$. The Metropolis-Hastings update does the following \autocite{Brooks2011}:
+
+\begin{itemize}
+\item When the current state is $x$, propose a move to $y$, having conditional probability density given $x$ denoted $q(x, y)$.
+\item Calculate the Hastings ratio
+\begin{equation}
+r(x,y) = \frac{h(y)q(y,x)}{h(x)q(x,y)}.
+\end{equation}
+\item Accept the proposed move $y$ with probability
+\begin{equation}
+a(x,y) = \min(1,r(x,y)),
+\end{equation}
+that is, the state after the update is $y$ with probability $a(x,y)$, and the state after the update is $x$ with probability $1-a(x,y)$.
+\end{itemize}
+
+For example, consider the probability density function $h(x)$ is given by $h(x) = \nicefrac{g(x)}{\int_{-\infty}^{\infty}g(u)du}$ where we cannot or do not desire to solve the integral in the denominator analytically. Therefore, the distribution is only known up to some unknown constant: $h(x) \propto g(x)$. Notice that the ratio $\nicefrac{h(y)}{h(x)}$ from $r(x,y)$ does not depend on the normalizing constant. The latter term $\nicefrac{q(y,x)}{q(x,y)}$ corrects for biases from the proposal distribution. The special case of the Metropolis-Hastings algorithm where the proposal distribution is symmetric meaning $q(y,x)=q(x,y)$ is referred to as the Metropolis algorithm \autocite{Brooks2011}.
+
+The Metropolis-Hastings update is reversible with respect to $h$, meaning that the transition probability that describes the update is an exact sampler of the specified distribution. If $X_n$ is the current state and $Y_n$ is the proposal, we have $X_n=X_{n+1}$ whenever the proposal is rejected. The distribution of $(X_n,X_{n+1})$ given rejection is exchangeable, and we must show that $(X_n,Y_n)$ is exchangeable given acceptance. That is, we must show that for any function $f$ that has expectation, we can interchange the arguments of $f$ \autocite{Brooks2011}.
+
+\[
+\mathbb{E}[f(X_n,Y_n)a(X_n,Y_n)] = \iint f(x,y)h(x)a(x,y)q(x,y)\mathrm{d}x\mathrm{d}y = \mathbb{E}[f(Y_n,X_n)a(X_n,Y_n)].
+\]
+
+This follows if we can interchange $x$ and $y$ in $h(x)a(x,y)q(x,y)$. Only the set of $x$ and $y$ such that $h(x)>0$, $q(x,y)>0$, and $a(x,y)>0$ contribute to the integral or sum in the discrete case. These inequalities further imply that $h(y)>0$ and $q(y,x)>0$. Thus $r(y,x)=\nicefrac{1}{r(x,y)}$ for all $x$ and $y$. Suppose that $r(x,y) \leq 1$, so $r(x,y)=a(x,y)$ and $a(y,x)=1$. Then we have the following \autocite{Brooks2011}.
+
+\begin{align*}
+h(x)a(x,y)q(x,y) &= h(x)r(x,y)q(x,y) \\
+&= h(y)q(y,x) \\
+&= h(y)a(y,x)q(y,x).
+\end{align*}
+
+Conversely, suppose that $r(x,y)>1$, so $a(x,y)=1$ and $a(y,x)=r(y,x)$, and we have the following \autocite{Brooks2011}.
+
+\begin{align*}
+h(x)a(x,y)q(x,y) &= h(x)q(x,y) \\
+&= h(y)r(y,x)q(y,x) \\
+&= h(y)a(y,x)q(y,x).
+\end{align*}
+\end{document}

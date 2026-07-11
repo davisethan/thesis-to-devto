@@ -1,0 +1,80 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Hamiltonian Monte Carlo}
+
+Hamiltonian Monte Carlo (HMC) is a type of MCMC method that makes use of gradients to generate new proposed states. HMC attempts to avoid the random walk behavior typical of Metropolis-Hastings by using the gradient to propose new positions far from the current one with high acceptance probability. This allows HMC to better scale to higher dimensions and in principle more complex geometries \autocite{Martin2021}.
+
+In physical systems, the Hamiltonian is a description of the total energy. The total energy can be decomposed into two terms, the kinetic and the potential energy. We can write the Hamiltonian of such a system as the following where $K(\bm{p},\bm{q})$ is the kinetic energy and $V(\bm{q})$ is the potential energy \autocite{Martin2021}.
+
+\begin{equation}\label{Equation:Hamiltonian}
+H(\bm{q},\bm{p}) = K(\bm{p},\bm{q}) + V(\bm{q}).
+\end{equation}
+
+The probability of being at a particular position with a particular momentum is given as follows \autocite{Martin2021}. The exponential is a non-negative quantity and can therefore be viewed as an unnormalized probability distribution. The introduction of the minus sign in the exponential is simply a convention, meaning that higher values of energy correspond to lower values of probability \autocite{Bishop2023}.
+
+\begin{equation}
+p(\bm{q},\bm{p}) = \exp\left(-H(\bm{q},\bm{p})\right).
+\end{equation}
+
+To simulate such systems the Hamiltonian equations must be solve \autocite{Martin2021}.
+
+\begin{align}
+\frac{\mathrm{d}\bm{q}}{\mathrm{d}t} &= \frac{\partial H}{\partial \bm{p}} = \frac{\partial K}{\partial \bm{p}} + \frac{\partial V}{\partial \bm{p}} \\
+\frac{\mathrm{d}\bm{p}}{\mathrm{d}t} &= -\frac{\partial H}{\partial \bm{q}} = -\frac{\partial K}{\partial \bm{q}} - \frac{\partial V}{\partial \bm{q}}.
+\end{align}
+
+The potential energy $V(\bm{q})$ is given by the probability we wish to sample from $p(\bm{q})$. For the momentum $K(\bm{p},\bm{q})$ we can invoke an auxiliary variable, and by choosing $p(\bm{p}|\bm{q})$ we can write $p(\bm{q},\bm{p}) = p(\bm{p}|\bm{q})p(\bm{q})$. This ensures we can recover the target distribution by marginalizing out the momentum. By introducing the auxiliary variable we can rewrite \autoref{Equation:Hamiltonian} \autocite{Martin2021}.
+
+\begin{equation}
+H(\bm{q},\bm{p}) = -\log p(\bm{p}|\bm{q}) - \log p(\bm{q}).
+\end{equation}
+
+We are free to choose the kinetic energy, and if we choose it to be Gaussian and drop the normalization constant, then we have the following where $\bm{M}$ is the precision matrix \autocite{Martin2021}.
+
+\begin{equation}
+K(\bm{p},\bm{q}) = \frac{1}{2}\bm{p}^\top\bm{M}^{-1}\bm{p} + \log \left|\bm{M}\right|.
+\end{equation}
+
+If we choose $\bm{M}$ to be the identity matrix we have $K(\bm{p},\bm{q})=\nicefrac{1}{2}\bm{p}^\top\bm{p}$, making $\nicefrac{\partial K}{\partial \bm{p}}=\bm{p}$ and $\nicefrac{\partial K}{\partial \bm{q}}=0$, and then we can simplify the Hamiltonian equations \autocite{Martin2021}.
+
+\begin{align}
+\frac{\mathrm{d}\bm{q}}{\mathrm{d}t} &= \bm{p} \\
+\frac{\mathrm{d}\bm{p}}{\mathrm{d}t} &= -\frac{\partial V}{\partial\bm{q}}.
+\end{align}
+
+Therefore, the HMC algorithm can be summarized as follows \autocite{Martin2021}.
+
+\begin{enumerate}
+\item Sample $\bm{p}\sim\mathcal{N}(0,\bm{I})$
+\item Simulate $\bm{q}_t$ and $\bm{p}_t$ for some amount of time $T$
+\item $\bm{q}_T$ is the new proposed state
+\item Use the Metropolis acceptance criterion to accept or reject $\bm{q}_T$.
+\end{enumerate}
+
+In an idealized model, energy is perfectly conserved. However, we use the Metropolis acceptance criterion to correct for errors introduced by the numerical simulation of the Hamiltonian equations. To compute the Hamiltonian equations we have to compute a trajectory. That is, all the intermediate points between one state and the next. In practice this involves computing a series of small integration steps. The most popular method is the leapfrog integrator. Leapfrog integration updates positions $\bm{q}_t$ and momentums $\bm{p}_t$ at interleaved time points, staggered in such that they leapfrog over each other \autocite{Martin2021}.
+
+An efficient HMC run requires proper tuning of its hyperparameters \autocite{Martin2021}:
+
+\begin{itemize}
+\item The time discretization (step size of the leapfrog)
+\item The integration time (number of leapfrog steps)
+\item The precision matrix $\bm{M}$ that parametrizes the kinetic energy.
+\end{itemize}
+
+For example, if the step size is too large then the leapfrog integrator will be inaccurate and too many proposals will be rejected. However, if it is too small we waste computation resources. If the number of steps is too small, the simulated trajectory at each iteration will be too short and sampling will fall back to random walk. But if too large the trajectory might run in circles and we again waste computation resources. If the estimated covariance (inverse of the precision matrix) is too different from the posterior covariance, the proposal momentum will be suboptimal and movement in the position space will be too large or too small in some dimension \autocite{Martin2021}.
+
+% Circular leapfrog
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/pipelines/assets/mcmc/circular-leapfrog.png}
+\caption[MCMC circular leapfrog]{Example of the circular leapfrog. Three different trajectories around the same 2D normal distribution. For practical sampling we want to move as far as possible from the starting point while avoiding U-turns in the trajectory. Hence, the name of one of the most popular dynamic HMC methods No U-Turn Sampling (NUTS) \autocite{Martin2021}.}
+\end{figure}
+
+% Funnel leapfrog
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/pipelines/assets/mcmc/funnel-leapfrog.png}
+\caption[MCMC funnel leapfrog]{Example of the funnel leapfrog. Three different trajectories around the same Neal's funnel, a common geometry arising in (centered) hierarchical models. These trajectories fail to properly simulate following the correct distribution resulting in divergences. When the exact trajectories lie on regions of high curvature, the numerical trajectories generated can rapidly get off towards the boundaries of the distribution we are trying to explore \autocite{Martin2021}.}
+\end{figure}
+\end{document}
