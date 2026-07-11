@@ -1,8 +1,9 @@
 ---
-title: "Deep Neural Networks: From Perceptrons to MLPs"
+title: 'Deep Neural Networks: From Perceptrons to MLPs'
 published: false
-tags: machinelearning, deeplearning, datascience, tutorial
-series: "Deep Neural Networks (DNN)"
+tags: 'machinelearning, deeplearning, datascience, tutorial'
+series: Deep Neural Networks (DNN)
+id: 4121665
 ---
 
 > *Adapted from an appendix of my MS thesis.*
