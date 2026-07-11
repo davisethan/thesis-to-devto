@@ -29,19 +29,25 @@ k(\boldsymbol{x},\boldsymbol{x}') = (\boldsymbol{x}-\boldsymbol{c})(\boldsymbol{
 {% endkatex %}
 
 
-![Example functions drawn from a GP prior with a given covariance function. (Left) The squared exponential covariance function. (Right) The linear covariance function [2].](assets/gp-covariance/exp-quad.png)
+![Squared exponential covariance function](assets/gp-covariance/exp-quad.png)
+*Squared exponential covariance function [2].*
 
-![Example functions drawn from a GP prior with a given covariance function. (Left) The squared exponential covariance function. (Right) The linear covariance function [2].](assets/gp-covariance/linear.png)
+![Linear covariance function](assets/gp-covariance/linear.png)
+*Linear covariance function [2].*
 
-![Samples from additional covariance functions. (Top Left) The Matérn {% katex inline %}\frac{5}{2}{% endkatex %} kernel. (Top Right) The Matérn {% katex inline %}\frac{3}{2}{% endkatex %} kernel. (Bottom Left) The exponential kernel. (Bottom Right) The polynomial kernel [2].](assets/gp-covariance/matern-5-2.png)
+![Matérn 5/2 kernel](assets/gp-covariance/matern-5-2.png)
+*Matérn 5/2 kernel [2].*
 
-![Samples from additional covariance functions. (Top Left) The Matérn {% katex inline %}\frac{5}{2}{% endkatex %} kernel. (Top Right) The Matérn {% katex inline %}\frac{3}{2}{% endkatex %} kernel. (Bottom Left) The exponential kernel. (Bottom Right) The polynomial kernel [2].](assets/gp-covariance/matern-3-2.png)
+![Matérn 3/2 kernel](assets/gp-covariance/matern-3-2.png)
+*Matérn 3/2 kernel [2].*
 
   
 
-![Samples from additional covariance functions. (Top Left) The Matérn {% katex inline %}\frac{5}{2}{% endkatex %} kernel. (Top Right) The Matérn {% katex inline %}\frac{3}{2}{% endkatex %} kernel. (Bottom Left) The exponential kernel. (Bottom Right) The polynomial kernel [2].](assets/gp-covariance/exponential.png)
+![Exponential kernel](assets/gp-covariance/exponential.png)
+*Exponential kernel [2].*
 
-![Samples from additional covariance functions. (Top Left) The Matérn {% katex inline %}\frac{5}{2}{% endkatex %} kernel. (Top Right) The Matérn {% katex inline %}\frac{3}{2}{% endkatex %} kernel. (Bottom Left) The exponential kernel. (Bottom Right) The polynomial kernel [2].](assets/gp-covariance/polynomial.png)
+![Polynomial kernel](assets/gp-covariance/polynomial.png)
+*Polynomial kernel [2].*
 
 A general name for a function {% katex inline %}k{% endkatex %} of two arguments mapping a pair of inputs {% katex inline %}\boldsymbol{x}\in\mathcal{X},\boldsymbol{x}'\in\mathcal{X}{% endkatex %} into {% katex inline %}\mathbb{R}{% endkatex %} is a kernel. A real kernel is said to be symmetric if {% katex inline %}k(\boldsymbol{x},\boldsymbol{x}')=k(\boldsymbol{x}',\boldsymbol{x}){% endkatex %}. Covariance functions must be symmetric by definition [1].
 
