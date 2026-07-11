@@ -3,6 +3,7 @@ title: "Sparse Gaussian Process Approximations"
 published: false
 tags: machinelearning, datascience, statistics, tutorial
 series: "Gaussian Processes (GP)"
+id: 4121239
 ---
 
 > *Adapted from an appendix of my MS thesis.*
