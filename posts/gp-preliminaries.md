@@ -1,8 +1,9 @@
 ---
-title: "Gaussian Processes: Weight-Space and Function-Space Views"
+title: 'Gaussian Processes: Weight-Space and Function-Space Views'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Gaussian Processes (GP)"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Gaussian Processes (GP)
+id: 4121103
 ---
 
 > *Adapted from an appendix of my MS thesis.*

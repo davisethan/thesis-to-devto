@@ -1,8 +1,9 @@
 ---
-title: "Gaussian Process Classification"
+title: Gaussian Process Classification
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Gaussian Processes (GP)"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Gaussian Processes (GP)
+id: 4121102
 ---
 
 > *Adapted from an appendix of my MS thesis.*

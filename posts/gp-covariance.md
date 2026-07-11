@@ -1,8 +1,9 @@
 ---
-title: "Gaussian Processes: Covariance Functions (Kernels)"
+title: 'Gaussian Processes: Covariance Functions (Kernels)'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Gaussian Processes (GP)"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Gaussian Processes (GP)
+id: 4121101
 ---
 
 > *Adapted from an appendix of my MS thesis.*
