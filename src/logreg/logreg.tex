@@ -1,0 +1,101 @@
+\documentclass[../../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Logistic Regression}\label{Appendix:LogReg}
+
+\subsection{Expressiveness Delineation}
+
+The logistic regression model arises from the desire to model the posterior probabilities of $K$ classes via linear function in $x$, while at the same time ensuring that they sum to one and remain in $[0,1]$. The model has the following form. It is specified in terms of $K-1$ log-odds or logit transformations, reflecting the constraint that the probabilities sum to one. Although the model uses the last class as the denominator in the odds-ratios, the choice of denominator is arbitrary in that the estimates are equivalent under this choice \autocite{Hastie2009}.
+
+\begin{equation}
+\begin{split}
+\log\frac{P(G=1|X=x)}{P(G=K|X=x)} &= \beta_{10}+\beta_1^\top x \\
+\log\frac{P(G=2|X=x)}{P(G=K|X=x)} &= \beta_{20}+\beta_1^\top x \\
+&\vdots \\
+\log\frac{P(G=K-1|X=x)}{P(G=K|X=x)} &= \beta_{(K-1)0}+\beta_{K-1}^\top x.
+\end{split}
+\end{equation}
+
+A reformulation shows the following \autocite{Hastie2009}.
+
+\begin{equation}
+\begin{split}
+P(G=k|X=x) &= \frac{\exp(\beta_{k0}+\beta_k^\top x)}{1 + \sum_{\ell=1}^{K-1}\exp(\beta_{\ell0}+\beta_\ell^\top x)}, \quad k=1,\ldots,K-1, \\
+P(G=K|X=x) &= \frac{1}{1 + \sum_{\ell=1}^{K-1}\exp(\beta_{\ell0}+\beta_\ell^\top x)}.
+\end{split}
+\end{equation}
+
+To emphasize the dependence on the entire parameter set $\theta=\{\beta_{10},\beta_1^\top,\ldots,\beta_{(K-1)0},\beta_{K-1}^\top\}$, we can denote the probabilities $P(G=k|X=x)=p_k(x;\theta)$. When $K=2$ the model is especially simple since there is only a single linear function. Logistic regression models are usually fit by maximum likelihood, using the conditional likelihood of $G$ given $X$. Since $P(G|X)$ completely specifies the conditional distribution, the multinomial distribution is appropriate. The log-likelihood for $N$ observations is as follows where $p_k(x_i;\theta)=P(G=k|X=x_i;\theta)$ \autocite{Hastie2009}.
+
+\begin{equation}
+\ell(\theta) = \sum_{i=1}^{N}\log p_{g_i}(x_i;\theta).
+\end{equation}
+
+It is convenient to code the two-class $g_i$ via a 0/1 response $y_i$, where $y_i=1$ when $g_i=1$, and $y_i=0$ when $g_i=2$. Let $p_1(x;\theta)=p(x;\theta)$, and $p_2(x;\theta)=1-p(x;\theta)$. The log-likelihoo can be written as the following where $\beta={\beta_{10},\beta_1}$, and we assume that the vector of inputs $x_i$ includes the constant term 1 to accommodate the intercept \autocite{Hastie2009}.
+
+\begin{equation}
+\begin{split}
+\ell(\beta) &= \sum_{i=1}^{N} \Big\{y_i \log p(x_i;\beta) + (1-y_i) \log (1-p(x_i;\beta))\Big\} \\
+&= \sum_{i=1}^{N} \left\{y_i\beta^\top x_i - \log(1+e^{\beta^\top x_i})\right\}.
+\end{split}
+\end{equation}
+
+To maximize the log-likelihood, we set its derivatives to zero, where these score equations are nonlinear in $\beta$ \autocite{Hastie2009}.
+
+\begin{equation}
+\frac{\partial\ell(\beta)}{\partial\beta} = \sum_{i=1}^{N}x_i(y_i-p(x_i;\beta))=0.
+\end{equation}
+
+In \autoref{Appendix:LDA} we find that the log-posterior odds of linear discriminant analysis (LDA) between two classes $k$ and $K$ are linear functions of $x$, where this linearity is a consequence of the Gaussian assumption for the class densities, as well as the assumption of a common covariance matrix \autocite{Hastie2009}.
+
+\begin{equation}
+\begin{split}
+\log\frac{P(G=k|X=x)}{P(G=K|X=x)} = &\log\frac{\pi_k}{\pi_K}-\frac{1}{2}(\mu_k+\mu_K)^\top\bm{\Sigma}^{-1}(\mu_k-\mu_K) \\
+&+x^\top\bm{\Sigma}^{-1}(\mu_k-\mu_K) \\
+= &\alpha_{k0}+\alpha_k^\top x.
+\end{split}
+\end{equation}
+
+The linear logistic model by construction has linear logits \autocite{Hastie2009}.
+
+\begin{equation}
+\log\frac{P(G=k|X=x)}{P(G=K|X=x)}=\beta_{k0}+\beta_k^\top x.
+\end{equation}
+
+It seems that the models are the same. Although they have exactly the same form, the difference lies in the way the linear coefficients are estimated. The logistic regression model is more general, in that it makes less assumptions. We can write the joint density of $X$ and $G$ as follows where $P(X)$ denotes the marginal density of the inputs $X$ \autocite{Hastie2009}.
+
+\begin{equation}
+P(X,G=k)=P(X)P(G=k|X).
+\end{equation}
+
+For both LDA and logistic regression, the second term on the right has the following logit-linear form where the last class has again been arbitrarily chosen as the reference \autocite{Hastie2009}.
+
+\begin{equation}
+P(G=k|X=x) = \frac{\exp(\beta_{k0}+\beta_k^\top x)}{1+\sum_{\ell=1}^{K-1}\exp(\beta_{\ell0}+\beta_\ell^\top x)}.
+\end{equation}
+
+The logistic regression model leaves the marginal density of $X$ as an arbitrary density function $P(X)$, and fits the parameters of $P(G|X)$ by maximizing the conditional likelihood. That is, the multinomial likelihood with probabilities $P(G=k|X)$. Although $P(X)$ is totally ignored, we can think of this marginal density as being estimated nonparametrically, using the empirical distribution function which places mass $1/N$ at each observation \autocite{Hastie2009}.
+
+With LDA we fit the parameters by maximizing the full log-likelihood based on the joint density as follows where $\phi$ is the Gaussian density function \autocite{Hastie2009}.
+
+\begin{equation}
+P(X,G=k) = \phi(X;\mu_k,\bm{\Sigma})\pi_k.
+\end{equation}
+
+Standard normal theory leads to the estimates $\hat{\mu}_k$, $\hat{\bm{\Sigma}}$, and $\hat{\pi}_k$ given in \autoref{Appendix:LDA}. Since the linear parameters of the logistic form are functions of the Gaussian parameters, we get their maximum-likelihood estimates by plugging in the corresponding estimates. However, unlike in the conditional case, the marginal density $P(X)$ does play a role. It is a mixture density which also involves the parameters \autocite{Hastie2009}.
+
+\begin{equation}
+P(X) = \sum_{k=1}^{K}\pi_k\phi(X;\mu_k,\bm{\Sigma}).
+\end{equation}
+
+The question is what role can this additional restriction play. By relying on the additional model assumptions, we have more information about the parameters, and hence can estimate them more efficiently with lower variance. For example, observations far from the decision boundary which are down-weighted by logistic regression play a role in estimating the common covariance matrix. This means that LDA is not robust to gross outliers \autocite{Hastie2009}.
+
+% Logistic regression vs. LDA decision boundaries
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\linewidth]{appendix/methods/pipelines/assets/logreg/logreg.png}
+\caption[Logistic regression decision boundary]{Logistic regression vs. LDA decision boundaries for a toy dataset shown with error from the accuracy score.}
+\end{figure}
+
+\end{document}
