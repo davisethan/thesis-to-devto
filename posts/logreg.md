@@ -1,6 +1,6 @@
 ---
 title: 'Logistic Regression: Formulation'
-published: false
+published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 id: 4117300
 ---
