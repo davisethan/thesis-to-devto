@@ -1,9 +1,9 @@
 ---
 id: 4117117
-title: "Markov Chain Monte Carlo: Theoretical Foundations"
+title: 'Markov Chain Monte Carlo: Theoretical Foundations'
 published: true
-tags: machinelearning, datascience, statistics, tutorial
-series: "Markov Chain Monte Carlo (MCMC)"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Markov Chain Monte Carlo (MCMC)
 date: '2026-07-11T03:52:53Z'
 ---
 

@@ -1,9 +1,9 @@
 ---
 id: 4116413
-title: "The Tangent Space of the SPD Manifold for EEG Classification"
+title: The Tangent Space of the SPD Manifold for EEG Classification
 published: true
-tags: machinelearning, datascience, statistics, tutorial
-series: "Feature Engineering: Electroencephalogram"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: 'Feature Engineering: Electroencephalogram'
 date: '2026-07-10T22:58:44Z'
 ---
 
