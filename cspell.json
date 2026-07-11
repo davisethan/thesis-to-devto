@@ -1,0 +1,16 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "dictionaryDefinitions": [
+    { "name": "project-words", "path": ".cspell/project-words.txt", "addWords": true }
+  ],
+  "dictionaries": ["project-words"],
+  "patterns": [
+    {
+      "name": "katex-blocks",
+      "pattern": "/\\{%[^%]*katex[^%]*%\\}[\\s\\S]*?\\{%[^%]*endkatex[^%]*%\\}/g"
+    }
+  ],
+  "ignoreRegExpList": ["katex-blocks"],
+  "ignorePaths": ["node_modules/**", "posts/assets/**", "output/**"]
+}

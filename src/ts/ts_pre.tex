@@ -127,7 +127,7 @@ With the geometric mean of each class $\bar{\Sigma}_1,\bar{\Sigma}_2\in\text{Sym
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.8\linewidth]{appendix/methods/pipelines/assets/ts/tangent_space.png}
-\caption[Data preprocessing and classification pipeline]{Example of our data preprocessing and classification pipeline. (Left) All SPD matrices are vectorized by the logarithmic map. (Center) The vectorized SPD matrices in tangent space. (Right) A learned decision boundary from a standard ML alorithm.}
+\caption[Data preprocessing and classification pipeline]{Example of our data preprocessing and classification pipeline. (Left) All SPD matrices are vectorized by the logarithmic map. (Center) The vectorized SPD matrices in tangent space. (Right) A learned decision boundary from a standard ML algorithm.}
 \end{figure}
 
 Once in the tangent space $T_{\bar{\Sigma}}\text{Sym}_n^+$ we can train standard ML algorithms that are optimized for vector space. This method of linearization from the space of SPD matrices to vector space is the standard used by software libraries like PyRiemann \autocite{Barachant2025}. As of now, SOTA EEG classifiers are those that learn and predict in the tangent space of the SPD manifold rather than on the manifold itself \autocite{Barachant2012, Chevallier2018}. An explanation for this is that machine learning is traditionally optimized for vector space.

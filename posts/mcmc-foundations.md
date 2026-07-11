@@ -1,9 +1,9 @@
 ---
-title: 'Markov Chain Monte Carlo: Theoretical Foundations'
-published: true
-tags: 'machinelearning, datascience, statistics, tutorial'
-series: Markov Chain Monte Carlo (MCMC)
 id: 4117117
+title: "Markov Chain Monte Carlo: Theoretical Foundations"
+published: true
+tags: machinelearning, datascience, statistics, tutorial
+series: "Markov Chain Monte Carlo (MCMC)"
 date: '2026-07-11T03:52:53Z'
 ---
 
@@ -23,13 +23,13 @@ A sequence {% katex inline %}X_ 1, X_ 2, \ldots{% endkatex %} of random elements
 
   - The conditional distribution of {% katex inline %}X_ {n+1}{% endkatex %} given {% katex inline %}X_ n{% endkatex %} called the transition probability distribution.
 
-If the state space is finite or countable, written {% katex inline %}\{x_ 1,\ldots,x_ n\}{% endkatex %}, then the initial distribution can be associated with a vector {% katex inline %}\lambda=(\lambda_ 1,\ldots,\lambda_ n){% endkatex %} defined by {% katex inline %}\mathrm{P}(X_ 1=x_ i)=\lambda_ i{% endkatex %} for {% katex inline %}i=1,\ldots,n{% endkatex %}, and the transition probabilities can be associated with a matrix {% katex inline %}P{% endkatex %} having elements {% katex inline %}p_ {ij}{% endkatex %} defined by {% katex inline %}\mathrm{P}(X_ {n+1}=x_ j \mid X_ n=x_ i){% endkatex %} where {% katex inline %}i=1,\ldots,n{% endkatex %} and {% katex inline %}j=1,\ldots,n{% endkatex %}. When the state space is uncountable, we must think of the initial distribution and transition probability distribution as unconditional and conditional probability distributions [1].
+If the state space is finite or countable, written {% katex inline %}\\{x_ 1,\ldots,x_ n\\}{% endkatex %}, then the initial distribution can be associated with a vector {% katex inline %}\lambda=(\lambda_ 1,\ldots,\lambda_ n){% endkatex %} defined by {% katex inline %}\mathrm{P}(X_ 1=x_ i)=\lambda_ i{% endkatex %} for {% katex inline %}i=1,\ldots,n{% endkatex %}, and the transition probabilities can be associated with a matrix {% katex inline %}P{% endkatex %} having elements {% katex inline %}p_ {ij}{% endkatex %} defined by {% katex inline %}\mathrm{P}(X_ {n+1}=x_ j \mid X_ n=x_ i){% endkatex %} where {% katex inline %}i=1,\ldots,n{% endkatex %} and {% katex inline %}j=1,\ldots,n{% endkatex %}. When the state space is uncountable, we must think of the initial distribution and transition probability distribution as unconditional and conditional probability distributions [1].
 
 A stochastic process is stationary if for every positive integer {% katex inline %}k{% endkatex %} the distribution of the {% katex inline %}k{% endkatex %}-tuple {% katex inline %}(X_ {n+1},  \ldots,  X_ {n+k}){% endkatex %} does not depend on {% katex inline %}n{% endkatex %}. An initial distribution is said to be stationary, invariant, or equilibrium for some transition probability distribution if the Markov chain specified by this initial distribution and transition probability distribution is stationary. Stationarity implies stationary transition probabilities, but not vice versa. The Metropolis-Hastings-Green (MHG) algorithm constructs a transition probability distribution that preserves a specified equilibrium distribution [1].
 
 A transition probability distribution is reversible with respect to an initial distribution if for its Markov chain {% katex inline %}X_ 1,X_ 2,\ldots{% endkatex %}, the distribution of pairs {% katex inline %}(X_ i,X_ {i+1}){% endkatex %} is exchangeable. Reversibility implies stationarity, but not vice versa. A reversible Markov chain has the same laws running forward and backward. That is, for any {% katex inline %}i{% endkatex %} and {% katex inline %}k{% endkatex %}, the distributions {% katex inline %}(X_ {i+1},\ldots,X_ {i+k}){% endkatex %} and {% katex inline %}(X_ {i+k},\ldots,X_ {i+1}){% endkatex %} are the same. All known methods for constructing transition probabilities that preserve a specified equilibrium are special cases of the MHG algorithm, and all elementary updates from the MHG algorithm are reversible [1].
 
-A bit of compute code that makes a pseudorandom change to its state is an update mechanism. An update mechanism is elementary if it is not made up of parts that are themselves update mechanisms preserving the specified distribution. Suppose the specified distribution (the desired stationary distribution of the MCMC sampler) has unnormalied density {% katex inline %}h{% endkatex %}. The Metropolis-Hastings update does the following [1]:
+A bit of compute code that makes a pseudorandom change to its state is an update mechanism. An update mechanism is elementary if it is not made up of parts that are themselves update mechanisms preserving the specified distribution. Suppose the specified distribution (the desired stationary distribution of the MCMC sampler) has unnormalized density {% katex inline %}h{% endkatex %}. The Metropolis-Hastings update does the following [1]:
 
   - When the current state is {% katex inline %}x{% endkatex %}, propose a move to {% katex inline %}y{% endkatex %}, having conditional probability density given {% katex inline %}x{% endkatex %} denoted {% katex inline %}q(x, y){% endkatex %}.
 
