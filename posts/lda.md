@@ -3,6 +3,7 @@ title: 'Linear Discriminant Analysis (LDA): Decision Boundaries'
 published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 id: 4117281
+date: '2026-07-11T04:16:10Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
