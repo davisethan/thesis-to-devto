@@ -30,24 +30,24 @@ k(\boldsymbol{x},\boldsymbol{x}') = (\boldsymbol{x}-\boldsymbol{c})(\boldsymbol{
 
 
 ![Squared exponential covariance function](assets/gp-covariance/exp-quad.png)
-*Squared exponential covariance function [2].*
+*Squared exponential covariance function — samples from a GP prior [2].*
 
 ![Linear covariance function](assets/gp-covariance/linear.png)
-*Linear covariance function [2].*
+*Linear covariance function — samples from a GP prior [2].*
 
 ![Matérn 5/2 kernel](assets/gp-covariance/matern-5-2.png)
-*Matérn 5/2 kernel [2].*
+*Matérn 5/2 kernel — samples from a GP prior [2].*
 
 ![Matérn 3/2 kernel](assets/gp-covariance/matern-3-2.png)
-*Matérn 3/2 kernel [2].*
+*Matérn 3/2 kernel — samples from a GP prior [2].*
 
   
 
 ![Exponential kernel](assets/gp-covariance/exponential.png)
-*Exponential kernel [2].*
+*Exponential kernel — samples from a GP prior [2].*
 
 ![Polynomial kernel](assets/gp-covariance/polynomial.png)
-*Polynomial kernel [2].*
+*Polynomial kernel — samples from a GP prior [2].*
 
 A general name for a function {% katex inline %}k{% endkatex %} of two arguments mapping a pair of inputs {% katex inline %}\boldsymbol{x}\in\mathcal{X},\boldsymbol{x}'\in\mathcal{X}{% endkatex %} into {% katex inline %}\mathbb{R}{% endkatex %} is a kernel. A real kernel is said to be symmetric if {% katex inline %}k(\boldsymbol{x},\boldsymbol{x}')=k(\boldsymbol{x}',\boldsymbol{x}){% endkatex %}. Covariance functions must be symmetric by definition [1].
 
