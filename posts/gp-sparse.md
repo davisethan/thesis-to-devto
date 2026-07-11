@@ -4,6 +4,7 @@ published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Gaussian Processes (GP)
 id: 4121239
+date: '2026-07-11T18:03:18Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
