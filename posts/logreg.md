@@ -34,7 +34,7 @@ P(G=K|X=x) &= \frac{1}{1 + \sum_ {\ell=1}^ {K-1}\exp(\beta_ {\ell0}+\beta_ \ell^
 {% endkatex %}
 
 
-To emphasize the dependence on the entire parameter set {% katex inline %}\theta=\{\beta_ {10},\beta_ 1^ \top,\ldots,\beta_ {(K-1)0},\beta_ {K-1}^ \top\}{% endkatex %}, we can denote the probabilities {% katex inline %}P(G=k|X=x)=p_ k(x;\theta){% endkatex %}. When {% katex inline %}K=2{% endkatex %} the model is especially simple since there is only a single linear function. Logistic regression models are usually fit by maximum likelihood, using the conditional likelihood of {% katex inline %}G{% endkatex %} given {% katex inline %}X{% endkatex %}. Since {% katex inline %}P(G|X){% endkatex %} completely specifies the conditional distribution, the multinomial distribution is appropriate. The log-likelihood for {% katex inline %}N{% endkatex %} observations is as follows where {% katex inline %}p_ k(x_ i;\theta)=P(G=k|X=x_ i;\theta){% endkatex %} [1].
+To emphasize the dependence on the entire parameter set {% katex inline %}\theta=\\{\beta_ {10},\beta_ 1^ \top,\ldots,\beta_ {(K-1)0},\beta_ {K-1}^ \top\\}{% endkatex %}, we can denote the probabilities {% katex inline %}P(G=k|X=x)=p_ k(x;\theta){% endkatex %}. When {% katex inline %}K=2{% endkatex %} the model is especially simple since there is only a single linear function. Logistic regression models are usually fit by maximum likelihood, using the conditional likelihood of {% katex inline %}G{% endkatex %} given {% katex inline %}X{% endkatex %}. Since {% katex inline %}P(G|X){% endkatex %} completely specifies the conditional distribution, the multinomial distribution is appropriate. The log-likelihood for {% katex inline %}N{% endkatex %} observations is as follows where {% katex inline %}p_ k(x_ i;\theta)=P(G=k|X=x_ i;\theta){% endkatex %} [1].
 
 
 {% katex %}
@@ -47,8 +47,8 @@ It is convenient to code the two-class {% katex inline %}g_ i{% endkatex %} via 
 
 {% katex %}
 \begin{split}
-\ell(\beta) &= \sum_ {i=1}^ {N} \Big\{y_ i \log p(x_ i;\beta) + (1-y_ i) \log (1-p(x_ i;\beta))\Big\} \\\\
-&= \sum_ {i=1}^ {N} \left\{y_ i\beta^ \top x_ i - \log(1+e^ {\beta^ \top x_ i})\right\}.
+\ell(\beta) &= \sum_ {i=1}^ {N} \Big\\{y_ i \log p(x_ i;\beta) + (1-y_ i) \log (1-p(x_ i;\beta))\Big\\} \\\\
+&= \sum_ {i=1}^ {N} \left\\{y_ i\beta^ \top x_ i - \log(1+e^ {\beta^ \top x_ i})\right\\}.
 \end{split}
 {% endkatex %}
 

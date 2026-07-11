@@ -170,6 +170,18 @@ def guard_math_linebreaks(md):
     return re.sub(r"(\{% katex(?: inline)? %\})(.*?)(\{% endkatex %\})",
                   fix, md, flags=re.S)
 
+def guard_math_escapes(md):
+    """CommonMark treats `\\{`, `\\}`, `\\|` as escaped punctuation and strips the
+    backslash before KaTeX runs, breaking `\\Big\\{`, set braces, and norms. Doubling
+    the backslash on disk makes CommonMark leave a single `\\` for KaTeX. Runs AFTER
+    guard_math_linebreaks so it only touches single backslashes (lookbehind), not the
+    already-quadrupled `\\\\` row breaks. Applied inside every katex block."""
+    def fix(m):
+        body = re.sub(r"(?<!\\)\\([{}|])", lambda x: "\\\\" + x.group(1), m.group(2))
+        return m.group(1) + body + m.group(3)
+    return re.sub(r"(\{% katex(?: inline)? %\})(.*?)(\{% endkatex %\})",
+                  fix, md, flags=re.S)
+
 def guard_math_underscores(md):
     """Dev.to runs Markdown before KaTeX, so `_`/`^` inside inline math get eaten
     as emphasis (e.g. `}_i` opens <em>), corrupting subscripts. A space AFTER the
@@ -269,6 +281,7 @@ def main():
     md = run_pandoc(body)
     md = to_katex(md)
     md = guard_math_linebreaks(md)
+    md = guard_math_escapes(md)
     md = guard_math_underscores(md)
     md = fix_ref_caps(md)
     md = fix_images(md, args.image_base)
