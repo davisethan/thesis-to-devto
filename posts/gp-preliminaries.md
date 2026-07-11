@@ -1,6 +1,6 @@
 ---
 title: 'Gaussian Processes: Weight-Space and Function-Space Views'
-published: false
+published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Gaussian Processes (GP)
 id: 4121236
