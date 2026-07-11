@@ -64,5 +64,5 @@ We can also transform sampling using Cholesky factors. The Cholesky factor {% ka
 ## References
 
 1. Martin, Osvaldo A., Kumar, Ravin, Lao, Junpeng (2021) *Bayesian Modeling and Computation in Python*. Chapman and Hall/CRC.
-2. McElreath, Richard (2020) *Statistical Rethinking: A Bayesian Course with Examples in {R} and {STAN}*. Chapman and Hall/{CRC}.
+2. McElreath, Richard (2020) *Statistical Rethinking: A Bayesian Course with Examples in R and STAN*. Chapman and Hall/CRC.
 3. Dustin Stansbury, Richard McElreath (2024) *Correlated Features*. Zenodo.

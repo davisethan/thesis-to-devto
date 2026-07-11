@@ -61,10 +61,19 @@ def parse_bib(bib_path):
     return entries
 
 def format_reference(fields):
-    author = re.sub(r"\s+and\s+", ", ", fields.get("author", "")).strip()
-    title  = fields.get("title", "").strip()
-    year   = fields.get("year", "").strip()
-    pub    = fields.get("publisher", fields.get("booktitle", fields.get("journal", ""))).strip()
+    # strip BibTeX capitalization-protection braces, e.g. {Markov} -> Markov
+    clean = lambda s: s.replace("{", "").replace("}", "").strip()
+    names = fields.get("author", "")
+    is_editor = False
+    if not names:                       # edited volumes use `editor`, not `author`
+        names = fields.get("editor", "")
+        is_editor = bool(names)
+    author = clean(re.sub(r"\s+and\s+", ", ", names))
+    if is_editor and author:
+        author += " (Eds.)"
+    title  = clean(fields.get("title", ""))
+    year   = clean(fields.get("year", ""))
+    pub    = clean(fields.get("publisher", fields.get("booktitle", fields.get("journal", ""))))
     parts = []
     if author: parts.append(author)
     if year:   parts.append(f"({year})")

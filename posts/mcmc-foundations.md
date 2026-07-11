@@ -79,4 +79,4 @@ h(x)a(x,y)q(x,y) &= h(x)q(x,y) \\\\
 
 ## References
 
-1. (2011) *Handbook of {Markov} Chain {Monte} {Carlo}*. Chapman and Hall/{CRC}.
+1. Brooks, Steve, Gelman, Andrew, Jones, Galin, Meng, Xiao-Li (Eds.) (2011) *Handbook of Markov Chain Monte Carlo*. Chapman and Hall/CRC.
