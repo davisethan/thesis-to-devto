@@ -1,7 +1,8 @@
 ---
-title: "Logistic Regression: Formulation and Its Link to LDA"
+title: 'Logistic Regression: Formulation and Its Link to LDA'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
+tags: 'machinelearning, datascience, statistics, tutorial'
+id: 4117300
 ---
 
 > *Adapted from an appendix of my MS thesis.*
