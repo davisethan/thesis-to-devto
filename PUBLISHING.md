@@ -44,6 +44,23 @@ If you already have duplicates: delete the extra drafts on dev.to (Dashboard →
 each article → Delete), keep one per post, then `git pull` so the surviving `id`
 is in your local file before the next regenerate.
 
+### Inspecting your dev.to ids
+
+The numeric `id` isn't shown in the dev.to web UI. To list every article on your
+account (published and drafts) as `id - PUB/DRAFT - title`, use the API with your
+key (the same value as the `DEVTO_TOKEN` secret):
+
+```bash
+curl -s -H "api-key: YOUR_DEVTO_KEY" \
+  "https://dev.to/api/articles/me/all?per_page=100" | \
+  python3 -c 'import sys,json; [print(a["id"], "-", "PUB" if a["published"] else "DRAFT", "-", a["title"]) for a in json.load(sys.stdin)]'
+```
+
+Use this to find an id to paste into front matter, or to check whether a post was
+created at all (if a title is missing from the list, it never got created). If your
+local ids drift from dev.to (e.g. after deleting posts), run
+`scripts/reconcile_ids.py` to re-sync them by title.
+
 ### Draft vs. live
 
 - `published: false` → created as a private draft you can preview on dev.to first.
