@@ -4,6 +4,7 @@ published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Support Vector Machines (SVM)
 id: 4120995
+date: '2026-07-11T16:26:50Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
