@@ -1,0 +1,82 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\section{Deep Neural Network}\label{Appendix:DNN}
+
+Examples of machine learning (ML) models include logistic regression corresponding to the model $p(y|\bm{x},\bm{w})=\operatorname{Ber}(y|\sigma(\bm{w}^\top\bm{x}))$ and generalized linear models (GLMs) which generalizes to other kinds of output distributions such as Poisson. However, these models make the strong assumption that the input-output mapping is linear. A simple way of increasing the flexibility of such models is to perform a feature transformation, by replacing $\bm{x}$ with $\phi(\bm{x})$. For example, we can use a polynomial transform, given by $\phi(\bm{x})=[1,\bm{x},\bm{x}^2,\bm{x}^3,\ldots]$. This is called basis function expansion and the model becomes the following \autocite{Murphy2022}.
+
+\begin{equation}
+f(\bm{x};\bm{\theta})=\bm{W}\phi(\bm{x})+\bm{b}.
+\end{equation}
+
+The updated model still linear in the parameters $\bm{\theta}=(\bm{W},\bm{b})$. This makes model fitting easy, however, having to specify the feature transformation by hand is very limiting. A natural extension is to give the feature extractor its own parameter $\bm{\theta}_2$ giving the following where $\bm{\theta}=(\bm{\theta}_1,\bm{\theta}_2)$ and $\bm{\theta}_1=(\bm{W},\bm{b})$ \autocite{Murphy2022}.
+
+\begin{equation}
+f(\bm{x};\bm{\theta})=\bm{W}\phi(\bm{x};\bm{\theta}_2)+\bm{b}.
+\end{equation}
+
+This process can be repeated recursively to create more and more complex functions, and if we compose $L$ functions we get the following where $f_\ell(\bm{x})=f(\bm{x};\bm{\theta}_\ell)$ is the function at layer $\ell$ \autocite{Murphy2022}.
+
+\begin{equation}
+f(\bm{x};\bm{\theta}) = f_L(f_{L-1}(\cdots (f_1(\bm{x})) \cdots)).
+\label{Equation:MLP}
+\end{equation}
+
+This is the key idea behind deep neural networks (DNNs). The term ``DNN'' actually encompasses a larger family of models in which we compose differentiable functions into any kind of directed acyclic graph (DAG) mapping input to output. \autoref{Equation:MLP} is the simplest example where the DAG is a chain. This is known as a feedforward neural network (FFNN) or multilayer perceptron (MLP) and assumes that the input is a fixed-dimensional vector such as $\bm{x}\in\mathbb{R}^D$ \autocite{Murphy2022}.
+
+% Multilayer perceptron
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{appendix/methods/pipelines/assets/dnn/dnn.png}
+\caption[Multilayer perceptron]{A multilayer perceptron (MLP) \autocite{BrunelloN2021}.}
+\end{figure}
+
+Historically, the perceptron is a deterministic version of logistic regression with a mapping of the following form where $H(\cdot)$ is the Heaviside step function, also known as a linear threshold function \autocite{Murphy2022}.
+
+\begin{equation}
+f(\bm{x};\bm{\theta})
+= \bm{1}(\bm{w}^\top\bm{x}+b \geq 0)
+= H(\bm{w}^\top\bm{x}+b).
+\end{equation}
+
+In this form, the MLP is a stack of perceptrons, each of which involves the non-differentiable Heaviside function. This makes models difficult to train, which is why it has never been widely used. However, we can replace the Heaviside function $H:\mathbb{R}\to\{0,1\}$ with a differentiable activation function $\varphi:\mathbb{R}\to\mathbb{R}$. More precisely, we define the hidden units $\bm{z}_l$ at each layer $l$ to be a linear transformation of the hidden units at the previous layer passed elementwise through this activation function \autocite{Murphy2022}.
+
+\begin{equation}
+\bm{z}_l=f_l(\bm{z}_{l-1})=\varphi_l(\bm{b}_l+\bm{W}_l\bm{z}_{l-1}).
+\end{equation}
+
+The quantity that is passed to the activation function is called the pre-activations \autocite{Murphy2022}.
+
+\begin{equation}
+\bm{a}_l=\bm{b}_l+\bm{W}_l\bm{z}_{l-1}.
+\end{equation}
+
+If we now compute $L$ of these functions together, as in \autoref{Equation:MLP}, then we can compute the gradient of the output with respect to the parameters in each layer using the chain rule, also known as backpropagation. We can then pass the gradient to an optimizer, and thus minimize some training objective. The term ``MLP'' almost always refers to this differentiable form of the model, rather than the historical version with non-differentiable linear threshold units \autocite{Murphy2022}.
+
+We are free to use any kind of differentiable activation function at each layer. However, if we use a linear activation function, then the whole model reduces to a regular linear model. In the early days of neural networks, a common choice of activation function was to use a sigmoid (logistic) function, which can be seen as a smooth approximation of the Heaviside function \autocite{Murphy2022}.
+
+\begin{equation}
+\sigma(a) = \frac{1}{1+e^{-a}}.
+\end{equation}
+
+However, the sigmoid function saturates at 1 for large positive inputs, and at 0 for large negative inputs. Another common choice is the tanh function, which has a similar shape, but saturates at -1 and 1. In the saturated regimes, the gradient of the output with respect to the input will be close to zero, so any gradient signal from higher layers will not be able to propagate back to earlier layers. This is called the vanishing gradient problem, and it makes it hard to train the model using gradient descent \autocite{Murphy2022}.
+
+One of the keys to train very deep models is to use non-saturating activation functions. The most common of these is rectified linear unit (ReLU). The ReLU functions simply turns off negative inputs, and passes positive inputs unchanged \autocite{Murphy2022}.
+
+\begin{equation}
+\operatorname{ReLU}(a)
+= \max(a,0)
+= a\bm{1}(a>0).
+\end{equation}
+
+It can be shown that an MLP with one hidden layer is a universal function approximator, meaning it can model any suitably smooth function, given enough hidden units, to any desired level of accuracy. Intuitively, the reason for this is that each hidden unit can specify a half plane, and a sufficiently large combination of these can divide any region of space, to which any response can be associated \autocite{Murphy2022}.
+
+% Vornoi diagram
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.4\linewidth]{appendix/methods/pipelines/assets/dnn/voronoi.png}
+\caption[Voronoi diagram]{Voronoi diagram visualization of the universal function approximation where each hidden unit specifies a half plane \autocite{Jahobr2017}.}
+\end{figure}
+
+However, various arguments, both experimental and theoretical, have shown that deep networks work better than shallow ones. The reason is that later layers can leverage the features that are learned by earlier layers. That is, the function is defined in a compositional or hierarchical way. Although we could fit any dataset with a single hidden layer model, intuitively, it is easier if the model learns to detect the separating characteristics of the dataset using the hidden units in an early layer, and then uses these features to define a simple linear classifier in a later layer \autocite{Murphy2022}.
+\end{document}

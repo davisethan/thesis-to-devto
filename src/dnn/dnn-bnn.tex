@@ -1,0 +1,59 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Bayesian Neural Network}
+
+Deep neural networks (DNNs) are usually trained using a regularized maximum likelihood objective to find a single setting of parameters. However, large flexible models like neural networks can represent many functions, corresponding to different parameter settings, which fit the training data well, yet generalize in different ways. This phenomenon is known as underspecification \autocite{Murphy2023}.
+
+Considering all of these different models together can lead to improved accuracy and uncertainty representation. This can be done by computing the posterior predictive distribution using Bayesian model averaging. The main challenges in applying Bayesian inference to DNNs are specifying suitable priors, and efficiently computing the posterior, which is challenging due to the large number of parameters and the large datasets \autocite{Murphy2023}.
+
+\begin{equation}
+p(y|\bm{x},\mathcal{D}) = \int p(y|\bm{x},\bm{\theta})p(\bm{\theta}|\mathcal{D})\mathrm{d}\bm{\theta} \quad \text{where} \quad p(\bm{\theta}|\mathcal{D}) \propto p(\bm{\theta})p(\mathcal{D}|\bm{\theta}).
+\end{equation}
+
+Consider the generalized MLP with $L-1$ hidden layers and a linear output as described in \autoref{Equation:MLP} \autocite{Murphy2023}.
+
+\begin{equation}
+f(\bm{x};\bm{\theta}) = \bm{W}_L(\cdots\varphi(\bm{W}_1\bm{x}+\bm{b}_1))+\bm{b}_L.
+\end{equation}
+
+The most common choice of priors is to use a factored Gaussian prior \autocite{Murphy2023}.
+
+\begin{equation}
+\bm{W}_\ell \sim \mathcal{N}(\bm{0},\alpha_\ell^2\bm{I}), \quad \bm{b}_\ell \sim \mathcal{N}(\bm{0},\beta_\ell^2\bm{I}).
+\end{equation}
+
+Initializing this model's parameters at a particular random value is like sampling a point from this prior over functions. In the limit of infinitely wide neural networks, a neural network defines a Gaussian process (see \autoref{Appendix:GP}) with a fixed kernel. Indeed, an MLP with one hidden layer, whose width goes to infinity, and which has a Gaussian prior on all the parameters, converges to a Gaussian process with a well-defined kernel. These kernels can be used in modeling non-stationary covariance structure \autocite{Murphy2023}. 
+
+Monte Carlo dropout (MCD) is a very simple and widely used method for approximating the Bayesian predictive distribution. Usually stochastic dropout layers are added as a form of regularization during training, and are turned off at test time. However, the idea of MCD is to also perform random sampling during testing \autocite{Murphy2023}.
+
+More precisely, we drop out each hidden unit according to a $\operatorname{Bernoulli}(p)$ distribution, and repeat this procedure $K$ times to create $K$ distinct models. We then create an equally weighted average of the predictive distribution for each of these models as shown below. One drawback of MCD is that it is slow at test time. However, this can be overcome by distilling the model's predictions into a deterministic student network \autocite{Murphy2023}.
+
+\begin{equation}
+p(y|\bm{x},\mathcal{D}) \approx \frac{1}{K}\sum_{k=1}^{K}p(y|\bm{x},\bm{\theta}^k).
+\end{equation}
+
+Another very simply approximation to the posterior is to only be Bayesian about the weights in the final layer. This is called the ``Bayesian last layer'' approximation. In more detail, let $\bm{z}=f(\bm{x};\bm{\theta})$ be the predicted outputs of the model before any optional final nonlinearity. We assume this has the form $\bm{z}=\bm{w}_L^\top\phi(\bm{x};\bm{\theta})$, where $\phi(\bm{x})$ are the features extracted by the first $L-1$ layers. Then, we can use standard techniques, such as Markov chain Monte Carlo (described by \autoref{Appendix:MCMC}), to compute $p(\bm{w}_L|\mathcal{D})=\mathcal{N}(\bm{\mu}_L,\bm{\Sigma}_L)$, given $\phi(\cdot)$ \autocite{Murphy2023}.
+
+MCMC methods like Hamiltonian Monte Carlo (HMC) are generally considered to be the gold standard for posterior approximation, since they do not make strong assumptions about the form of the posterior. However, a significant limitation of standard MCMC procedures, including HMC, is that they require access to the full training set at each step. Stochastic gradient MCMC methods, such as Stochastic gradient Langevin dynamics (SGLD), operate instead using mini-batches of data, offering a scalable alternative \autocite{Murphy2023}.
+
+Many conventional approximate inference methods, such as variational inference, focus on approximating the posterior $p(\bm{\theta}|\mathcal{D})$ in a local neighborhood around one of the posterior modes. While this is often not a major limitation in classical machine learning, modern deep neural networks have highly multi-modal posteriors, with parameters in different modes giving rise to very different functions \autocite{Murphy2023}.
+
+On the other hand, the functions in a neighborhood of a single mode may make fairly similar predictions. So using a local approximation to compute the posterior predictive will underestimate uncertainty and generalize more poorly. A simple alternative method is to train multiple models, and then to approximate the posterior using an equally weighted mixture of delta functions as follows where $M$ is the number of models. This approach is called deep ensembles \autocite{Murphy2023}.
+
+\begin{equation}
+p(\bm{\theta}|\mathcal{D}) \approx \frac{1}{M}\sum_{m=1}^{M} \delta(\bm{\theta}-\hat{\bm{\theta}}_m).
+\end{equation}
+
+Once we have an approximation $q(\bm{\theta}|\mathcal{D})$ of the parameter posterior $p(\bm{\theta}|\mathcal{D})$, we can use it to approximate the posterior predictive distribution \autocite{Murphy2023}.
+
+\begin{equation}
+p(y|\bm{x},\mathcal{D})=\int p(y|\bm{x},\bm{\theta})p(\bm{\theta}|\mathcal{D})\mathrm{d}\bm{\theta}.
+\end{equation}
+
+We often approximate this integral using Monte Carlo where $\bm{\theta}^s \sim q(\bm{\theta}|\mathcal{D})$ \autocite{Murphy2023}.
+
+\begin{equation}
+p(y|\bm{x},\mathcal{D}) \approx \frac{1}{S}\sum_{s=1}^{S}p(y|\bm{x},\bm{\theta}^s).
+\end{equation}
+\end{document}

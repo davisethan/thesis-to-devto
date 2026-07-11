@@ -1,0 +1,128 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Convolutional Neural Network}
+
+The convolutional neural network (CNN) is used to apply neural networks for images. In this case, we replace matrix multiplication with a convolution operation. The basic idea is to divide the input into overlapping 2D image patches, and to compare each patch with a set of small weight matrices, or filters, which represents part of an object \autocite{Murphy2022}.
+
+This can be thought of as a form of template matching. We learn these templates from data. Since the templates are small (often just $3 \times 3$ or $5 \times 5$), the number of parameters needed for learning is small. Additionally, since we use convolution to do template matching, instead of matrix multiplication, the model will be translationally invariant. This is useful for tasks such as image classification, where the goal is to classify if an object is present regardless of its location \autocite{Murphy2022}.
+
+The 1D convolution between two function $f,g:\mathbb{R}^D\to\mathbb{R}$ is defined as follows \autocite{Murphy2022}.
+
+\begin{equation}
+[f \circledast g](z) = \int_{\mathbb{R}^D}f(u)g(z-u)\mathrm{d}u.
+\label{Equation:ConvolutionIntegral}
+\end{equation}
+
+Now suppose we replace the functions with finite-length vectors, which we can think of as functions defined on a finite set of points. Let $f$ be evaluated at the points $\{-L,-L+1,\ldots,0,1,\ldots,L\}$ to yield the weight vector (also called a filter or kernel) $w_{-L}=f(-L)$ up to $w_L=f(L)$. Now let $g$ be evaluated at the points $\{-N,\ldots,N\}$ to yield the feature vector $x_{-N}=g(-N)$ up to $x_N=g(N)$. Then \autoref{Equation:ConvolutionIntegral} becomes the following. We see that we flip the weight vector $\bm{w}$, and then drag it over the the $\bm{x}$ vector, summing up the local windows at each point \autocite{Murphy2022}.
+
+\begin{equation}
+[\bm{w}\circledast\bm{x}](i) = w_{-L}x_{i+L}+\cdots+w_{-1}x_{i+1}+w_0x_i+w_1x_{i-1}+\cdots+w_Lx_{i-L}.
+\end{equation}
+
+When we do not flip $\bm{w}$ first, then we get the cross correlation \autocite{Murphy2022}.
+
+\begin{equation}
+[\bm{w}\circledast\bm{x}](i) = w_{-L}x_{i-L}+\cdots+w_{-1}x_{i-1}+w_0x_i+w_1x_{i+1}+\cdots+w_Lx_{i+L}.
+\end{equation}
+
+If the weight vector is symmetric, then cross correlation and convolution are the same. In the deep learning literature, the term ``convolution'' is often used to mean cross correlation. We can also evaluate the weights $\bm{w}$ on the domain $\{0,1,\ldots,L-1\}$ and the features $\bm{x}$ on the domain $\{0,1,\ldots,N-1\}$, to eliminate negative indices \autocite{Murphy2022}.
+
+\begin{equation}
+[\bm{w}\circledast\bm{x}](i) = \sum_{u=0}^{L-1}w_ux_{i+u}.
+\label{Equation:1DConvolution}
+\end{equation}
+
+% 1D convolution
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/pipelines/assets/dnn/conv1d-diagram.png}
+\caption[1D discrete convolution]{1D discrete convolution of a signal with a kernel.}
+\end{figure}
+
+In 2D, \autoref{Equation:1DConvolution} becomes the following where the 2D filter $\bm{W}$ has size $H \times W$ \autocite{Murphy2022}.
+
+\begin{equation}
+[\bm{W}\circledast\bm{X}](i,j) = \sum_{u=0}^{H-1}\sum_{v=0}^{W-1}w_{u,v}x_{i+u,j+v}.
+\end{equation}
+
+% 2D convolution
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{appendix/methods/pipelines/assets/dnn/conv2d-diagram.png}
+\caption[2D discrete convolution]{2D discrete convolution of a signal with a kernel.}
+\end{figure}
+
+We can think of 2D convolution as template matching, since the output at a point $(i,j)$ will be large if the corresponding image centered on $(i,j)$ is similar to $\bm{W}$. More generally, we can think of convolution as a form of feature detection. The resulting output $\bm{Y}=\bm{W}\circledast\bm{X}$ is therefore called a feature map \autocite{Murphy2022}.
+
+In \autoref{Figure:2DConvolution} we see that convolving a $3 \times 3$ image with a $2 \times 2$ filter results in a $2 \times 2$ output. This is called valid convolution, since we only apply the filter to valid parts of the input, and we do not let it slide off the ends. If we want the output to have the same size as the input, we can use zero-padding, where we add a border of zeros to the image. This is called same convolution \autocite{Murphy2022}.
+
+% Padding without strides
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/pns-frame00.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/pns-frame01.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/pns-frame02.png}
+\end{subfigure}
+\\
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/pns-frame03.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/pns-frame04.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/pns-frame05.png}
+\end{subfigure}
+\caption[Convolutions with padding]{The first 6 of 25 convolutions with padding \autocite{Dumoulin2016}.}
+\end{figure}
+
+Since each output pixel is generated by a weighted combination of inputs in its receptive field, neighboring outputs will be very similar in value, since their inputs are overlapping. We can reduce this redundancy and speedup computation by skipping every $s$ number of inputs. This is called strided convolution \autocite{Murphy2022}.
+
+% Padding with strides
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/ps-frame00.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/ps-frame01.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/ps-frame02.png}
+\end{subfigure}
+\\
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/ps-frame03.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/ps-frame04.png}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}{0.25\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/dnn/ps-frame05.png}
+\end{subfigure}
+\caption[Convolutions with padding and strides]{The first 6 in 9 convolutions with padding and strides \autocite{Dumoulin2016}.}
+\end{figure}
+
+Convolution will preserve information about the location of input features, a property known as equivariance. In some cases we want to be invariant to the location. For example, when performing image classification, we may just want to know if an object of interest is present anywhere in the image. A simple way to achieve this is called max pooling, which computes the maximum over its incoming values. An alternative is to use average pooling, which replaces the maximum with the mean. A common design pattern is to create a CNN by alternating convolutional layers with max pooling layers, followed by a final linear classification layer at the end \autocite{Murphy2022}.
+
+% Max pooling
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{appendix/methods/pipelines/assets/dnn/max-pooling.png}
+\caption[Max pooling]{Max pooling \autocite{Aphex342015}.}
+\end{figure}
+\end{document}

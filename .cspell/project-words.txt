@@ -184,3 +184,25 @@ numpy
 Orduz
 Oriol
 pseudoinputs
+
+# --- DNN posts: deep-learning terms + names ---
+Aphex
+approximator
+backpropagation
+Brunello
+Convolutional
+deeplearning
+Dumoulin
+equivariance
+feedforward
+FFNN
+Francesco
+Jahobr
+Langevin
+Perceptrons
+SGLD
+strided
+translationally
+underspecification
+Visin
+Voronoi
