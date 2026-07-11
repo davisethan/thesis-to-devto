@@ -1,0 +1,69 @@
+\documentclass[../../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Linear Discriminant Analysis}\label{Appendix:LDA}
+
+\subsection{Decision Boundary Derivation}
+
+Decision theory for classification tells us that we need to know the class posteriors $P(G|X)$ for optimal classification. Suppose $f_k(x)$ is the conditional density of $X$ for class $G=k$, and let $\pi_k$ be the prior probability of class $k$, with $\sum_{\ell=1}^{K}\pi_\ell=1$. Bayes theorem gives us the following \autocite{Hastie2009}.
+
+\begin{equation}
+P(G=k|X=x) = \frac{f_k(x)\pi_k}{\sum_{\ell=1}^{K}f_\ell(x)\pi_\ell}.
+\end{equation}
+
+Many machine learning techniques are based on models for the class densities. For example, linear and quadratic discriminant analysis use Gaussian densities. More flexible Gaussian mixture models (GMMs) allow for nonlinear decision boundaries. General nonparametric density estimates for each class density allow the most flexibility. Naive Bayes models are a variant of the previous case, and assume that the inputs are conditionally independent in each class \autocite{Hastie2009}.
+
+Suppose that each class density is modeled as a multivariate Gaussian \autocite{Hastie2009}.
+
+\begin{equation}
+f_k(x) = (2\pi)^{-p/2}\lvert\bm{\Sigma}_k\rvert^{-1/2}\exp\left(-\frac{1}{2}(x-\mu_k)^\top\bm{\Sigma}_k^{-1}(x-\mu_k)\right).
+\end{equation}
+
+Linear discriminant analysis (LDA) is the special case when we assume that the classes have a common covariance matrix $\bm{\Sigma}_k=\bm{\Sigma} \forall k$. When we compare the log-ratio of two classes $k$ and $\ell$ we get an equation linear in $x$. The equal covariance matrices cause the normalization factors to cancel, as well as the quadratic part in the exponents. This linear log-odds function implies that the decision boundary between classes $k$ and $\ell$ is linear in $x$ \autocite{Hastie2009}.
+
+\begin{equation}
+\begin{split}
+\log\frac{P(G=k|X=x)}{P(G=\ell|X=x)} = &\log\frac{f_k(x)}{f_\ell(x)}+\log\frac{\pi_k}{\pi_\ell} \\
+= &\log\frac{\pi_k}{\pi_\ell} - \frac{1}{2}(\mu_k+\mu_\ell)^\top\bm{\Sigma}^{-1}(\mu_k-\mu_\ell) \\
+&+ x^\top\bm{\Sigma}^{-1}(\mu_k-\mu_\ell).
+\end{split}
+\label{Equation:LDA}
+\end{equation}
+
+The linear discriminant functions are an equivalent description of the decision rule, with $G(x)=\operatorname{argmax}_k\delta_k(x)$ \autocite{Hastie2009}.
+
+\begin{equation}
+\delta_k(x) = x^\top\bm{\Sigma}^{-1}\mu_k - \frac{1}{2}\mu_k^\top\bm{\Sigma}^{-1}\mu_k + \log\pi_k.
+\end{equation}
+
+In practice we do not know the parameters of the Gaussian distributions, and need to estimate them using training data \autocite{Hastie2009}.
+
+\begin{itemize}
+\item $\hat{\pi}_k=N_k/N$, where $N_k$ is the number of observations from class $k$,
+\item $\hat{\mu}_k=\sum_{g_i=k}x_i/N_k$,
+\item $\hat{\bm{\Sigma}}=\sum_{k=1}^{K}\sum_{g_i=k}(x_i-\hat{\mu}_k)(x_i-\hat{\mu}_k)^\top/(N-K)$.
+\end{itemize}
+
+In the general discriminant problem, if the $\bm{\Sigma}_k$ are not assumed to be equal, then the convenient cancellations in \autoref{Equation:LDA} do not take place. In particular the pieces quadratic in $x$ remain. We then get quadratic discriminant analysis (QDA). The decision boundary between each pair of classes $k$ and $\ell$ is described by a quadratic equation $\{x:\delta_k(x)=\delta_\ell(x)\}$ \autocite{Hastie2009}.
+
+\begin{equation}
+\delta_k(x)= -\frac{1}{2}\log\lvert\bm{\Sigma}_k\rvert - \frac{1}{2}(x-\mu_k)^\top\bm{\Sigma}_k^{-1}(x-\mu_k) + \log\pi_k.
+\end{equation}
+
+Both LDA and QDA perform well on an amazingly large and diverse set of classification tasks. The question is why LDA and QDA have such a good track record. The reason is likely not that the data are approximately Gaussian, and in addition for LDA that the covariances are approximately equal. More likely the reason is that the data can only support simple decision boundaries such as linear or quadratic, and the estimates provided by the Gaussian models are stable. This is a bias variance tradeoff where we put up with the bias of a linear decision boundary because it can be estimated with much lower variance than more exotic alternatives \autocite{Hastie2009}.
+
+% LDA and QDA decision boundaries
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/lda/lda.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/pipelines/assets/lda/qda.png}
+\end{subfigure}
+\caption[LDA decision boundary]{Example of LDA and QDA decision boundaries from a toy dataset.}
+\end{figure}
+
+\end{document}
