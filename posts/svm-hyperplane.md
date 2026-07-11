@@ -1,6 +1,6 @@
 ---
 title: 'Support Vector Machines: Maximum-Margin Classification'
-published: false
+published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Support Vector Machines (SVM)
 id: 4120994
