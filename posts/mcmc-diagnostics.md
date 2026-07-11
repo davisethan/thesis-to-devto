@@ -4,6 +4,7 @@ published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Markov Chain Monte Carlo (MCMC)
 id: 4117113
+date: '2026-07-11T03:57:57Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
