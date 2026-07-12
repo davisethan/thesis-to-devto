@@ -1,6 +1,6 @@
 ---
 title: Bayesian Neural Networks
-published: false
+published: true
 tags: 'machinelearning, deeplearning, datascience, tutorial'
 series: Deep Neural Networks (DNN)
 id: 4121664
