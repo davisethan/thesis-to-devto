@@ -4,6 +4,7 @@ title: Convolutional Neural Networks
 published: true
 tags: 'machinelearning, deeplearning, datascience, tutorial'
 series: Deep Neural Networks (DNN)
+date: '2026-07-12T04:05:52Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
