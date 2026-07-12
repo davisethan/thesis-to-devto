@@ -1,7 +1,7 @@
 ---
 id: 4121677
 title: "Convolutional Neural Networks"
-published: false
+published: true
 tags: machinelearning, deeplearning, datascience, tutorial
 series: "Deep Neural Networks (DNN)"
 ---
