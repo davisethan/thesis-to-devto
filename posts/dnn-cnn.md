@@ -1,9 +1,9 @@
 ---
 id: 4121677
-title: "Convolutional Neural Networks"
+title: Convolutional Neural Networks
 published: true
-tags: machinelearning, deeplearning, datascience, tutorial
-series: "Deep Neural Networks (DNN)"
+tags: 'machinelearning, deeplearning, datascience, tutorial'
+series: Deep Neural Networks (DNN)
 ---
 
 > *Adapted from an appendix of my MS thesis.*
