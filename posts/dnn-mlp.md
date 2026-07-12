@@ -1,6 +1,6 @@
 ---
 title: 'Deep Neural Networks: From Perceptrons to MLPs'
-published: false
+published: true
 tags: 'machinelearning, deeplearning, datascience, tutorial'
 series: Deep Neural Networks (DNN)
 id: 4121665
