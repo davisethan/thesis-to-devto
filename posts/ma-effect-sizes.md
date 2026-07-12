@@ -1,7 +1,7 @@
 ---
 title: 'Meta-Analysis: Effect Sizes'
 published: false
-tags: 'machinelearning, datascience, statistics, tutorial'
+tags: 'math, datascience, statistics, tutorial'
 series: Meta-Analysis
 id: 4128049
 ---
