@@ -3,6 +3,7 @@ title: "Meta-Analysis: Forest Plots"
 published: false
 tags: machinelearning, datascience, statistics, tutorial
 series: "Meta-Analysis"
+id: 4128048
 ---
 
 > *Adapted from an appendix of my MS thesis.*

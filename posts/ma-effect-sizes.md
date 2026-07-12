@@ -3,7 +3,7 @@ title: 'Meta-Analysis: Effect Sizes'
 published: false
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Meta-Analysis
-id: 4127372
+id: 4128049
 ---
 
 > *Adapted from an appendix of my MS thesis.*
