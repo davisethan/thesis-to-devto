@@ -106,6 +106,10 @@ def expand_macros(body):
     body = re.sub(r"\\bm(?![a-zA-Z])", r"\\boldsymbol", body)
     # KaTeX has no \nicefrac; \frac takes the same two brace args
     body = re.sub(r"\\nicefrac(?![a-zA-Z])", r"\\frac", body)
+    # Pandoc reads a leading [..] in an equation as an optional arg and DROPS it
+    # (e.g. convolution `[w * x](i)`). Use \lbrack/\rbrack so it survives (and it
+    # also avoids the `](` Markdown-link collision on dev.to).
+    body = re.sub(r"\[([^\[\]]*\\circledast[^\[\]]*)\]", r"\\lbrack \1 \\rbrack", body)
     # \allowbreak is a spacing hint KaTeX doesn't know; drop it
     body = re.sub(r"\\allowbreak(?![a-zA-Z])", " ", body)
     # thesis-local operators (KaTeX-safe replacements)
