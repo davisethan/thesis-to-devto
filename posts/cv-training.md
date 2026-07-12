@@ -1,8 +1,9 @@
 ---
-title: "Cross-Validation: Training, Validation, and Test Splits"
+title: 'Cross-Validation: Training, Validation, and Test Splits'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Model Evaluation"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Model Evaluation
+id: 4127182
 ---
 
 > *Adapted from an appendix of my MS thesis.*

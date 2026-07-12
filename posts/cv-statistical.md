@@ -1,8 +1,9 @@
 ---
-title: "Statistical Analysis"
+title: Statistical Analysis
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Model Evaluation"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Model Evaluation
+id: 4127181
 ---
 
 > *Adapted from an appendix of my MS thesis.*
