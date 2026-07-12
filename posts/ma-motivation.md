@@ -1,8 +1,9 @@
 ---
-title: "Meta-Analysis: Motivation and Limitations"
+title: 'Meta-Analysis: Motivation and Limitations'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Meta-Analysis"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Meta-Analysis
+id: 4127376
 ---
 
 > *Adapted from an appendix of my MS thesis.*

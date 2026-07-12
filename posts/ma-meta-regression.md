@@ -1,8 +1,9 @@
 ---
-title: "Meta-Analysis: Meta-Regression"
+title: 'Meta-Analysis: Meta-Regression'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Meta-Analysis"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Meta-Analysis
+id: 4127373
 ---
 
 > *Adapted from an appendix of my MS thesis.*

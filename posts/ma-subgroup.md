@@ -1,8 +1,9 @@
 ---
-title: "Meta-Analysis: Subgroup Analysis"
+title: 'Meta-Analysis: Subgroup Analysis'
 published: false
-tags: machinelearning, datascience, statistics, tutorial
-series: "Meta-Analysis"
+tags: 'machinelearning, datascience, statistics, tutorial'
+series: Meta-Analysis
+id: 4127381
 ---
 
 > *Adapted from an appendix of my MS thesis.*
