@@ -4,6 +4,7 @@ published: true
 tags: 'machinelearning, deeplearning, datascience, tutorial'
 series: Deep Neural Networks (DNN)
 id: 4121664
+date: '2026-07-12T04:09:13Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
