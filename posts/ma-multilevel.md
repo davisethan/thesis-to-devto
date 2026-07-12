@@ -44,7 +44,7 @@ We can add regression terms to a multilevel model, which leads to three-level mi
 
 A hierarchical model can provide a better representation of a dataset than a conventional meta-analysis, which assumes that all effect sizes are independent. But it is still a simplification of reality. In practice, there are often forms of dependence between effect sizes that are more complex than what we have captured so far in nested models. When several effect sizes in one study are based on the same sample, we expect their sampling errors (the {% katex inline %}\epsilon_ {ij}{% endkatex %} terms in the equation) to be correlated [1].
 
-The extended three-level architecture, the correlated and hierarchical effects (CHE) model, explicitly takes into account that some effect sizes within clusters are based on the same sample, and that their sampling errors are therefore correlated. In combination with the CHE model, the robust variance estimation (RVE) and its so-called sandwich estimator can be used to obtain robust confidence intervals and {% katex inline %}p{% endkatex %}-values [1].
+The extended three-level architecture, the correlated and hierarchical effects (CHE) model, explicitly takes into account that some effect sizes within clusters are based on the same sample, and that their sampling errors are therefore correlated. In combination with the CHE model, the robust variance estimation (RVE) and its so-called sandwich estimator can be used to obtain robust confidence intervals and {% katex inline %}p\text{-values}{% endkatex %} [1].
 
 For the robust variance estimator of a meta-regression of the conventional random-effects model, we can rewrite the equation so that it models dependent effect sizes, and is expressed in matrix notation [1].
 
@@ -85,7 +85,7 @@ The adjustment matrix {% katex inline %}\boldsymbol{A}_ j{% endkatex %} ensures 
 
 Another, and sometimes favorable way to test coefficients in our model are bootstrapping procedures. The cluster wild bootstrapping (CWB) method is well suited if the total number of studies {% katex inline %}J{% endkatex %} is our meta-analysis is small. That is, compared to RVE, which can lead to overly conservative results in small samples [1].
 
-The cluster wild bootstrap is based on the residuals of a null model fitted without any additional covariates. Residuals are transformed using an adjustment matrix {% katex inline %}\boldsymbol{A}_ j{% endkatex %}, for example based on the CR2 method, to handle dependent effect sizes. A general algorithm for CWB looks like the following. Steps 3 to 5 are repeated {% katex inline %}R{% endkatex %} times. The bootstrap {% katex inline %}p{% endkatex %}-value can be derived as the proportion of times the bootstrap test statistic was more extreme than the one based on the original data [1].
+The cluster wild bootstrap is based on the residuals of a null model fitted without any additional covariates. Residuals are transformed using an adjustment matrix {% katex inline %}\boldsymbol{A}_ j{% endkatex %}, for example based on the CR2 method, to handle dependent effect sizes. A general algorithm for CWB looks like the following. Steps 3 to 5 are repeated {% katex inline %}R{% endkatex %} times. The bootstrap {% katex inline %}p\text{-value}{% endkatex %} can be derived as the proportion of times the bootstrap test statistic was more extreme than the one based on the original data [1].
 
 **The Cluster Wild Bootstrapping Algorithm [1]**
 

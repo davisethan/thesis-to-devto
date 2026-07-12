@@ -89,7 +89,7 @@ Using the adjusted random-effects weights, we then calculate the pooled effect s
 
 There are several methods to estimate {% katex inline %}\tau^ 2{% endkatex %}, and it is an ongoing research question which of these estimators performs best for different kinds of data. Overall, estimators of {% katex inline %}\tau^ 2{% endkatex %} fall into two categories. Some, like the DerSimonian-Laird and Sidik-Jonkman estimator, are based on closed-form expressions. The restricted maximum likelihood, Paule-Mandel estimator, and empirical Bayes estimator find the optimal value of {% katex inline %}\tau^ 2{% endkatex %} through an iterative algorithm [1].
 
-The Knapp-Hartung adjustments try to control for the uncertainty in our estimate of the between-study heterogeneity. While significance tests of the pooled effect usually assume a normal distribution known as Wald tests, the Knapp-Hartung method is based a {% katex inline %}t{% endkatex %}-distribution. Applying a Knapp-Hartung adjustment is usually sensible. Several studies have shown that these adjustments can reduce the chance of false positives, especially when the number of studies is small [1].
+The Knapp-Hartung adjustments try to control for the uncertainty in our estimate of the between-study heterogeneity. While significance tests of the pooled effect usually assume a normal distribution known as Wald tests, the Knapp-Hartung method is based a {% katex inline %}t\text{-distribution}{% endkatex %}. Applying a Knapp-Hartung adjustment is usually sensible. Several studies have shown that these adjustments can reduce the chance of false positives, especially when the number of studies is small [1].
 
 
 ## References

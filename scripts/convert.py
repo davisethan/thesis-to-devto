@@ -197,6 +197,14 @@ def guard_math_escapes(md):
     return re.sub(r"(\{% katex(?: inline)? %\})(.*?)(\{% endkatex %\})",
                   fix, md, flags=re.S)
 
+def merge_hyphen_suffix(md):
+    """`$Q$-test` renders with an ugly gap on dev.to (math-italic glyph next to
+    plain text). Pull the hyphenated suffix into the math via \\text so KaTeX
+    kerns it as one unit: Q-test, p-value, t-distribution, k-fold, etc."""
+    return re.sub(r"(\{% katex inline %\})(.*?)(\{% endkatex %\})-([A-Za-z]+)",
+                  lambda m: m.group(1) + m.group(2) + r"\text{-" + m.group(4) + "}" + m.group(3),
+                  md, flags=re.S)
+
 def guard_math_underscores(md):
     """Dev.to runs Markdown before KaTeX, so `_`/`^` inside inline math get eaten
     as emphasis (e.g. `}_i` opens <em>), corrupting subscripts. A space AFTER the

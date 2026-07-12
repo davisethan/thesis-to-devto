@@ -88,7 +88,7 @@ z = \frac{\beta}{SE_ {\hat{\beta}}}.
 {% endkatex %}
 
 
-Under the null hypothesis that {% katex inline %}\beta=0{% endkatex %}, this {% katex inline %}z{% endkatex %}-statistic follows a standard normal distribution. This allows us to calculate a corresponding {% katex inline %}p{% endkatex %}-value. Like in normal meta-analysis models, we can also use the Knapp-Hartung adjustment, which results in a test statistic based on the {% katex inline %}t{% endkatex %}-distribution [1].
+Under the null hypothesis that {% katex inline %}\beta=0{% endkatex %}, this {% katex inline %}z\text{-statistic}{% endkatex %} follows a standard normal distribution. This allows us to calculate a corresponding {% katex inline %}p\text{-value}{% endkatex %}. Like in normal meta-analysis models, we can also use the Knapp-Hartung adjustment, which results in a test statistic based on the {% katex inline %}t\text{-distribution}{% endkatex %} [1].
 
 
 ## References
