@@ -1,6 +1,6 @@
 ---
 title: Multilevel (Three-Level) Meta-Analysis
-published: false
+published: true
 tags: 'math, datascience, statistics, tutorial'
 series: Meta-Analysis
 id: 4128052
