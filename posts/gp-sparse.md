@@ -83,7 +83,7 @@ q_ {\mathrm{FITC}}(\boldsymbol{f}_ X,\boldsymbol{f}_ \ast) &=
 
 ![Sparse GP comparison.](assets/gp-sparse/sparse-dtc.png)
 
-The simplest approach to selecting the inducing points from the training set is to throw away some of the data. In this case, we could pick random examples. However, intuitively it makes more sense to try to pick a subset that in some sense covers the original data, so it contains approximately the same information without redundancy. Clustering algorithms such as {% katex inline %}k{% endkatex %}-means are a popular heuristic approach. We can also use coreset methods which can provably find such an information preserving subset. Furthermore, we can approach learning the inducing points by treating them like kernel hyperparameters, and choosing them so as to maximize the log marginal likelihood [1].
+The simplest approach to selecting the inducing points from the training set is to throw away some of the data. In this case, we could pick random examples. However, intuitively it makes more sense to try to pick a subset that in some sense covers the original data, so it contains approximately the same information without redundancy. Clustering algorithms such as {% katex inline %}k\text{-means}{% endkatex %} are a popular heuristic approach. We can also use coreset methods which can provably find such an information preserving subset. Furthermore, we can approach learning the inducing points by treating them like kernel hyperparameters, and choosing them so as to maximize the log marginal likelihood [1].
 
 
 ## References
