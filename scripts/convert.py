@@ -61,8 +61,9 @@ def parse_bib(bib_path):
     return entries
 
 def format_reference(fields):
-    # strip BibTeX capitalization-protection braces, e.g. {Markov} -> Markov
-    clean = lambda s: s.replace("{", "").replace("}", "").strip()
+    # strip BibTeX brace protection and unescape LaTeX punctuation (\& \% \_)
+    clean = lambda s: (s.replace("{", "").replace("}", "")
+                        .replace("\\&", "&").replace("\\%", "%").replace("\\_", "_").strip())
     names = fields.get("author", "")
     is_editor = False
     if not names:                       # edited volumes use `editor`, not `author`
@@ -120,6 +121,13 @@ def expand_macros(body):
     # dev.to has no theorem/definition environments; render as bold-led prose
     body = re.sub(r"\\begin\{definition\}", r"\\textbf{Definition.} ", body)
     body = re.sub(r"\\end\{definition\}", "", body)
+    # strip enumitem options on lists (Pandoc mishandles \begin{enumerate}[..])
+    body = re.sub(r"\\begin\{(enumerate|itemize)\}\[[^\]]*\]", r"\\begin{\1}", body)
+    # tcolorbox (callout box) -> bold title heading, keep inner content
+    body = re.sub(r"\\begin\{tcolorbox\}\[title=([^\]]*)\]",
+                  lambda m: "\n\n\\textbf{" + m.group(1).strip() + "}\n\n", body)
+    body = re.sub(r"\\begin\{tcolorbox\}(\[[^\]]*\])?", "", body)
+    body = re.sub(r"\\end\{tcolorbox\}", "", body)
     # drop \label; turn \autoref into label-aware prose ("the figure/table/equation")
     body = re.sub(r"\\label\{[^}]*\}", "", body)
     def autoref(m):
@@ -184,7 +192,7 @@ def guard_math_escapes(md):
     guard_math_linebreaks so it only touches single backslashes (lookbehind), not the
     already-quadrupled `\\\\` row breaks. Applied inside every katex block."""
     def fix(m):
-        body = re.sub(r"(?<!\\)\\([{}|])", lambda x: "\\\\" + x.group(1), m.group(2))
+        body = re.sub(r"(?<!\\)\\([{}|%&#])", lambda x: "\\\\" + x.group(1), m.group(2))
         return m.group(1) + body + m.group(3)
     return re.sub(r"(\{% katex(?: inline)? %\})(.*?)(\{% endkatex %\})",
                   fix, md, flags=re.S)

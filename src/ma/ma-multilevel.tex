@@ -1,0 +1,86 @@
+\documentclass[../../../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Multilevel Meta-Analysis}
+
+When people talk about multilevel meta-analysis, they are referring to three-level meta-analysis models. A three-level model contains three pooling steps. First, researchers themselves pool the results of individual participants in their primary studies, and report the aggregated effect size. Then, on level 2, these effect sizes are nested within several clusters denoted by $\kappa$. These clusters can either be within individual studies or across subgroups of studies. Lastly, pooling the aggregated cluster effects leads to the overall true effect size $\mu$ \autocite{Harrer2021}.
+
+For an example of dependence introduced within a study, consider scientists conducting a study. They may have collected data from multiple sites, compared multiple interventions to one single control group, or used different questionnaires to measure the same outcome. In all these scenarios, we can assume that some kind of dependency is introduced within the reported study \autocite{Harrer2021}.
+
+As an example of dependence introduced across studies, think of a meta-analysis that focuses on some psychological mechanism. This meta-analysis includes studies which were conducted in different cultural regions of the world. Depending on the type of psychological mechanism, it could be that results of studies conducted in the same cultural region are more similar compared to those conducted in a different culture \autocite{Harrer2021}.
+
+The formula for the three-level model follows. $\hat{\theta}_{ij}$ is an estimate of the true effect size $\theta_{ij}$. The term $ij$ can be read as some effect size $i$ nested in cluster $j$. Parameter $\kappa_j$ is the average effect size in cluster $j$, and $\mu$ the overall average population effect. In contrast to the random-effects model, this formula contains two heterogeneity terms. One is $\zeta_{(2)ij}$, which stands for the within-cluster heterogeneity on level 2. The other is $\zeta_{(3)j}$, the between-cluster heterogeneity on level 3 \autocite{Harrer2021}.
+
+\begin{align}
+&(\text{Level 1}) \quad \hat{\theta}_{ij} = \theta_{ij} + \epsilon_{ij} \\
+&(\text{Level 2}) \quad \theta_{ij} = \kappa_j + \zeta_{(2)ij} \\
+&(\text{Level 3}) \quad \kappa_j = \mu + \zeta_{(3)j} \\
+&\hat{\theta}_{ij} = \mu + \zeta_{(3)j} + \zeta_{(2)ij} + \epsilon_{ij}. \label{Equation:Multilevel}
+\end{align}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/analysis/assets/ma/multilevel.png}
+\caption[Multilevel meta-analysis]{The parameters of a multilevel meta-analysis from one subgroup cluster.}
+\end{figure}
+
+\subsubsection{Subgroup Analyses in Three-Level Models}
+
+We can add regression terms to a multilevel model, which leads to three-level mixed-effects model where $\theta$ is the intercept and $\beta$ is the regression weight of a predictor variable $x$ \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_{ij} = \theta + \beta x_i + \zeta_{(3)j} + \zeta_{(2)ij} + \epsilon_{ij}.
+\end{equation}
+
+\subsubsection{Robust Variance Estimation}
+
+A hierarchical model can provide a better representation of a dataset than a conventional meta-analysis, which assumes that all effect sizes are independent. But it is still a simplification of reality. In practice, there are often forms of dependence between effect sizes that are more complex than what we have captured so far in nested models. When several effect sizes in one study are based on the same sample, we expect their sampling errors (the $\epsilon_{ij}$ terms in \autoref{Equation:Multilevel}) to be correlated \autocite{Harrer2021}.
+
+The extended three-level architecture, the correlated and hierarchical effects (CHE) model, explicitly takes into account that some effect sizes within clusters are based on the same sample, and that their sampling errors are therefore correlated. In combination with the CHE model, the robust variance estimation (RVE) and its so-called sandwich estimator can be used to obtain robust confidence intervals and $p$-values \autocite{Harrer2021}.
+
+For the robust variance estimator of a meta-regression of the conventional random-effects model, we can rewrite \autoref{Equation:MetaRegression} so that it models dependent effect sizes, and is expressed in matrix notation \autocite{Harrer2021}.
+
+\begin{equation}
+\bm{t}_j = \bm{X}_j\bm{\beta} + \bm{u}_j + \bm{e}_j.
+\label{Equation:RVE}
+\end{equation}
+
+\autoref{Equation:RVE} tells us that effect sizes $\bm{t}_j$ are predicted by regression weights $\bm{\beta}$ associated with certain covariates $\bm{X}_j$. It also tells us that, besides the sampling error $\bm{e}_j$, there are random effects for each study $\bm{u}_j$, thus producing a mixed-effects meta-regression model. Say that $n_j$ is the number of effect sizes in some study $j$. The effect sizes in study $j$ can then be written as the column vector $\bm{t}_j=(t_{j,1},\ldots,t_{j,n_j})^\top$. Similarly, $\bm{X}_j$ is the design matrix containing the covariate values of some study $j$, where $p-1$ is the total number of covariates.  The vector of regression coefficients $\bm{\beta}=(\beta_1\ldots,\beta_p)^\top$ contains no subscript $j$, since it is assumed to be fixed across all studies \autocite{Harrer2021}.
+
+\begin{equation}
+\bm{X}_j =
+\begin{bmatrix}
+x_{1,1} & \cdots & x_{1,p} \\
+\vdots & \ddots & \vdots \\
+x_{n_j,1} & \cdots & x_{n_j,p}
+\end{bmatrix}.
+\end{equation}
+
+Based on this formula, we can estimate the meta-regression coefficients $\hat{\bm{\beta}}$. To calculate confidence intervals and conduct significance tests of the coefficients, we need an estimate of their variance $\bm{V}_{\hat{\bm{\beta}}}$. This can be achieved using the robust sampling variance estimator otherwise known as the sandwich estimator \autocite{Harrer2021}.
+
+\begin{equation}
+\bm{V}_{\hat{\bm{\beta}}} = \left(\sum_{j=1}^{J}\bm{X}_j^\top\bm{W}_j\bm{X}_j\right)^{-1} \left(\sum_{j=1}^{J}\bm{X}_j^\top\bm{W}_j\bm{A}_j\bm{\Phi}_j\bm{A}_j\bm{W}_j\bm{X}_j\right) \left(\sum_{j=1}^{J}\bm{X}_j^\top\bm{W}_j\bm{X}_j\right)^{-1}.
+\end{equation}
+
+The true dependence structure of the effect sizes in some study $j$ is described by the $n_j \times n_j$ covariance matrix $\bm{\Phi}_j$. Unfortunately, it is rarely known to what extent effect sizes are correlated within and across studies. Therefore, it is necessary to make a few simplifying assumptions in our model. The CHE model, assumes that there is a known correlation $\rho$ between effect sizes in the same study, and that $\rho$ has the same value across all studies in our meta-analysis \autocite{Harrer2021}.
+
+The weights $\bm{W}_j$ of each effect size takes the precision of effect size estimates into account before we can pool them. The optimal way to do this is to take the inverse of the variance $\bm{W}_j=\bm{\Phi}_j^{-1}$. As mentioned, the true values of $\bm{\Phi}_j$ are hardly even known, so an estimate based on our model $\hat{\bm{\Phi}}_j^{-1}$ is used \autocite{Harrer2021}.
+
+The adjustment matrix $\bm{A}_j$ ensures that the estimator provides valid results even when the number of studies in our meta-analysis is small. Say, 40 studies or less. The recommended approach is to use a matrix based on the bias-reduced linearization, or CR2 method \autocite{Harrer2021}.
+
+\subsubsection{Cluster Wild Bootstrapping}
+
+Another, and sometimes favorable way to test coefficients in our model are bootstrapping procedures. The cluster wild bootstrapping (CWB) method is well suited if the total number of studies $J$ is our meta-analysis is small. That is, compared to RVE, which can lead to overly conservative results in small samples \autocite{Harrer2021}.
+
+The cluster wild bootstrap is based on the residuals of a null model fitted without any additional covariates. Residuals are transformed using an adjustment matrix $\bm{A}_j$, for example based on the CR2 method, to handle dependent effect sizes. A general algorithm for CWB looks like the following. Steps 3 to 5 are repeated $R$ times. The bootstrap $p$-value can be derived as the proportion of times the bootstrap test statistic was more extreme than the one based on the original data \autocite{Harrer2021}.
+
+\begin{tcolorbox}[title=The Cluster Wild Bootstrapping Algorithm \autocite{Harrer2021}]
+\begin{enumerate}[leftmargin=*, label=\arabic*.]
+\item Calculate the full model based on the original data, and derive the test statistic of interest.
+\item Fit a null model based on the original data and extract its residuals $\bm{e}$.
+\item For each study $j$, draw a random value from a distribution, and multiply the residuals of $j$ by this random value.
+\item Generate new, bootstrapped effect sizes by adding the transformed residuals to the predicted values of the null model based on the original data.
+\item Fit the full model again, using the bootstrapped effect sizes, and calculate the test statistic again.
+\end{enumerate}
+\end{tcolorbox}
+\end{document}

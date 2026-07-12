@@ -213,3 +213,21 @@ McNemar
 Nemar
 Neyman
 Varoquaux
+
+# --- Meta-Analysis posts: names + terms ---
+Borenstein
+covariate
+covariates
+Cuijpers
+DerSimonian
+exchangeability
+Furukawa
+Harrer
+Hartung
+Jonkman
+Laird
+Mandel
+Paule
+Sidik
+Simonian
+Toshi

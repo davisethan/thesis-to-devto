@@ -1,0 +1,463 @@
+\documentclass[../../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Meta-Analysis}\label{Appendix:MA}
+
+\subsection{Motivation}
+
+Science is generally assumed to be a cumulative process, and never in history have we had access to more evidence in the form of published research articles than we do today. In principle, this development should make us enthusiastic about the prospects of science. If science is cumulative, then more published research equals more evidence. Yet, it is not that easy. It is an inconvenient truth that the scientific process, when left to its own devices, will not automatically move us to the best of all possible worlds \autocite{Harrer2021}.
+
+Meta-analysis is helpful for critically appraising bodies of evidence in their entirety. That is, as long as we acknowledge its own limitations and biases. A meta-analysis can be described as an analysis of analyses. In conventional studies, the units of analysis are a number people, places, or objects. In meta-analysis, primary studies themselves become the elements of analysis. The aim of meta-analysis is to combine, summarize, and interpret all available evidence related to a clearly defined research field or question. There are at least three distinct ways that evidence from multiple studies can be synthesized \autocite{Harrer2021}.
+
+Traditional or narrative reviews are often written by experts and authorities of a research field. There are no strict rules on how studies in a narrative review have to be selected and how to define the scope of the review. There are also no fixed rules on how to draw conclusions from the reviewed evidence. Overall, this can lead to biases favoring the opinion of the author. Nevertheless, when written in a balanced way, narrative reviews can be helpful for readers to get an overall impression of the relevant research questions and available evidence of a field \autocite{Harrer2021}.
+
+Systemic reviews try to summarize evidence using clearly defined and transparent rules. Research questions are determined beforehand, and there is an explicit, reproducible methodology through which studies are selected and reviewed. System reviews aim to cover all available evidence. They also asses the validity of evidence using predefined standards and present a synthesis of outcomes in a systemic way \autocite{Harrer2021}.
+
+Meta-analyses can be seen as an advanced type of systemic review. However, there is one aspect which makes meta-analyses special. Meta-analyses aim to combine results from previous studies in a quantitative way. The goal of meta-analyses is to integrate quantitative outcomes reported in the selected studies into one numerical estimate. Compared to systemic reviews, meta-analyses often have to be more exclusive concerning the kind of evidence that is summarized. To perform a meta-analysis, it is usually necessary that studies used the same design and type of measurement, and delivered the same intervention \autocite{Harrer2021}.
+
+\subsubsection{Synthesis Limitations}
+
+Certain common pitfalls of meta-analyses can be associated with systemic problems of the scientific process, while others can be traced back to flaws of meta-analyses themselves \autocite{Harrer2021}.
+
+\begin{itemize}
+\item The Apples and Oranges problem: Even with the strictest inclusion criteria, studies in a meta-analysis will never be absolutely identical. Meta-analysis means to calculate a numerical estimate which represents the results of all studies. Such an estimate becomes meaningless when studies do not share the properties that matter to a specific research question. Results of a meta-analysis allow us to pool effects and quantify if and how much this effect may vary across different settings. Variation between studies can often be unproblematic, and even insightful if it is correctly incorporated into the aims and problem specification of a meta-analysis \autocite{Harrer2021}.
+
+\item The Garbage In, Garbage Out problem: The quality of evidence produced by a meta-analysis heavily depends on the quality of the studies it summarizes. if the results reported in our included findings are biased, or simply incorrect, the results of the meta-analysis will be equally flawed. This problem can be mitigated to some extent by assessing the quality or risk of bias of the included studies. Though, even the most rigorous meta-analysis will not always be able to balance this out. However, even such disappointing outcomes can be informative, and help guide future research \autocite{Harrer2021}.
+
+\item The File Drawer problem: The file drawer problem refers to the issue that not all relevant research findings are published, and therefore missing in out meta-analysis. Not being able to integrate all evidence in a meta-analysis would be undesirable, but at least tolerable if we could safely assume that research findings are missing at random in the published literature. Unfortunately, they are not, there is good reason to believe that studies with negative or disappointing results are systematically underrepresented in the published literature and that there is a so called publication bias \autocite{Harrer2021}.
+
+\item The Researcher Agenda problem: When defining the scope of a meta-analysis, searching and selecting studies, and ultimately pooling outcomes measures, researchers have to make a myriad of choices. Experts are deeply invested in the research area they are examining. As such, they may hold strong opinions about certain topics, and may intentionally or unintentionally influence the results in the direction that fits their beliefs. One way to reduce the researcher agenda problem is pre-registration of a detailed analysis plan before beginning with data collection \autocite{Harrer2021}.
+\end{itemize}
+
+\subsection{Effect Sizes}
+
+To perform a meta-analysis, we have to find an effect size which can be summarized across all studies. In particular, the selected effect size measure for a meta-analysis should comparable, computable, reliable, and interpretable. An effect size is defined as a metric quantifying the relationship between two entities. It captures the direction and magnitude of this relationship. For example, correlations describe how well we can predict the values of a variable through the values of another and so can be seen as a form of effect size \autocite{Harrer2021}.
+
+In mathematical notation, it is common to use the Greek letter $\theta$ as the symbol for a true effect size. More precisely, $\theta_k$ represents the true effect size of a study $k$. Importantly, the true effect size is not identical with the observed effect size that we find in the published results of the study. The observed effect size $\hat{\theta}$ is only an estimate of the true effect size. The observed effect size of study $k$ is therefore $\hat{\theta}_k$. Note that $\hat{\theta}_k$ differs from $\theta_k$ because of the sampling error $\epsilon_k$ \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_k = \theta_k + \epsilon_k.
+\label{Equation:SampleError}
+\end{equation}
+
+We can assume that studies with smaller $\epsilon$ will deliver a more precise estimate of the true effect size. When pooling the results of different studies, meta-analyses give studies with greater precision (less sampling error) a higher weight, because they are better estimators of the true effect. The question is how we can know how large the sampling error is \autocite{Harrer2021}.
+
+Unsurprisingly, the true effect of a study $\theta_k$ is unknown, and so $\epsilon_k$ is also unknown. Often, however, we can approximate the expected sampling error. A common way to represent $\epsilon$ is through the standard error (SE). The standard error is defined as the standard deviation of the sampling distribution. A sampling distribution is the distribution of a metric we get when we draw random samples with the same sample size $n$ from our population many times \autocite{Harrer2021}.
+
+\subsubsection{Within-Group Study}
+
+The arithmetic mean is probably the most commonly used central tendency measure, and can easily be pooled in a meta-analysis \autocite{Harrer2021}.
+
+\begin{equation}
+\bar{x} = \frac{\sum_{i=1}^{n}x_i}{n}.
+\end{equation}
+
+The standard error of the mean is calculated as the ratio of the sample standard deviation $s$ and the square root of the sample size $n$ \autocite{Harrer2021}.
+
+\begin{equation}
+SE_{\bar{x}} = \frac{s}{\sqrt{n}}.
+\end{equation}
+
+\subsubsection{Between-Group Study}
+
+The between-group mean difference $MD_{\text{between}}$ is defined as the raw, unstandardized difference of the means for two independent groups. Between-group mean differences can be calculated when a study contained at least two groups, as is usually the case in controlled trials or other types of experimental studies. In meta-analyses, mean differences can only be used when all the studies measured the outcome of interest on exactly the same scale. The mean difference is defined as the mean of group 1, $\bar{x}_1$, minus the mean of group 2, $\bar{x}_2$ \autocite{Harrer2021}.
+
+\begin{equation}
+MD_{\text{between}} = \bar{x}_1 - \bar{x}_2.
+\end{equation}
+
+The standard error can be obtained using the following formula where $n_1$ represents the sample size of group 1, $n_2$ the sample size of group 2, and $s_{\text{pooled}}$ the pooled standard deviation of both groups \autocite{Harrer2021}.
+
+\begin{equation}
+SE_{MD_\text{between}} = s_{\text{pooled}}\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}.
+\end{equation}
+
+Using the standard deviation of group 1, $s_1$, and group 2, $s_2$, the value of $s_\text{pooled}$ can be calculated as follows \autocite{Harrer2021}.
+
+\begin{equation}
+s_{\text{pooled}}=\sqrt{\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{(n_1-1)+(n_2-1)}}.
+\end{equation}
+
+\subsubsection{Standardized Between-Group Study}
+
+The standardized between-group mean difference $SMD_\text{between}$ is defined as the difference in means between two independent groups, standardized by the pooled standard deviation $s_\text{pooled}$. $SMD_\text{between}$ can be compared between studies, even if those studies did not measure the outcome of interest using the same instruments. In the literature, the standardized mean difference is also often called Cohen's $d$. In contrast to unstandardized mean differences, $SMD_\text{between}$ expresses the difference between two groups in units of standard deviations. This can be achieved by dividing the raw mean difference of two groups, $\bar{x}_1$ and $\bar{x}_2$, through the pooled standard deviation $s_\text{pooled}$ of both groups \autocite{Harrer2021}.
+
+\begin{equation}
+SMD_\text{between}=\frac{\bar{x}_1-\bar{x}_2}{s_\text{pooled}}.
+\end{equation}
+
+Standardized mean differences are often interpreted using the conventions of Cohen, however, these are rules of thumb at best. It is usually much better to interpret standardized mean differences based on their implications. For example, for many serious diseases even a very small statistical effect can still have a large impact on the population level \autocite{Harrer2021}.
+
+\begin{itemize}
+\item $SMD \approx 0.20$: small effect.
+\item $SMD \approx 0.50$: moderate effect.
+\item $SMD \approx 0.80$: large effect.
+\end{itemize}
+
+The standardized error of $SMD_\text{between}$ can be calculated using this formula where $n_1$ and $n_2$ are the sample sizes of group 1 and group 2 \autocite{Harrer2021}.
+
+\begin{equation}
+SE_{SMD_\text{between}} = \sqrt{\frac{n_1+n_2}{n_1n_2}+\frac{SMD_\text{between}^2}{2(n_1+n_2)}}.
+\end{equation}
+
+\subsubsection{Effect Size Correction}
+
+The standardized mean difference has been found to have an upward bias when the sample of a study is small, especially when $n\leq20$. This small sample bias means that SMDs systematically overestimate the true effect size when the total sample size of a study is small, which is unfortunately often the case in practice. It is therefore sensible to correct the standardized mean differences of all included studies for small-sample bias, which produces an effect size called Hedges' $g$. In this formula, $n$ represents the total sample size of the study \autocite{Harrer2021}.
+
+\begin{equation}
+g = SMD \times \left(1-\frac{3}{4n-9}\right).
+\end{equation}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\linewidth]{appendix/methods/analysis/assets/ma/hedges_g.png}
+\caption[Hedges' $g$ and Cohen's $d$]{Example of Hedges' $g$ and Cohen's $d$ over sample size.}
+\end{figure}
+
+\subsection{Pooling Effect Sizes}
+
+\subsubsection{Fixed-Effect Model}
+
+The fixed-effect model assumes that all effect sizes stem from a single, homogeneous population. It states that all studies share the same true effect size. According to the fixed-effect model, the only reason why a study $k$'s observed effect size $\hat{\theta}_k$ deviates from $\theta$ is because of its sampling error $\epsilon_k$. This sampling error causes the observed effect to deviate from the overall, true effect. We can describe the relationship as the following \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_k = \theta + \epsilon_k.
+\end{equation}
+
+In the formula of the fixed-effect model, the true effect size is symbolized by $\theta$, not $\theta_k$ as in \autoref{Equation:SampleError}. Previously, we only made statements about the true effect size of one individual study $k$. The fixed-effect tells us that a study's true effect size $\theta_k$, and the overall, pooled effect size $\theta$, are identical. The formula of the fixed-effect models tells us that there is only one reason why observed effect sizes $\theta_k$ deviate from the true overall effect: because of the sampling error $\epsilon_k$. Furthermore, all things being equal, as the sample size becomes larger, the sampling error becomes smaller \autocite{Harrer2021}.
+
+If we want to calculate the pooled effect size under the fixed-effect model, we therefore simply use a weighted average of all studies. To calculate the weight $w_k$ for each study $k$, we can use the standard error, which we square to obtain the variance $s_k^2$ of each effect size. Since a lower variance indicates higher precision, the inverse of the variance is used to determine the weight of each study \autocite{Harrer2021}.
+
+\begin{equation}
+w_k = \frac{1}{s_k^2}.
+\end{equation}
+
+Once we know the weights, we can calculate the weighted average, our estimate of the true pooled effect $\hat{\theta}$. This method is the most common approach to calculate average effects in meta-analyses. Since we use the inverse of the variance, it is often called inverse-variance weighting, or simply inverse-variance meta-analysis \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta} = \frac{\sum_{k=1}^{K}\hat{\theta}_kw_k}{\sum_{k=1}^{K}w_k}.
+\end{equation}
+
+\subsubsection{Random-Effects Model}
+
+The fixed-effect model assumes that all our studies are part of a homogeneous population. However, it is simply unrealistic that studies in a meta-analysis are always completely homogeneous. It is likely that we can anticipate considerable between-study heterogeneity in the true effects. The random-effects model assumes that there is not only one true effect size but a distribution of true effect sizes. The goal of the random-effects model is therefore not to estimate the one true effect size of all studies, but the mean of the distribution of true effects \autocite{Harrer2021}.
+
+Similar to the fixed-effect model, the random-effects model starts by assuming that an observed effect size $\hat{\theta}_k$ is an estimator of the study's true effect size $\theta_k$, burdened by sampling error $\epsilon_k$ \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_k = \theta_k + \epsilon_k.
+\end{equation}
+
+The fact that we use $\theta_k$ instead of $\theta$ is an important difference. The random-effects model only assumes that $\theta_k$ is the true effect size of one single study $k$. It stipulates that there is a second source of error, denoted by $\zeta_k$. This second source of error is introduced by the fact that even the true effect size $\theta_k$ of study $k$ is only part of an over-arching distribution of true effect sizes with mean $\mu$ \autocite{Harrer2021}.
+
+\begin{equation}
+\theta_k = \mu + \zeta_k.
+\end{equation}
+
+The random-effects model tells us that there is a hierarchy of two processes. The observed effect sizes of a study deviate from their true value because of the sampling error. But even the true effect sizes are only a draw from a universe of true effects, whose mean $\mu$ we want to estimate as the pooled effect of our meta-analysis. We can express the random-effects mode in one line. This formula makes it clear that our observed effect size deviates from the pooled effect $\mu$ because of two error terms, $\zeta_k$ and $\epsilon_k$ \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_k = \mu + \zeta_k + \epsilon_k.
+\label{Equation:RandomEffects}
+\end{equation}
+
+A crucial assumption of the random-effects model is that the size of $\zeta_k$ is independent of $k$. That is, the size of $\zeta_k$ is a product of chance, and chance alone. This is known as the exchangeability assumption of the random-effects model. All true effect sizes are assumed to be exchangeable in so far as we have nothing that could tell us how big $\zeta_k$ will be in some study $k$ before seeing the data \autocite{Harrer2021}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/analysis/assets/ma/random_effects.png}
+\caption[Random-effects model]{Illustration of parameters from the random-effects model.}
+\end{figure}
+
+The challenge associated with the random-effects model is that we have to take the error $\zeta_k$ into account. To do this, we have to estimate the variance of the distribution of true effect sizes. This variance is known as $\tau^2$. Once we know the value of $\tau^2$, we can include the between-study heterogeneity when determining the inverse-variance weight of each effect size. In the random-effects model, we therefore calculate an adjusted random-effects weight $w_k^\ast$ for each observation \autocite{Harrer2021}.
+
+\begin{equation}
+w_k^\ast = \frac{1}{s_k^2+\tau^2}.
+\end{equation}
+
+Using the adjusted random-effects weights, we then calculate the pooled effect size using the inverse variance method, just as we do using the fixed-effect model \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta} = \frac{\sum_{k=1}^{K}\hat{\theta}_kw_k^\ast}{\sum_{k=1}^{K}w_K^\ast}.
+\end{equation}
+
+There are several methods to estimate $\tau^2$, and it is an ongoing research question which of these estimators performs best for different kinds of data. Overall, estimators of $\tau^2$ fall into two categories. Some, like the DerSimonian-Laird and Sidik-Jonkman estimator, are based on closed-form expressions. The restricted maximum likelihood, Paule-Mandel estimator, and empirical Bayes estimator find the optimal value of $\tau^2$ through an iterative algorithm \autocite{Harrer2021}.
+
+The Knapp-Hartung adjustments try to control for the uncertainty in our estimate of the between-study heterogeneity. While significance tests of the pooled effect usually assume a normal distribution known as Wald tests, the Knapp-Hartung method is based a $t$-distribution. Applying a Knapp-Hartung adjustment is usually sensible. Several studies have shown that these adjustments can reduce the chance of false positives, especially when the number of studies is small \autocite{Harrer2021}.
+
+\subsection{Between-Study Heterogeneity}
+
+The extent to which true effect sizes vary within a meta-analysis is called between-study heterogeneity. For example, the random-effects model assumes that between-study heterogeneity causes the true effect sizes of studies to differ. It therefore includes an estimate of $\tau^2$, which quantifies this variance in true effects. This allows us to calculate the pooled effect, defined as the mean of the true effect size distribution \autocite{Harrer2021}.
+
+High heterogeneity can be caused by the fact that there are two or more subgroups of studies in our data that have a different true effect. In extreme cases, very high heterogeneity can mean that the studies have nothing in common, and that it makes no sense to interpret the pooled effect at all. Every good meta-analysis should not only report an overall effect but also state how trustworthy this estimate is. An essential part of this is to quantify and analyze the between-study heterogeneity \autocite{Harrer2021}.
+
+\subsubsection{Cochran's $Q$}
+
+When we want to quantify between-study heterogeneity, the difficulty is to identify how much of the variation can be attributed to the sampling error, and how much to true effect size differences. Traditionally, meta-analysts have used Cochran's $Q$ for this purpose. Cochran's $Q$ is defined as a weighted sum of squares (WSS). It uses the deviation of each study's observed effect $\hat{\theta}_k$ from the summary effect $\hat{\theta}$, weighted by the inverse of the study's variance $w_k$ \autocite{Harrer2021}.
+
+\begin{equation}
+Q = \sum_{k=1}^{K}w_k(\hat{\theta}_k-\hat{\theta})^2.
+\end{equation}
+
+The amount to which individual effects deviate from the summary effect, the residuals, is squared. Because of the weighting by $w_k$, the value of $Q$ does not only depend on how much of $\hat{\theta}_k$ deviates from $\hat{\theta}$ but also on the precision of studies. If the standard error of an effect size is low (and thus the precision is high), even small deviations from the summary effect will be given a higher weight, leading to higher values of $Q$. The value of $Q$ can be used to check if there is excess variation in our data, meaning more variation than can be expected from sampling error alone. If this is the case, we can assume that the rest of the variation is due to between-study heterogeneity \autocite{Harrer2021}.
+
+It is assumed that $Q$ will approximately follow a $\chi^2$ distribution with $K-1$ degrees of freedom where $K$ is the number of studies in our meta-analysis. That is, this assumption holds if effect size differences are only caused by sampling error. Thus the mean of a $\chi^2$ distribution with $K-1$ degrees of freedom tells us the value of $Q$ we can expect through sampling error alone \autocite{Harrer2021}.
+
+Cochran's $Q$ can be used to test if the variation in a meta-analysis significantly exceeds the amount we would expect under the null hypothesis of no heterogeneity. Although $Q$ is commonly used and reported in meta-analyses, it has several flaws. A practical concern is that $Q$ increases both when the number of studies $K$, and when the precision (the sample size of a study) increases. Therefore, $Q$ and whether it is significant highly depends on the size of a meta-analysis, and thus its statistical power. From this it follows that we should not only rely on the significance of a $Q$-test when assessing heterogeneity \autocite{Harrer2021}.
+
+\subsubsection{Higgins \& Thompson's $I^2$ Statistic}
+
+The $I^2$ statistic is directly based on Cochran's $Q$. It is defined as the percentage of variability in the effect sizes that is not caused by sampling error. $I^2$ draws on the assumption that $Q$ follows a $\chi^2$ distribution with $K-1$ degrees of freedom under the null hypothesis of no heterogeneity. It quantifies, in percent, how much the observed value of $Q$ exceeds the expected $Q$ value when there is no heterogeneity. The value of $I^2$ cannot be lower than 0\%, so if $Q$ happens to be smaller than $K-1$, we simply use 0 instead of a negative value \autocite{Harrer2021}.
+
+\begin{equation}
+I^2 = \frac{Q-(K-1)}{Q}.
+\end{equation}
+
+It is common to use the $I^2$ statistic to report the between-study heterogeneity in meta-analyses, and the popularity of this statistic may be associated with the fact that there is a rule of thumb on how we can interpret it \autocite{Harrer2021}.
+
+\begin{itemize}
+\item $I^2=25\%$: low heterogeneity
+\item $I^2=50\%$: moderate heterogeneity
+\item $I^2=75\%$: substantial heterogeneity.
+\end{itemize}
+
+\subsubsection{The $H^2$ Statistic}
+
+The $H^2$ statistic is also derived from Cochran's $Q$, and similar to $I^2$. It describes the ratio of the observed variation, measured by $Q$, and the expected variance due to sampling error. The computation of $H^2$ is a little more elegant than the one of $I^2$ because we do not have to artificially correct its value when $Q$ is smaller than $K-1$. Values greater than one indicate the presence of between-study heterogeneity. Compared to $I^2$, it is far less common to find this statistic reported in published meta-analyses \autocite{Harrer2021}.
+
+\begin{equation}
+H^2 = \frac{Q}{K-1}.
+\end{equation}
+
+\subsubsection{Heterogeneity Variance $\tau^2$ \& Standard Deviation $\tau$}
+
+As previously discussed, $\tau^2$ quantifies the variance of the true effect sizes underlying our data. When we take the square root, we obtain $\tau$, which is the standard deviation of the true effect sizes. A great asset of $\tau$ is that it is expressed on the same scale as the effect size metric. The value of $\tau$ tells us something about the range of the true effect sizes. For example, we can calculate the 95\% confidence interval of the true effect sizes by multiplying $\tau$ with 1.96, and then adding and subtracting this value from the pooled effect size \autocite{Harrer2021}.
+
+\subsubsection{Assessing Heterogeneity}
+
+Cochran's $Q$ and whether it is significant highly depends on the size of a meta-analysis, and thus its statistical power. We should therefore no only rely on $Q$ when assessing between-study heterogeneity. $I^2$, on the other hand, is not sensitive to changes in the number of studies in the analysis. It is also relatively easy to interpret. It is recommended to include $I^2$ with confidence intervals as a heterogeneity measure in a meta-analysis report \autocite{Harrer2021}.
+
+However, despite its common use in the literature, $I^2$ is not a perfect measure for heterogeneity either. It still heavily depends on the precision of the included studies. $I^2$ is simply the percentage of variability not caused by sampling error $\epsilon$. If our studies becomes increasingly large, the sampling error tends to zero, while at the same time, $I^2$ tends to 100\% simply because the studies have a greater sample size. Since $H^2$ behaves similarly to $I^2$, the same caveats also apply to this statistic \autocite{Harrer2021}.
+
+The value of $\tau^2$, on the other hand, is sensitive to the number of studies, and their precision. Yet, it is often difficult to interpret how relevant the amount of variance $\tau^2$ is from a practical standpoint. Prediction intervals (PIs) are a good way to overcome this limitation, giving us a range into which we can expect the effects of future studies to fall based on present evidence. In addition to reporting $I^2$ with confidence intervals, one should also report prediction intervals in meta-analyses \autocite{Harrer2021}.
+
+To calculate the 95\% prediction intervals around the overall effect $\hat{\mu}$, we use both the estimated between-study heterogeneity variance $\hat{\tau}^2$, as well as the standard error of the pooled effect $SE_{\hat{\mu}}$, to compute the standard deviation of the prediction interval $SD_\text{PI}$, using a $t$-distribution with $K-1$ degrees of freedom \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\mu} \pm t_{K-1,0.975}\sqrt{SE_{\hat{\mu}}^2+\hat{\tau}^2} = \hat{\mu} \pm t_{K-1,0.975}SD_\text{PI}.
+\end{equation}
+
+\subsection{Forest Plots}
+
+The most common way to visualize meta-analyses is through forest plots. See \autoref{Figure:ForestPlot} for an example created from a dataset containing studies examining the effect of so-called ``third wave'' psychotherapies on perceived stress in college students. For each study, the standardized mean difference between a treatment and control group at post-test was calculated, and Hedges' $g$ small sample correction was applied \autocite{Harrer2021}.
+
+For each study, a graphical representation of the effect size is provided. This visualization shows the point estimate of a study on the horizontal axis. This point estimate is supplemented by a line, which represents the range of the confidence interval calculated for the observed effect size. Usually, the points estimate is surrounded by a square. The size of this square is determined by the weight of the effect size: Studies with a larger weight are given a larger square \autocite{Harrer2021}.
+
+At the bottom of the plot, a diamond shape represents the average effect. The length of the diamond symbolizes the confidence interval of the pooled result on the horizontal axis. Typically, forest plots also include a vertical reference line, which indicates the point on the horizontal axis equal to no effect \autocite{Harrer2021}. 
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/analysis/assets/ma/forest.png}
+\caption[Third Wave forest plot]{Example of a forest plot from the Third Wave dataset.}
+\label{Figure:ForestPlot}
+\end{figure}
+
+\subsection{Subgroup Analysis}\label{Subsection:SubgroupAnalysis}
+
+Outlier and influence analysis can help us identify which studies contribute to observed heterogeneity. They are performed after seeing the data, and often because of the results we found. These analyses may tell us that some study does not properly follow the expectations of our model, but not why this is that case. This makes it clear that we need a different approach, one that allows us to identify why a specific heterogeneity pattern can be found in our data \autocite{Harrer2021}.
+
+Subgroup analyses, also known as moderator analyses, are one way to do this. They allow us to test specific hypotheses, describing why some type of study produces lower or higher effects than another. The idea behind subgroup analysis is that meta-analysis is not only about calculating an average effect size but that it can also be a tool to investigate variation in our evidence. In subgroup analyses, we see heterogeneity not merely as a nuisance but as interesting variation which may or may not be explainable by a scientific hypothesis \autocite{Harrer2021}.
+
+In subgroup analyses, we hypothesize that studies in our meta-analysis do not stem from one overall population. Instead, we assume that they fall into different subgroups and that each subgroup has its own true overall effect. Our aim is to reject the null hypothesis that there is no difference in effect sizes between subgroups. The calculation of a subgroup analysis consists of two parts. First, we pool the effect in each subgroup. Subsequently, the effects of the subgroups are compared using a statistical test \autocite{Harrer2021}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/analysis/assets/ma/subgroup.png}
+\caption[Fixed-effects model]{Illustration of parameters from a subgroup analysis also known as a fixed-effects (plural) model.}
+\end{figure}
+
+\subsubsection{Pooling the Effect in Subgroups}
+
+The first part is straightforward, as the same criteria as those for a meta-analysis without subgroups apply. If we assume that all studies in a subgroup stem from the same population, and have one shared true effect, we can use the fixed-effect mode. However, as mentioned previously, it is often unrealistic that this assumption holds in practice, even when we partition our studies into smaller subgroups \autocite{Harrer2021}.
+
+Therefore, the alternative is to use a random-effects model. This assumes that studies within a subgroup are drawn from a universe of populations, the mean of which we want to estimate. The difference to a normal meta-analysis is that we conduct several separate random-effects meta-analyses, one for each subgroup. This results in a pooled effect $\hat{\mu}_g$ for each subgroup $g$ \autocite{Harrer2021}.
+
+Since each subgroup gets its own separate meta-analysis, estimates of the $\tau^2$ heterogeneity will also differ from subgroup to subgroup. In practice, however, the individual heterogeneity values $\hat{\tau}_g^2$ are often replaced with a version of $\tau^2$ that was pooled across subgroups. This means that all subgroups are assumed to share a common estimate of the between-study heterogeneity. This is done for practical reasons. When the number of studies in a subgroup is small, for example $k_g<5$, it is likely that the estimate of $\tau^2$ will be imprecise. In this case, it is better to calculate a pooled version of $\tau^2$ that is used across all subgroups \autocite{Harrer2021}.
+
+\subsubsection{Comparing the Subgroup Effects}
+
+In the next step, we assess if there is a true difference between the $G$ subgroups. The assumption is that the subgroups are different, meaning that at least one subgroup is part of a different population of studies. A way to test this is to pretend that the pooled effect of a subgroup is nothing more than the observed effect size of one large study. Similar to when assessing the heterogeneity of a normal meta-analysis, we want to know if difference in effect sizes exist only due to sampling error, or because of true differences in the effect sizes \autocite{Harrer2021}.
+
+Therefore, we use the value of $Q$ to determine if the subgroup differences are large enough to not be explainable by sampling error alone. Pretending that the subgroup effects are observed effect sizes, we calculate the value of $Q$. This observed $Q$ value is compared to its expected value assuming a $\chi^2$ distribution with $G-1$ degrees of freedom. If the observed value of $Q$ is substantially larger than the expected one, the $p$-value of the $Q$ test will become significant. This indicates that there is a difference in the true effect sizes between subgroups \autocite{Harrer2021}.
+
+Borenstein and Higgins (2013) argue that the subgroups we choose to analyze cannot always be seen as random draws from a universe of possible subgroups, but represent fixed levels of a characteristic we want to examine. Take employment status as an example. This features two fixed subgroups, ``employed'' and ``unemployed''. Borenstein and Higgins call the model for subgroup analyses the fixed-effects (plural) model, where the word ``plural'' is added because we have to differentiate it from the standard fixed-effect model. It is also known in the literature as a mixed-effects model \autocite{Harrer2021}.
+
+\subsection{Meta-Regression}
+
+Usually, regression models are based on data comprising individual persons or specimens, for which both the independent $x$ and dependent $y$ values are measured. In meta-regression, this concept is applied to entire studies. The variable $x$ represents characteristics of studies, for example, the year in which it was conducted. Based on this information, a meta-regression model tries to predict $y$, the study's effect size \autocite{Harrer2021}.
+
+In a conventional regression, we want to estimate the value $y_i$ of a person or specimen $i$ using a predictor (or covariate) $x_i$ with a regression coefficient $\beta$ \autocite{Harrer2021}.
+
+\begin{equation}
+y_i = \beta_0 + \beta_1 x_i.
+\end{equation}
+
+In meta-regression, the variable $y$ we want to predict is the observed effect size $\hat{\theta}_k$ of study $k$ \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_k = \theta + \beta x_k + \epsilon_k + \zeta_k.
+\label{Equation:MetaRegression}
+\end{equation}
+
+This formula contains two extra terms, $\epsilon_k$ and $\zeta_k$. The same terms found in the random-effects model from \autoref{Equation:RandomEffects}. The first one, $\epsilon_k$, is the sampling error through which the effect size of a study deviates from its true effect. The second error, $\zeta_k$, denotes that even the true effect size of the study is only sampled from an overarching distribution of effect sizes. Since the meta-regression formula includes a fixed effect (the $\beta$ coefficient) as well as a random effect ($\zeta_k$), the model used in meta-regression is often called a mixed-effects model \autocite{Harrer2021}.
+
+\subsubsection{Meta-Regression with a Categorical Predictor}
+
+Subgroup analysis (from \autoref{Subsection:SubgroupAnalysis}) is nothing else than a meta-regression with a categorical predictor, where such categorical variables can be included through dummy-coding, such as the following \autocite{Harrer2021}.
+
+\begin{equation}
+D_g =
+\begin{cases}
+0: &\text{Subgroup A} \\
+1: &\text{Subgroup B} \\
+\end{cases}
+\end{equation}
+
+To specify a subgroup analysis in the form of a meta-regression, we simply have to replace the covariate $x_k$ with $D_g$ \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_k = \theta + \beta D_g + \epsilon_k + \zeta_k.
+\end{equation}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/analysis/assets/ma/subgroup_regression.png}
+\caption[Meta-regression]{Meta-regression with a categorical predictor (subgroup analysis).}
+\end{figure}
+
+\subsubsection{Meta-Regression with a Continuous Predictor}
+
+When people speak of a meta-regression, they usually think of models in which a continuous variable is used as the predictor. The aim of the meta-regression model is to find values of $\theta$ and $\beta$ which minimize the difference between the predicted effect size and the true effect size of studies. Taking into account both the sampling error $\epsilon_k$ and between-study heterogeneity $\zeta_k$, meta-regression tried to find a model that generalizes well, not only to the observed effect sizes but to the universe of all possible studies of interest \autocite{Harrer2021}.
+
+An important detail about meta-regression models is that they can be seen as an extension of the random-effects model. The random-effects model is nothing but a meta-regression without a slope term. Since it contains no slope, the random-effects model simply predicts the same value for all studies. That is, the estimate of the pooled effect size $\mu$, which is equivalent to the intercept \autocite{Harrer2021}.
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.37\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/analysis/assets/ma/regression_left.png}
+\end{subfigure}
+\hspace{3em}
+\begin{subfigure}{0.37\textwidth}
+\includegraphics[width=\linewidth]{appendix/methods/analysis/assets/ma/regression_right.png}
+\end{subfigure}
+\caption[Random-effects model and meta-regression]{Example of a random-effects model versus a meta-regression.}
+\end{figure}
+
+In the first step, the calculation of a meta-regression therefore closely resembles the one of a random-effects meta-analysis, in that the between-study heterogeneity $\tau^2$ is estimated. In the next step, the fixed weights $\theta$ and $\beta$ are estimated. In meta-regression, weighted least squares (WLS) is used to find the regression line that fits the data best. WLS makes sure that studies with a smaller standard error are given a higher weight \autocite{Harrer2021}.
+
+If the meta-regression model fits the data well, the true effect sizes should deviate less from the regression line compared to the pooled effect $\hat{\mu}$. If this is the case, the predictor $x$ explains some of the heterogeneity variance in our meta-analysis. The fit of the meta-regression model can therefore be assessed by checking how much of the heterogeneity variance it explains \autocite{Harrer2021}.
+
+The predictors included in the mixed-effects model should minimize the amount of residual heterogeneity variance denoted by $\hat{\tau}_\text{MEM}^2$. The $R_\ast^2$ index is used to quantify the percentage of variation explained by the meta-regression model. The asterisk is added to differentiate from the $R^2$ index used in conventional regressions, since meta-regression deals with true effect sizes instead of observed data points \autocite{Harrer2021}.
+
+$R_\ast^2$ uses the amount of residual heterogeneity variance that even the meta-regression slope cannot explain. It is put in relation to the total heterogeneity that we initially found in our random-effects model $\hat{\tau}_\text{REM}^2$. Subtracting this fraction from 1 leaves us with the percentage of between-study heterogeneity explained by the predictor, and is expressed in \autoref{Equation:RegressionIndex}. We can also says that it is how much the mixed-effects model has reduced the heterogeneity variance compared to the initial random-effects pooling model, in percent \autocite{Harrer2021}.
+
+\begin{equation}
+R_\ast^2
+= 1 - \frac{\hat{\tau}_\text{MEM}^2}{\hat{\tau}_\text{REM}^2}
+= \frac{\hat{\tau}_\text{REM}^2-\hat{\tau}_\text{MEM}^2}{\hat{\tau}_\text{REM}^2}.
+\label{Equation:RegressionIndex}
+\end{equation}
+
+Usually, we are not only in the amount of heterogeneity explained by the regression model but also if the regression weight of our predictor $x$ is significant. Both in conventional and meta-regression, the significance of a regression weight is commonly assessed through a Wald test. This involves calculating the test statistic $z$, by dividing the estimate of $\beta$ through its standard error \autocite{Harrer2021}.
+
+\begin{equation}
+z = \frac{\beta}{SE_{\hat{\beta}}}.
+\end{equation}
+
+Under the null hypothesis that $\beta=0$, this $z$-statistic follows a standard normal distribution. This allows us to calculate a corresponding $p$-value. Like in normal meta-analysis models, we can also use the Knapp-Hartung adjustment, which results in a test statistic based on the $t$-distribution \autocite{Harrer2021}.
+
+\subsection{Multilevel Meta-Analysis}
+
+When people talk about multilevel meta-analysis, they are referring to three-level meta-analysis models. A three-level model contains three pooling steps. First, researchers themselves pool the results of individual participants in their primary studies, and report the aggregated effect size. Then, on level 2, these effect sizes are nested within several clusters denoted by $\kappa$. These clusters can either be within individual studies or across subgroups of studies. Lastly, pooling the aggregated cluster effects leads to the overall true effect size $\mu$ \autocite{Harrer2021}.
+
+For an example of dependence introduced within a study, consider scientists conducting a study. They may have collected data from multiple sites, compared multiple interventions to one single control group, or used different questionnaires to measure the same outcome. In all these scenarios, we can assume that some kind of dependency is introduced within the reported study \autocite{Harrer2021}.
+
+As an example of dependence introduced across studies, think of a meta-analysis that focuses on some psychological mechanism. This meta-analysis includes studies which were conducted in different cultural regions of the world. Depending on the type of psychological mechanism, it could be that results of studies conducted in the same cultural region are more similar compared to those conducted in a different culture \autocite{Harrer2021}.
+
+The formula for the three-level model follows. $\hat{\theta}_{ij}$ is an estimate of the true effect size $\theta_{ij}$. The term $ij$ can be read as some effect size $i$ nested in cluster $j$. Parameter $\kappa_j$ is the average effect size in cluster $j$, and $\mu$ the overall average population effect. In contrast to the random-effects model, this formula contains two heterogeneity terms. One is $\zeta_{(2)ij}$, which stands for the within-cluster heterogeneity on level 2. The other is $\zeta_{(3)j}$, the between-cluster heterogeneity on level 3 \autocite{Harrer2021}.
+
+\begin{align}
+&(\text{Level 1}) \quad \hat{\theta}_{ij} = \theta_{ij} + \epsilon_{ij} \\
+&(\text{Level 2}) \quad \theta_{ij} = \kappa_j + \zeta_{(2)ij} \\
+&(\text{Level 3}) \quad \kappa_j = \mu + \zeta_{(3)j} \\
+&\hat{\theta}_{ij} = \mu + \zeta_{(3)j} + \zeta_{(2)ij} + \epsilon_{ij}. \label{Equation:Multilevel}
+\end{align}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{appendix/methods/analysis/assets/ma/multilevel.png}
+\caption[Multilevel meta-analysis]{The parameters of a multilevel meta-analysis from one subgroup cluster.}
+\end{figure}
+
+\subsubsection{Subgroup Analyses in Three-Level Models}
+
+We can add regression terms to a multilevel model, which leads to three-level mixed-effects model where $\theta$ is the intercept and $\beta$ is the regression weight of a predictor variable $x$ \autocite{Harrer2021}.
+
+\begin{equation}
+\hat{\theta}_{ij} = \theta + \beta x_i + \zeta_{(3)j} + \zeta_{(2)ij} + \epsilon_{ij}.
+\end{equation}
+
+\subsubsection{Robust Variance Estimation}
+
+A hierarchical model can provide a better representation of a dataset than a conventional meta-analysis, which assumes that all effect sizes are independent. But it is still a simplification of reality. In practice, there are often forms of dependence between effect sizes that are more complex than what we have captured so far in nested models. When several effect sizes in one study are based on the same sample, we expect their sampling errors (the $\epsilon_{ij}$ terms in \autoref{Equation:Multilevel}) to be correlated \autocite{Harrer2021}.
+
+The extended three-level architecture, the correlated and hierarchical effects (CHE) model, explicitly takes into account that some effect sizes within clusters are based on the same sample, and that their sampling errors are therefore correlated. In combination with the CHE model, the robust variance estimation (RVE) and its so-called sandwich estimator can be used to obtain robust confidence intervals and $p$-values \autocite{Harrer2021}.
+
+For the robust variance estimator of a meta-regression of the conventional random-effects model, we can rewrite \autoref{Equation:MetaRegression} so that it models dependent effect sizes, and is expressed in matrix notation \autocite{Harrer2021}.
+
+\begin{equation}
+\bm{t}_j = \bm{X}_j\bm{\beta} + \bm{u}_j + \bm{e}_j.
+\label{Equation:RVE}
+\end{equation}
+
+\autoref{Equation:RVE} tells us that effect sizes $\bm{t}_j$ are predicted by regression weights $\bm{\beta}$ associated with certain covariates $\bm{X}_j$. It also tells us that, besides the sampling error $\bm{e}_j$, there are random effects for each study $\bm{u}_j$, thus producing a mixed-effects meta-regression model. Say that $n_j$ is the number of effect sizes in some study $j$. The effect sizes in study $j$ can then be written as the column vector $\bm{t}_j=(t_{j,1},\ldots,t_{j,n_j})^\top$. Similarly, $\bm{X}_j$ is the design matrix containing the covariate values of some study $j$, where $p-1$ is the total number of covariates.  The vector of regression coefficients $\bm{\beta}=(\beta_1\ldots,\beta_p)^\top$ contains no subscript $j$, since it is assumed to be fixed across all studies \autocite{Harrer2021}.
+
+\begin{equation}
+\bm{X}_j =
+\begin{bmatrix}
+x_{1,1} & \cdots & x_{1,p} \\
+\vdots & \ddots & \vdots \\
+x_{n_j,1} & \cdots & x_{n_j,p}
+\end{bmatrix}.
+\end{equation}
+
+Based on this formula, we can estimate the meta-regression coefficients $\hat{\bm{\beta}}$. To calculate confidence intervals and conduct significance tests of the coefficients, we need an estimate of their variance $\bm{V}_{\hat{\bm{\beta}}}$. This can be achieved using the robust sampling variance estimator otherwise known as the sandwich estimator \autocite{Harrer2021}.
+
+\begin{equation}
+\bm{V}_{\hat{\bm{\beta}}} = \left(\sum_{j=1}^{J}\bm{X}_j^\top\bm{W}_j\bm{X}_j\right)^{-1} \left(\sum_{j=1}^{J}\bm{X}_j^\top\bm{W}_j\bm{A}_j\bm{\Phi}_j\bm{A}_j\bm{W}_j\bm{X}_j\right) \left(\sum_{j=1}^{J}\bm{X}_j^\top\bm{W}_j\bm{X}_j\right)^{-1}.
+\end{equation}
+
+The true dependence structure of the effect sizes in some study $j$ is described by the $n_j \times n_j$ covariance matrix $\bm{\Phi}_j$. Unfortunately, it is rarely known to what extent effect sizes are correlated within and across studies. Therefore, it is necessary to make a few simplifying assumptions in our model. The CHE model, assumes that there is a known correlation $\rho$ between effect sizes in the same study, and that $\rho$ has the same value across all studies in our meta-analysis \autocite{Harrer2021}.
+
+The weights $\bm{W}_j$ of each effect size takes the precision of effect size estimates into account before we can pool them. The optimal way to do this is to take the inverse of the variance $\bm{W}_j=\bm{\Phi}_j^{-1}$. As mentioned, the true values of $\bm{\Phi}_j$ are hardly even known, so an estimate based on our model $\hat{\bm{\Phi}}_j^{-1}$ is used \autocite{Harrer2021}.
+
+The adjustment matrix $\bm{A}_j$ ensures that the estimator provides valid results even when the number of studies in our meta-analysis is small. Say, 40 studies or less. The recommended approach is to use a matrix based on the bias-reduced linearization, or CR2 method \autocite{Harrer2021}.
+
+\subsubsection{Cluster Wild Bootstrapping}
+
+Another, and sometimes favorable way to test coefficients in our model are bootstrapping procedures. The cluster wild bootstrapping (CWB) method is well suited if the total number of studies $J$ is our meta-analysis is small. That is, compared to RVE, which can lead to overly conservative results in small samples \autocite{Harrer2021}.
+
+The cluster wild bootstrap is based on the residuals of a null model fitted without any additional covariates. Residuals are transformed using an adjustment matrix $\bm{A}_j$, for example based on the CR2 method, to handle dependent effect sizes. A general algorithm for CWB looks like the following. Steps 3 to 5 are repeated $R$ times. The bootstrap $p$-value can be derived as the proportion of times the bootstrap test statistic was more extreme than the one based on the original data \autocite{Harrer2021}.
+
+\begin{tcolorbox}[title=The Cluster Wild Bootstrapping Algorithm \autocite{Harrer2021}]
+\begin{enumerate}[leftmargin=*, label=\arabic*.]
+\item Calculate the full model based on the original data, and derive the test statistic of interest.
+\item Fit a null model based on the original data and extract its residuals $\bm{e}$.
+\item For each study $j$, draw a random value from a distribution, and multiply the residuals of $j$ by this random value.
+\item Generate new, bootstrapped effect sizes by adding the transformed residuals to the predicted values of the null model based on the original data.
+\item Fit the full model again, using the bootstrapped effect sizes, and calculate the test statistic again.
+\end{enumerate}
+\end{tcolorbox}
+
+\end{document}
