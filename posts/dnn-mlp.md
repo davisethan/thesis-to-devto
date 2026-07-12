@@ -88,7 +88,8 @@ One of the keys to train very deep models is to use non-saturating activation fu
 
 It can be shown that an MLP with one hidden layer is a universal function approximator, meaning it can model any suitably smooth function, given enough hidden units, to any desired level of accuracy. Intuitively, the reason for this is that each hidden unit can specify a half plane, and a sufficiently large combination of these can divide any region of space, to which any response can be associated [1].
 
-![Voronoi diagram visualization of the universal function approximation where each hidden unit specifies a half plane [3].](assets/dnn-mlp/voronoi.png)
+![Voronoi diagram visualization of universal function approximation](assets/dnn-mlp/voronoi.png)
+*Voronoi diagram visualization of the universal function approximation, where each hidden unit specifies a half plane [3].*
 
 However, various arguments, both experimental and theoretical, have shown that deep networks work better than shallow ones. The reason is that later layers can leverage the features that are learned by earlier layers. That is, the function is defined in a compositional or hierarchical way. Although we could fit any dataset with a single hidden layer model, intuitively, it is easier if the model learns to detect the separating characteristics of the dataset using the hidden units in an early layer, and then uses these features to define a simple linear classifier in a later layer [1].
 
