@@ -1,8 +1,8 @@
 ---
-title: "Meta-Analysis: Between-Study Heterogeneity"
+title: 'Meta-Analysis: Between-Study Heterogeneity'
 published: false
-tags: math, datascience, statistics, tutorial
-series: "Meta-Analysis"
+tags: 'math, datascience, statistics, tutorial'
+series: Meta-Analysis
 id: 4128051
 ---
 

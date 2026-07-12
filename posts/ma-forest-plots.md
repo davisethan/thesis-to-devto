@@ -1,8 +1,8 @@
 ---
-title: "Meta-Analysis: Forest Plots"
+title: 'Meta-Analysis: Forest Plots'
 published: false
-tags: math, datascience, statistics, tutorial
-series: "Meta-Analysis"
+tags: 'math, datascience, statistics, tutorial'
+series: Meta-Analysis
 id: 4128048
 ---
 
