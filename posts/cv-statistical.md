@@ -1,6 +1,6 @@
 ---
 title: Statistical Analysis
-published: false
+published: true
 tags: 'machinelearning, datascience, statistics, tutorial'
 series: Model Evaluation
 id: 4127181
