@@ -206,3 +206,10 @@ translationally
 underspecification
 Visin
 Voronoi
+
+# --- Evaluation posts: names ---
+Colliot
+McNemar
+Nemar
+Neyman
+Varoquaux
