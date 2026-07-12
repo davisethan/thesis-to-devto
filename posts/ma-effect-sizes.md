@@ -1,6 +1,6 @@
 ---
 title: 'Meta-Analysis: Effect Sizes'
-published: false
+published: true
 tags: 'math, datascience, statistics, tutorial'
 series: Meta-Analysis
 id: 4128049
