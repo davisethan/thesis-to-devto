@@ -4,6 +4,7 @@ published: true
 tags: 'math, datascience, statistics, tutorial'
 series: Meta-Analysis
 id: 4128054
+date: '2026-07-12T22:47:03Z'
 ---
 
 > *Adapted from an appendix of my MS thesis.*
